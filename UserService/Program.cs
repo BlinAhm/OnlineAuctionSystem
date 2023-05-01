@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using UserService.Auth;
+using UserService.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
@@ -15,6 +16,8 @@ builder.Services.AddDbContext<UserServiceContext>(options =>
 builder.Services.AddIdentity<User, IdentityRole>()
     .AddEntityFrameworkStores<UserServiceContext>()
     .AddDefaultTokenProviders();
+
+builder.Services.AddScoped<IAuthenticateService,AuthenticateService>();
 
 // Add Authentication
 
