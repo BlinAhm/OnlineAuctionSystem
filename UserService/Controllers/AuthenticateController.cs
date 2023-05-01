@@ -7,6 +7,7 @@ using System.Data;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Xml.Linq;
 using UserService.Auth;
 
 namespace UserService.Controllers
@@ -30,19 +31,17 @@ namespace UserService.Controllers
         }
 
         [HttpGet]
-        [Route("GetAll")]
-        public List<User> GetUsers()
+        public ActionResult<IEnumerable<User>> GetUsers()
         {
             return _userManager.Users.ToList();
         }
 
-        [HttpPost]
-        [Authorize(Roles = UserRoles.Admin)]
-        [Route("GetByEmail")]
-        public User GetUser([FromForm] string email)
+        [HttpGet("{email}")]
+        /*[Authorize(Roles = UserRoles.Admin)]*/
+        public async Task<ActionResult<User>> GetByEmail(string email)
         {
-            var user = _userManager.FindByEmailAsync(email);
-            return user.Result;
+            var user = await _userManager.FindByEmailAsync(email);
+            return user;
         }
 
         [AllowAnonymous]
@@ -91,8 +90,11 @@ namespace UserService.Controllers
 
             User user = new()
             {
+                Name = model.Name,
+                Surname = model.Surname,
                 UserName = model.Username,
                 Email = model.Email,
+                PhoneNumber = model.PhoneNumber,
                 SecurityStamp = Guid.NewGuid().ToString()
             };
             var result = await _userManager.CreateAsync(user, model.Password);
@@ -113,8 +115,11 @@ namespace UserService.Controllers
 
             User user = new()
             {
+                Name = model.Name,
+                Surname = model.Surname,
                 UserName = model.Username,
                 Email = model.Email,
+                PhoneNumber = model.PhoneNumber,
                 SecurityStamp = Guid.NewGuid().ToString()
 
             };
@@ -137,6 +142,30 @@ namespace UserService.Controllers
             }
 
             return Ok(new Response { Status = "Success", Message = "User created successfully!" });
+        }
+
+        [HttpPut]
+        public async Task<ActionResult> Update(UpdateModel updateModel)
+        {
+            User user = await _userManager.FindByIdAsync(updateModel.Id);
+
+            user.Name = updateModel.Name;
+            user.Surname = updateModel.Surname;
+            user.UserName = updateModel.Username;
+            user.Email = updateModel.Email;
+            user.PhoneNumber = updateModel.PhoneNumber;
+
+            await _userManager.UpdateAsync(user);
+            return Ok();
+        }
+
+        [HttpDelete("{email}")]
+        public async Task<ActionResult> Delete(string email)
+        {
+            User user = await _userManager.FindByEmailAsync(email);
+            await _userManager.DeleteAsync(user);
+            return Ok();
+
         }
 
         private JwtSecurityToken GetToken(List<Claim> authClaims)
