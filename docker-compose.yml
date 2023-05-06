@@ -1,0 +1,31 @@
+version: '3.4'
+
+networks:
+  backend:
+
+services:
+  userdb:
+    container_name: user-db
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+      ACCEPT_EULA: 'Y'
+      MSSQL_SA_PASSWORD: 'Password@1234'
+    networks:
+      - backend
+    ports:
+      - 8010:1433
+  userservice:
+    container_name: user-service
+    image: ${DOCKER_REGISTRY-}userservice
+    build:
+      context: .
+      dockerfile: UserService/Dockerfile
+    networks:
+      - backend
+    ports:
+      - 8020:80
+    environment:
+      DB_HOST: 'userdb'
+      DB_PORT: '8020'
+      DB_NAME: 'users'
+      DB_SA_PASSWORD: 'Password@1234'
