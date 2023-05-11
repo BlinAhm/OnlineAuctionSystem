@@ -107,6 +107,9 @@ namespace UserService.Services
         {
             User user = await _userManager.FindByIdAsync(updateModel.Id);
 
+            if (user == null)
+                return false;
+
             user.Name = updateModel.Name;
             user.Surname = updateModel.Surname;
             user.UserName = updateModel.Username;
@@ -121,6 +124,8 @@ namespace UserService.Services
         public async Task<bool> Delete(string email)
         {
             User user = await _userManager.FindByEmailAsync(email);
+            if (user == null)
+                return false;
             await _userManager.DeleteAsync(user);
 
             if (await _userManager.FindByEmailAsync(email) == null)

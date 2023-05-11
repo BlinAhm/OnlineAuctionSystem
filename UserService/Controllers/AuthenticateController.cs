@@ -47,6 +47,8 @@ namespace UserService.Controllers
         public async Task<ActionResult<User>> GetByEmail(string email)
         {
             var user = await _userManager.FindByEmailAsync(email);
+            if (user == null)
+                return StatusCode(StatusCodes.Status400BadRequest, new Response { Status = "Error", Message = "User not found." });
             return user;
         }
 
@@ -68,10 +70,10 @@ namespace UserService.Controllers
         [Route("register")]
         public async Task<IActionResult> Register([FromForm] RegisterModel model)
         {
-            var response = await _authenticateService.Register(model);
-
             if (await _userManager.FindByEmailAsync(model.Email) != null)
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User already exists!" });
+
+            var response = await _authenticateService.Register(model);
             if (response)
                 return Ok(new Response { Status = "Success", Message = "User created successfully!" });
             return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User creation failed! Please check user details and try again." });
