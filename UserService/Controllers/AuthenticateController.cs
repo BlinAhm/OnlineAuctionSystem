@@ -84,10 +84,10 @@ namespace UserService.Controllers
         [Route("register-admin")]
         public async Task<IActionResult> RegisterAdmin([FromForm] RegisterModel model)
         {
-            var response = await _authenticateService.RegisterAdmin(model);
-
             if (await _userManager.FindByEmailAsync(model.Email) != null)
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User already exists!" });
+
+            var response = await _authenticateService.RegisterAdmin(model);
             if (response)
                 return Ok(new Response { Status = "Success", Message = "User created successfully!" });
             return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User creation failed! Please check user details and try again." });
