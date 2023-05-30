@@ -31,14 +31,14 @@ services:
       - ConnectionStrings__UserServiceContextConnection=Data Source=userdb;Initial Catalog=users;User ID=sa;Password=Password_123;
   auctionwebappui:
     container_name: auction-ui
-    networks:
-      - frontend
-    ports:
-      - 3000:3000
     image: ${DOCKER_REGISTRY-}auctionwebappui
     build:
       context: AuctionWebAppUI/ClientApp
       dockerfile: Dockerfile
+    networks:
+      - frontend
+    ports:
+      - 3000:3000
     stdin_open: true
     tty: true
 
