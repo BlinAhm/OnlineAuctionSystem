@@ -6,7 +6,7 @@
     <ProjectGuid>09e5326b-30d3-4e89-aa58-60efcfd6004a</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/api/Authenticate</DockerServiceUrl>
-    <DockerServiceName>userservice</DockerServiceName>
+    <DockerServiceName>auctionwebappui</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
     <None Include="docker-compose.override.yml">

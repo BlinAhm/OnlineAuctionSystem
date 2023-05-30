@@ -1,0 +1,16 @@
+{
+  "profiles": {
+    "Docker Compose": {
+      "commandName": "DockerCompose",
+      "commandVersion": "1.0",
+      "composeLaunchAction": "LaunchBrowser",
+      "composeLaunchServiceName": "userservice",
+      "composeLaunchUrl": "{Scheme}://localhost:{ServicePort}/api/Authenticate",
+      "serviceActions": {
+        "auctionwebappui": "StartWithoutDebugging",
+        "userdb": "StartWithoutDebugging",
+        "userservice": "StartDebugging"
+      }
+    }
+  }
+}

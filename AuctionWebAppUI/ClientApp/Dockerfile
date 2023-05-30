@@ -1,14 +1,12 @@
-FROM node:18.14.0-alpine
+FROM node:alpine
 
-WORKDIR /app
+WORKDIR /react-app
 
-COPY package.json ./
-COPY package-lock.json ./
+COPY package.json .
+COPY package-lock.json .
 
 RUN npm install
 
-COPY . ./
-
-EXPOSE 3000
+COPY . .
 
 CMD ["npm", "start"]
