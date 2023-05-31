@@ -13,7 +13,8 @@ namespace AuctionService.Migrations
                 name: "Auctions",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ItemId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -30,11 +31,12 @@ namespace AuctionService.Migrations
                 name: "Bids",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     BidAmount = table.Column<float>(type: "real", nullable: false),
                     BidDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    AuctionId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    AuctionId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
