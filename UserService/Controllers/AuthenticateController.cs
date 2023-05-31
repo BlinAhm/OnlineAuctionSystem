@@ -48,7 +48,7 @@ namespace UserService.Controllers
         {
             var user = await _userManager.FindByEmailAsync(email);
             if (user == null)
-                return StatusCode(StatusCodes.Status400BadRequest, new Response { Status = "Error", Message = "User not found." });
+                return StatusCode(StatusCodes.Status404NotFound, new Response { Status = "Error", Message = "User not found." });
             return user;
         }
 
