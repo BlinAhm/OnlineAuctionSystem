@@ -1,10 +1,12 @@
-﻿namespace AuctionService.Services
+﻿using AuctionService.Models;
+
+namespace AuctionService.Services
 {
     public interface IAuctionService
     {
-        public Task<bool> AddAuction();
-        public Task<bool> DeleteAuction();
-        public Task<bool> UpdateAuction();
+        public Task<bool> AddAuction(Auction auctionModel);
+        public Task<bool> UpdateAuction(Auction updateModel);
+        public Task<bool> DeleteAuction(string id);
         public Task<bool> UpdateBid();
         public Task<bool> StartAuction();
         public Task<bool> EndAuction();
