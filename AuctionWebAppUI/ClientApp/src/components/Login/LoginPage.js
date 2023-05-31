@@ -6,7 +6,7 @@ import LoginInputs from './LoginInputs';
 const LoginPage = () => {
     return (
 
-        <form action="" method="post" id="formLogin" className="LoginPage">
+        <form action="http://localhost:44405/signin" method="post" id="formLogin" className="LoginPage">
             <div className="login-title">
                 <h1>Log in</h1>
             </div>

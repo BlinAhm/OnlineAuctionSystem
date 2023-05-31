@@ -35,7 +35,7 @@ function LogIn() {
     var values = $('#formLogin').serialize();
     $.ajax({
         method: 'POST',
-        url: '',
+        url: 'http://localhost:44405/signin',
         data: values,
         success: function (data) {
             localStorage.setItem('user', data.user);
