@@ -29,6 +29,8 @@ services:
       - userdb
     environment:
       - ConnectionStrings__UserServiceContextConnection=Data Source=userdb;Initial Catalog=users;User ID=sa;Password=Password_123;
+  
+      
   auctionwebappui:
     container_name: auction-ui
     image: ${DOCKER_REGISTRY-}auctionwebappui
@@ -42,3 +44,14 @@ services:
     stdin_open: true
     tty: true
 
+
+  auctionservice:
+    container_name: auction-service
+    image: ${DOCKER_REGISTRY-}auctionservice
+    build:
+      context: .
+      dockerfile: AuctionService/Dockerfile
+    networks:
+      - backend
+    ports:
+      - 8040:80
