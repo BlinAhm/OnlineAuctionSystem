@@ -1,0 +1,19 @@
+﻿(function () {
+    'use strict';
+
+    angular
+        .module('app')
+        .controller('LoginInputs', LoginInputs);
+
+    LoginInputs.$inject = ['$location'];
+
+    function LoginInputs($location) {
+        /* jshint validthis:true */
+        var vm = this;
+        vm.title = 'LoginInputs';
+
+        activate();
+
+        function activate() { }
+    }
+})();

@@ -1,0 +1,17 @@
+﻿.LoginPage .login-container {
+    width: 100%;
+    height: 850px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.LoginPage .login {
+    position: sticky;
+    width: 750px;
+    height: 590px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 10px;
+}
