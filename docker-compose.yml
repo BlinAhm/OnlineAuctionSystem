@@ -5,8 +5,8 @@ networks:
   frontend:
 
 services:
-  userdb:
-    container_name: user-db
+  mssql-server:
+    container_name: mssql-server
     image: mcr.microsoft.com/mssql/server:2019-latest
     environment:
       - ACCEPT_EULA=Y
@@ -15,6 +15,8 @@ services:
       - backend
     ports:
       - 8010:1433
+
+
   userservice:
     container_name: user-service
     image: ${DOCKER_REGISTRY-}userservice
@@ -26,9 +28,9 @@ services:
     ports:
       - 8020:80
     depends_on:
-      - userdb
+      - mssql-server
     environment:
-      - ConnectionStrings__UserServiceContextConnection=Data Source=userdb;Initial Catalog=users;User ID=sa;Password=Password_123;
+      - ConnectionStrings__UserServiceContextConnection=Data Source=mssql-server;Initial Catalog=users;User ID=sa;Password=Password_123;
   
       
   auctionwebappui:
@@ -55,3 +57,7 @@ services:
       - backend
     ports:
       - 8040:80
+    depends_on:
+      - mssql-server
+    environment:
+      - ConnectionStrings__AuctionServiceContextConnection=Data Source=mssql-server;Initial Catalog=auctions;User ID=sa;Password=Password_123;

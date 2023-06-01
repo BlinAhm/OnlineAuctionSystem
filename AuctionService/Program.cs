@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-var connectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=Auction;Integrated Security=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+var connectionString = builder.Configuration.GetConnectionString("AuctionServiceContextConnection") ?? throw new InvalidOperationException("Connection string 'AuctionServiceContextConnection' not found.");
 
 builder.Services.AddDbContext<AuctionDbContext>(options =>
     options.UseSqlServer(connectionString));

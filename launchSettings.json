@@ -8,7 +8,7 @@
       "composeLaunchUrl": "{Scheme}://localhost:{ServicePort}/api/Authenticate",
       "serviceActions": {
         "auctionwebappui": "StartWithoutDebugging",
-        "userdb": "StartWithoutDebugging",
+        "mssql-server": "StartWithoutDebugging",
         "userservice": "StartDebugging"
       }
     }
