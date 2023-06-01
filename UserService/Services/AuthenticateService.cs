@@ -45,7 +45,7 @@ namespace UserService.Services
 
                 return new
                 {
-                    admin = userRoles.ToArray(),
+                    roles = userRoles.ToArray(),
                     userId = user.Id,
                     user = new[] { user.UserName, user.Email },
                     token = new JwtSecurityTokenHandler().WriteToken(token),
@@ -68,6 +68,14 @@ namespace UserService.Services
             var result = await _userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
                 return false;
+
+            if (!await _roleManager.RoleExistsAsync(UserRoles.User))
+                await _roleManager.CreateAsync(new IdentityRole(UserRoles.User));
+
+            if (await _roleManager.RoleExistsAsync(UserRoles.User))
+            {
+                await _userManager.AddToRoleAsync(user, UserRoles.User);
+            }
 
             return true;
         }
@@ -96,7 +104,7 @@ namespace UserService.Services
             {
                 await _userManager.AddToRoleAsync(user, UserRoles.Admin);
             }
-            if (await _roleManager.RoleExistsAsync(UserRoles.Admin))
+            if (await _roleManager.RoleExistsAsync(UserRoles.User))
             {
                 await _userManager.AddToRoleAsync(user, UserRoles.User);
             }

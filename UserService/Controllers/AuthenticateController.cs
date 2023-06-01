@@ -48,7 +48,7 @@ namespace UserService.Controllers
         {
             var user = await _userManager.FindByEmailAsync(email);
             if (user == null)
-                return StatusCode(StatusCodes.Status400BadRequest, new Response { Status = "Error", Message = "User not found." });
+                return StatusCode(StatusCodes.Status404NotFound, new Response { Status = "Error", Message = "User not found." });
             return user;
         }
 
@@ -96,25 +96,28 @@ namespace UserService.Controllers
 
         // Update User method
         [HttpPut]
-        public async Task<ActionResult> Update(UpdateModel updateModel)
+        public async Task<IActionResult> Update(UpdateModel updateModel)
         {
+            if (updateModel == null)
+                return StatusCode(StatusCodes.Status400BadRequest, new Response { Status = "Error", Message = "Update model invalid." });
+
             var response = await _authenticateService.Update(updateModel);
 
             if (response)
                 return Ok(new Response { Status = "Success", Message = "User updated successfully!" });
-            return BadRequest(new Response { Status = "Error", Message = "Failed to update user!" });
+            return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Failed to update user!" });
         }
 
 
         // Delete User method
         [HttpDelete("{email}")]
-        public async Task<ActionResult> Delete(string email)
+        public async Task<IActionResult> Delete(string email)
         {
             var response = await _authenticateService.Delete(email);
 
             if (response)
                 return Ok(new Response { Status = "Success", Message = "User deleted successfully!" });
-            return BadRequest(new Response { Status = "Error", Message = "Failed to delete user!" });
+            return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Failed to delete user!" });
         }
     }
 }
