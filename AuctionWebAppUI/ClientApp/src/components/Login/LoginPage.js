@@ -2,22 +2,21 @@
 import './LoginPage.css';
 import LoginInputs from './LoginInputs';
 
-
 const LoginPage = () => {
     return (
+        <form method="post" id="formSignIn" className="LoginPage">
+            <div className="sign-in-container">
+                <div className="sign-in">
+                    <div className="sign-in title">
+                        <h1>Sign in</h1>
+                    </div>
+                    <LoginInputs />
 
-        <form action="http://localhost:44405/signin" method="post" id="formLogin" className="LoginPage">
-            <div className="login-title">
-                <h1>Log in</h1>
-            </div>
-            <div className="login-container">
-                <div className="login">
-
+                    <button className="loginSubmit">Sign in</button>
                     <Link to="/sign-up">Don't have an account? Sign up!</Link>
                 </div>
             </div>
         </form>
     );
 }
-
 export default LoginPage;
