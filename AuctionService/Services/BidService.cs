@@ -13,12 +13,22 @@ namespace AuctionService.Services
         {
             _context = context;
         }
-        public async Task<bool> AddBid(Bid bidModel)
+        public async Task<bool> AddBid(BidViewModel bidModel)
         {
-            await _context.Bids.AddAsync(bidModel);
+            var auction = _context.Auctions.Where(x=>x.Id == bidModel.AuctionId).First();
+            if (auction == null) { return false; }
+
+            Bid bid = new Bid()
+            {
+                UserId = bidModel.UserId,
+                BidAmount = bidModel.BidAmount,
+                BidDate = bidModel.BidDate,
+                Auction = auction
+            };
+            await _context.Bids.AddAsync(bid);
             await _context.SaveChangesAsync();
 
-            return _context.Bids.Where(x => x.Id == bidModel.Id).Any();
+            return _context.Bids.Where(x => x.Id == bid.Id).Any();
         }
 
         public async Task<bool> UpdateBid(Bid updateModel)

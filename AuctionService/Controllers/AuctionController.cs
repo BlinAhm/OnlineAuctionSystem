@@ -26,7 +26,7 @@ namespace AuctionService.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<Auction>> GetAuctions()
         {
-            return _context.Auctions.ToList();
+            return _context.Auctions.Include("Bids").ToList();
         }
 
         // Get auction by Id

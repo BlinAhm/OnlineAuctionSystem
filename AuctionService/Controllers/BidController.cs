@@ -3,6 +3,8 @@ using AuctionService.Models;
 using AuctionService.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 
 namespace AuctionService.Controllers
 {
@@ -26,7 +28,15 @@ namespace AuctionService.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<Bid>> GetBids()
         {
-            return _context.Bids.ToList();
+            return _context.Bids.Select(
+                b => new Bid
+                {
+                    Id = b.Id,
+                    UserId = b.UserId,
+                    BidAmount = b.BidAmount,
+                    BidDate = b.BidDate,
+                    Auction = b.Auction
+                }).ToList();
         }
 
         // Get Bid by id
@@ -40,12 +50,29 @@ namespace AuctionService.Controllers
                 return StatusCode(StatusCodes.Status404NotFound, new Response { Status = "Error", Message = "Bid not found." });
             }
 
-            return bid;
+            return _context.Bids.Select(
+                b => new Bid
+                {
+                    Id = b.Id,
+                    UserId = b.UserId,
+                    BidAmount = b.BidAmount,
+                    BidDate = b.BidDate,
+                    Auction = new Auction
+                    {
+                        Id = b.Auction.Id,
+                        Title = b.Auction.Title,
+                        ItemId = b.Auction.ItemId,
+                        Description = b.Auction.Description,
+                        StartTime = b.Auction.StartTime,
+                        EndTime = b.Auction.EndTime,
+                        CurrentBid = b.Auction.CurrentBid
+                    }
+                }).Where(x => x.Id == id).First();
         }
 
         // Add Bid
         [HttpPost]
-        public async Task<IActionResult> AddBid(Bid bidModel)
+        public async Task<IActionResult> AddBid(BidViewModel bidModel)
         {
             if (bidModel == null)
                 return StatusCode(StatusCodes.Status400BadRequest, new Response { Status = "Error", Message = "Bid model invalid." });

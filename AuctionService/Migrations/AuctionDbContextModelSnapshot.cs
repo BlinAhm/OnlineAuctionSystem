@@ -4,7 +4,6 @@ using AuctionService.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -12,10 +11,9 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AuctionService.Migrations
 {
     [DbContext(typeof(AuctionDbContext))]
-    [Migration("20230531114347_Auction and Bid table")]
-    partial class AuctionandBidtable
+    partial class AuctionDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,11 +24,14 @@ namespace AuctionService.Migrations
 
             modelBuilder.Entity("AuctionService.Models.Auction", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
-                    b.Property<float>("CurrentBid")
-                        .HasColumnType("real");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int?>("CurrentBidId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -52,16 +53,21 @@ namespace AuctionService.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CurrentBidId");
+
                     b.ToTable("Auctions");
                 });
 
             modelBuilder.Entity("AuctionService.Models.Bid", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
-                    b.Property<string>("AuctionId")
-                        .HasColumnType("nvarchar(450)");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int?>("AuctionId")
+                        .HasColumnType("int");
 
                     b.Property<float>("BidAmount")
                         .HasColumnType("real");
@@ -100,6 +106,15 @@ namespace AuctionService.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Notifications");
+                });
+
+            modelBuilder.Entity("AuctionService.Models.Auction", b =>
+                {
+                    b.HasOne("AuctionService.Models.Bid", "CurrentBid")
+                        .WithMany()
+                        .HasForeignKey("CurrentBidId");
+
+                    b.Navigation("CurrentBid");
                 });
 
             modelBuilder.Entity("AuctionService.Models.Bid", b =>
