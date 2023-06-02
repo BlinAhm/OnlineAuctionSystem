@@ -32,7 +32,7 @@ namespace AuctionService.Controllers
         // Get auction by Id
         [HttpGet]
         [Route("{id}")]
-        public async Task<ActionResult<Auction>> GetAuctionById(string id)
+        public async Task<ActionResult<Auction>> GetAuctionById(int id)
         {
             var auction = await _context.Auctions.FindAsync(id);
             if (auction == null)
@@ -40,7 +40,7 @@ namespace AuctionService.Controllers
                 return StatusCode(StatusCodes.Status404NotFound, new Response { Status = "Error", Message = "Auction not found." });
             }
 
-            return auction;
+            return _context.Auctions.Include("Bids").Where(x => x.Id == id).First();
         }
 
         // Add Auction
