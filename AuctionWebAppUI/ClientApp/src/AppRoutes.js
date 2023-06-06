@@ -1,6 +1,7 @@
 import { Counter } from "./components/Counter";
 import { FetchData } from "./components/FetchData";
-import Home from "./components/Home";
+import Home from "./pages/Home";
+import Auction from "./pages/Auction";
 
 
 const AppRoutes = [
@@ -9,12 +10,12 @@ const AppRoutes = [
     element: <Home />
   },
   {
-    path: '/counter',
-    element: <Counter />
+    path: '/home',
+    element: <Home />
   },
   {
-    path: '/fetch-data',
-    element: <FetchData />
+    path: '/auction',
+    element: <Auction />
   }
 ];
 
