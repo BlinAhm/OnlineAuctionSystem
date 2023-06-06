@@ -33,6 +33,8 @@ namespace AuctionService.Data
             builder.Entity<Bid>()
                 .HasOne(x => x.Auction)
                 .WithMany(x => x.Bids);
+
+
         }
     }
 }

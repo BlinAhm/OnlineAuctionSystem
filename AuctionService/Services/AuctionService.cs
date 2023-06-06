@@ -55,12 +55,12 @@ namespace AuctionService.Services
             return false;
         }
 
-        public Task<bool> EndAuction()
+        public async Task<bool> StartAuction()
         {
             throw new NotImplementedException();
         }
 
-        public async Task<bool> StartAuction()
+        public Task<bool> EndAuction()
         {
             throw new NotImplementedException();
         }

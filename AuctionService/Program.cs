@@ -12,6 +12,12 @@ builder.Services.AddDbContext<AuctionDbContext>(options =>
 
 builder.Services.AddControllers();
 builder.Services.AddScoped<IAuctionService, AuctionService.Services.AuctionService>();
+builder.Services.AddScoped<IBidService, AuctionService.Services.BidService>();
+
+builder.Services.AddControllersWithViews()
+    .AddNewtonsoftJson(options =>
+    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+);
 
 var app = builder.Build();
 

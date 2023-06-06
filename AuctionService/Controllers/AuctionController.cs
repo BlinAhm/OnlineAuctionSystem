@@ -26,13 +26,13 @@ namespace AuctionService.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<Auction>> GetAuctions()
         {
-            return _context.Auctions.ToList();
+            return _context.Auctions.Include("Bids").ToList();
         }
 
         // Get auction by Id
         [HttpGet]
         [Route("{id}")]
-        public async Task<ActionResult<Auction>> GetAuction(string id)
+        public async Task<ActionResult<Auction>> GetAuctionById(int id)
         {
             var auction = await _context.Auctions.FindAsync(id);
             if (auction == null)
@@ -40,10 +40,10 @@ namespace AuctionService.Controllers
                 return StatusCode(StatusCodes.Status404NotFound, new Response { Status = "Error", Message = "Auction not found." });
             }
 
-            return auction;
+            return _context.Auctions.Include("Bids").Where(x => x.Id == id).First();
         }
 
-        // Add Auction -
+        // Add Auction
         [HttpPost]
         public async Task<IActionResult> AddAuction(Auction auctionModel)
         {
@@ -56,26 +56,24 @@ namespace AuctionService.Controllers
             return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Auction creation failed." });
         }
 
+        // Update Auction
         [HttpPut]
         public async Task<IActionResult> UpdateAuction(Auction updateModel)
         {
             if (updateModel == null)
                 return StatusCode(StatusCodes.Status400BadRequest, new Response { Status = "Error", Message = "Update model invalid." });
 
-            var response = await _auctionService.UpdateAuction(updateModel);
-
-            if(response)
+            if(await _auctionService.UpdateAuction(updateModel))
                 return Ok(new Response { Status = "Success", Message = "Auction updated successfully!" });
             return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Failed to update auction!" });
         }
 
+        // Delete Auction
         [HttpDelete]
         [Route("{id}")]
         public async Task<IActionResult> DeleteAuction(int id)
         {
-            var response = await _auctionService.DeleteAuction(id);
-
-            if(response)
+            if(await _auctionService.DeleteAuction(id))
                 return Ok(new Response { Status = "Success", Message = "Auction deleted successfully!" });
             return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Failed to delete auction!" });
         }
