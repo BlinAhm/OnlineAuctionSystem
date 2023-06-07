@@ -1,22 +1,30 @@
-import { Counter } from "./components/Counter";
-import { FetchData } from "./components/FetchData";
 import Home from "./pages/Home";
 import Auction from "./pages/Auction";
+import SignIn from "./pages/SignIn";
+import Register from "./pages/Register";
 
 
 const AppRoutes = [
-  {
-    index: true,
-    element: <Home />
-  },
-  {
-    path: '/home',
-    element: <Home />
-  },
-  {
-    path: '/auction',
-    element: <Auction />
-  }
+    {
+        index: true,
+        element: <Home />
+    },
+    {
+        path: '/home',
+        element: <Home />
+    },
+    {
+        path: '/sign-in',
+        element: <SignIn />
+    },
+    {
+        path: '/register',
+        element: <Register />
+    },
+    {
+        path: '/auction',
+        element: <Auction />
+    }
 ];
 
 export default AppRoutes;

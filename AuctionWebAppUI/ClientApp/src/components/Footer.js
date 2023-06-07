@@ -2,7 +2,7 @@
 
 const Footer = () => {
     return (
-        <footer className="footer" style={{ marginInline: "auto", paddingTop: "3%", maxWidth: "1320px", paddingInline: "1%"  }}>
+        <footer className="footer" style={{ marginInline: "auto", paddingTop: "3%", maxWidth: "1320px", paddingInline: "1%" }}>
             <div className="container">
                 <div className="row">
                     <div className="col-md-5">
@@ -18,14 +18,14 @@ const Footer = () => {
                     <div className="col-md-3">
                         <h4>Follow Us</h4>
                         <ul className="list-unstyled">
-                            <li><a href="#">Facebook</a></li>
-                            <li><a href="#">Twitter</a></li>
-                            <li><a href="#">Instagram</a></li>
-                            <li><a href="#">LinkedIn</a></li>
+                            <li><a href="#" style={{ textDecoration: "none"}}>Facebook</a></li>
+                            <li><a href="#" style={{ textDecoration: "none"}}>Twitter</a></li>
+                            <li><a href="#" style={{ textDecoration: "none"}}>Instagram</a></li>
+                            <li><a href="#" style={{ textDecoration: "none"}}>LinkedIn</a></li>
                         </ul>
                     </div>
                 </div>
-                <div className="row" style={{ maxWidth: "1320px", paddingInline:"0%" }}>
+                <div className="row" style={{ maxWidth: "1320px", paddingInline: "0%" }}>
                     <div className="col-md-12">
                         <hr />
                         <p className="text-center">&copy; 2023 Company. All rights reserved.</p>
