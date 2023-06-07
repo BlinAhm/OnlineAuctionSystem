@@ -1,0 +1,88 @@
+version: '3.4'
+
+networks:
+  backend:
+  frontend:
+
+services:
+  mssql-server:
+    container_name: mssql-server
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=Password_123
+    networks:
+      - backend
+    ports:
+      - 8010:1433
+
+
+  userservice:
+    container_name: user-service
+    image: ${DOCKER_REGISTRY-}userservice
+    build:
+      context: .
+      dockerfile: UserService/Dockerfile
+    networks:
+      - backend
+    ports:
+      - 8020:80
+    depends_on:
+      - mssql-server
+    environment:
+      - ConnectionStrings__UserServiceContextConnection=Data Source=mssql-server;Initial Catalog=users;User ID=sa;Password=Password_123;
+  
+      
+  auctionwebappui:
+    container_name: auction-ui
+    image: ${DOCKER_REGISTRY-}auctionwebappui
+    build:
+      context: AuctionWebAppUI/ClientApp
+      dockerfile: Dockerfile
+    networks:
+      - frontend
+    ports:
+      - 3000:3000
+    stdin_open: true
+    tty: true
+
+  
+  auctionservice:
+    container_name: auction-service
+    image: ${DOCKER_REGISTRY-}auctionservice
+    build:
+      context: .
+      dockerfile: AuctionService/Dockerfile
+    networks:
+      - backend
+    ports:
+      - 8040:80
+    depends_on:
+      - mssql-server
+    environment:
+      - ConnectionStrings__AuctionServiceContextConnection=Data Source=mssql-server;Initial Catalog=auctions;User ID=sa;Password=Password_123;
+
+  itemdb:
+     container_name: item-db
+     image: mongo
+     ports: 
+       - 18005:27017
+     networks:
+      - backend
+
+
+
+
+  itemservice:
+     container_name: item-service
+     image: ${DOCKER_REGISTRY-}itemservice
+     build:
+      context: .
+      dockerfile: ItemService/Dockerfile
+     ports:
+      - 18006:80
+     networks:
+      - backend
+     environment:   
+      - DB_HOST=itemdb
+      - DB_NAME=dms_item
