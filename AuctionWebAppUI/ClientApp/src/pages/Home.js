@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 /*import Navbar from '../components/NavBar';
 import Footer from '../components/Footer';*/
 
-import './Home.css';
+import './css/Home.css';
 
 
 const Slider = () => {

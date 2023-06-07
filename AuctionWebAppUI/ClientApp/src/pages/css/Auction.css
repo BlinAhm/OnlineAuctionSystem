@@ -32,7 +32,7 @@
         border-radius: 0px 0px 15px 15px;
     }
 
-    .a_details p, h2, h5 {
+    .a_details p, .a_details h2, .a_details h5 {
         margin-block: 20px;
         margin-left: 2%;
         text-align: left;
@@ -46,7 +46,7 @@
         font-size: 18px;
     }
 
-    .a_details .a_category, .a_condition {
+    .a_details .a_category, .a_details .a_condition {
         cursor: default;
         border: solid #098fd8 1px;
         border-radius: 3px;
@@ -101,7 +101,7 @@
         font-weight: 500;
     }
 
-    .a_bidding .timeLeft, .label_latest_bids {
+    .a_bidding .timeLeft, .a_bidding .label_latest_bids {
         font-weight: bold;
         font-size: 20px;
         margin-block: 20px;
