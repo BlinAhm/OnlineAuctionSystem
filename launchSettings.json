@@ -10,7 +10,7 @@
         "auctionwebappui": "StartWithoutDebugging",
         "mssql-server": "StartWithoutDebugging",
         "userservice": "StartDebugging",
-        "itemservice": "StartDebugging"
+        "itemservice": "StartWithoutDebugging"
       }
     }
   }

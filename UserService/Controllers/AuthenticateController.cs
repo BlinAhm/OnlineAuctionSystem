@@ -9,6 +9,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Xml.Linq;
 using UserService.Auth;
+using UserService.Services;
 
 namespace UserService.Controllers
 {
@@ -19,89 +20,63 @@ namespace UserService.Controllers
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IConfiguration _configuration;
+        private readonly IAuthenticateService _authenticateService;
 
         public AuthenticateController(
             UserManager<User> userManager,
             RoleManager<IdentityRole> roleManager,
-            IConfiguration configuration)
+            IConfiguration configuration,
+            IAuthenticateService authenticateService)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _configuration = configuration;
+            _authenticateService = authenticateService;
         }
 
+        // Get All Users method
         [HttpGet]
         public ActionResult<IEnumerable<User>> GetUsers()
         {
             return _userManager.Users.ToList();
         }
 
+        // Get User By Email method
         [HttpGet("{email}")]
         /*[Authorize(Roles = UserRoles.Admin)]*/
         public async Task<ActionResult<User>> GetByEmail(string email)
         {
             var user = await _userManager.FindByEmailAsync(email);
+            if (user == null)
+                return StatusCode(StatusCodes.Status404NotFound, new Response { Status = "Error", Message = "User not found." });
             return user;
         }
 
+        // Login User method
         [AllowAnonymous]
         [HttpPost]
         [Route("login")]
         public async Task<IActionResult> Login([FromForm] LoginModel model)
         {
-            var user = await _userManager.FindByEmailAsync(model.Email);
-            if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
-            {
-                var userRoles = await _userManager.GetRolesAsync(user);
-
-                var authClaims = new List<Claim>
-                {
-                    new Claim(ClaimTypes.Email, user.Email),
-                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                };
-
-                foreach (var userRole in userRoles)
-                {
-                    authClaims.Add(new Claim(ClaimTypes.Role, userRole));
-                }
-
-                var token = GetToken(authClaims);
-
-                return Ok(new
-                {
-                    admin = userRoles.ToArray(),
-                    userId = user.Id,
-                    user = new[] { user.UserName, user.Email },
-                    token = new JwtSecurityTokenHandler().WriteToken(token),
-                    expiration = token.ValidTo
-                });
-            }
+            var response = await _authenticateService.Login(model);
+            if (response != null)
+                return Ok(response);
             return Unauthorized();
         }
 
+        // Register User method
         [HttpPost]
         [AllowAnonymous]
         [Route("register")]
         public async Task<IActionResult> Register([FromForm] RegisterModel model)
         {
-            var userExists = await _userManager.FindByEmailAsync(model.Email);
-            if (userExists != null)
+            if (await _userManager.FindByEmailAsync(model.Email) != null)
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User already exists!" });
 
-            User user = new()
-            {
-                Name = model.Name,
-                Surname = model.Surname,
-                UserName = model.Username,
-                Email = model.Email,
-                PhoneNumber = model.PhoneNumber,
-                SecurityStamp = Guid.NewGuid().ToString()
-            };
-            var result = await _userManager.CreateAsync(user, model.Password);
-            if (!result.Succeeded)
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User creation failed! Please check user details and try again." });
-
-            return Ok(new Response { Status = "Success", Message = "User created successfully!" });
+            var response = await _authenticateService.Register(model);
+            if (response)
+                return Ok(new Response { Status = "Success", Message = "User created successfully!" });
+            return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User creation failed! Please check user details and try again." });
         }
 
         [HttpPost]
@@ -109,78 +84,40 @@ namespace UserService.Controllers
         [Route("register-admin")]
         public async Task<IActionResult> RegisterAdmin([FromForm] RegisterModel model)
         {
-            var userExists = await _userManager.FindByEmailAsync(model.Email);
-            if (userExists != null)
+            if (await _userManager.FindByEmailAsync(model.Email) != null)
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User already exists!" });
 
-            User user = new()
-            {
-                Name = model.Name,
-                Surname = model.Surname,
-                UserName = model.Username,
-                Email = model.Email,
-                PhoneNumber = model.PhoneNumber,
-                SecurityStamp = Guid.NewGuid().ToString()
+            var response = await _authenticateService.RegisterAdmin(model);
+            if (response)
+                return Ok(new Response { Status = "Success", Message = "User created successfully!" });
+            return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User creation failed! Please check user details and try again." });
 
-            };
-            var result = await _userManager.CreateAsync(user, model.Password);
-            if (!result.Succeeded)
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User creation failed! Please check user details and try again." });
-
-            if (!await _roleManager.RoleExistsAsync(UserRoles.Admin))
-                await _roleManager.CreateAsync(new IdentityRole(UserRoles.Admin));
-            if (!await _roleManager.RoleExistsAsync(UserRoles.User))
-                await _roleManager.CreateAsync(new IdentityRole(UserRoles.User));
-
-            if (await _roleManager.RoleExistsAsync(UserRoles.Admin))
-            {
-                await _userManager.AddToRoleAsync(user, UserRoles.Admin);
-            }
-            if (await _roleManager.RoleExistsAsync(UserRoles.Admin))
-            {
-                await _userManager.AddToRoleAsync(user, UserRoles.User);
-            }
-
-            return Ok(new Response { Status = "Success", Message = "User created successfully!" });
         }
 
+        // Update User method
         [HttpPut]
-        public async Task<ActionResult> Update(UpdateModel updateModel)
+        public async Task<IActionResult> Update(UpdateModel updateModel)
         {
-            User user = await _userManager.FindByIdAsync(updateModel.Id);
+            if (updateModel == null)
+                return StatusCode(StatusCodes.Status400BadRequest, new Response { Status = "Error", Message = "Update model invalid." });
 
-            user.Name = updateModel.Name;
-            user.Surname = updateModel.Surname;
-            user.UserName = updateModel.Username;
-            user.Email = updateModel.Email;
-            user.PhoneNumber = updateModel.PhoneNumber;
+            var response = await _authenticateService.Update(updateModel);
 
-            await _userManager.UpdateAsync(user);
-            return Ok();
+            if (response)
+                return Ok(new Response { Status = "Success", Message = "User updated successfully!" });
+            return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Failed to update user!" });
         }
 
+
+        // Delete User method
         [HttpDelete("{email}")]
-        public async Task<ActionResult> Delete(string email)
+        public async Task<IActionResult> Delete(string email)
         {
-            User user = await _userManager.FindByEmailAsync(email);
-            await _userManager.DeleteAsync(user);
-            return Ok();
+            var response = await _authenticateService.Delete(email);
 
-        }
-
-        private JwtSecurityToken GetToken(List<Claim> authClaims)
-        {
-            var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
-
-            var token = new JwtSecurityToken(
-                issuer: _configuration["JWT:ValidIssuer"],
-                audience: _configuration["JWT:ValidAudience"],
-                expires: DateTime.Now.AddHours(3),
-                claims: authClaims,
-                signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
-                );
-
-            return token;
+            if (response)
+                return Ok(new Response { Status = "Success", Message = "User deleted successfully!" });
+            return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Failed to delete user!" });
         }
     }
 }

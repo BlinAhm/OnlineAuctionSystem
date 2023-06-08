@@ -4,17 +4,23 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using UserService.Auth;
+using UserService.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
+
+// Connection String
 var connectionString = builder.Configuration.GetConnectionString("UserServiceContextConnection") ?? throw new InvalidOperationException("Connection string 'UserServiceContextConnection' not found.");
 
 builder.Services.AddDbContext<UserServiceContext>(options =>
     options.UseSqlServer(connectionString));
 
+// Identity
 builder.Services.AddIdentity<User, IdentityRole>()
     .AddEntityFrameworkStores<UserServiceContext>()
     .AddDefaultTokenProviders();
+
+builder.Services.AddScoped<IAuthenticateService,AuthenticateService>();
 
 // Add Authentication
 
