@@ -15,17 +15,27 @@ namespace AuctionService.Services
         }
         public async Task<bool> AddBid(BidViewModel bidModel)
         {
-            var auction = _context.Auctions.Where(x=>x.Id == bidModel.AuctionId).First();
+            var auction = _context.Auctions.Include(x => x.CurrentBid).Where(x => x.Id == bidModel.AuctionId).First();
             if (auction == null) { return false; }
+
+            //Check if bid amount is less or equal to current bid
+            if (auction.CurrentBid != null)
+            {
+                if (auction.CurrentBid.BidAmount >= bidModel.BidAmount)
+                    return false;
+            }
 
             Bid bid = new Bid()
             {
                 UserId = bidModel.UserId,
                 BidAmount = bidModel.BidAmount,
-                BidDate = bidModel.BidDate,
+                BidDate = DateTime.Parse(DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss")),
                 Auction = auction
             };
             await _context.Bids.AddAsync(bid);
+            //Update current bid for auction
+            auction.CurrentBid = bid;
+
             await _context.SaveChangesAsync();
 
             return _context.Bids.Where(x => x.Id == bid.Id).Any();

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AuctionService.Migrations
 {
     [DbContext(typeof(AuctionDbContext))]
-    [Migration("20230602112458_Notifications, Auctions, Bids tables")]
-    partial class NotificationsAuctionsBidstables
+    [Migration("20230608120502_Auction tables")]
+    partial class Auctiontables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -46,7 +46,7 @@ namespace AuctionService.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("StartTime")
+                    b.Property<DateTime?>("StartTime")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Title")
@@ -68,13 +68,13 @@ namespace AuctionService.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("AuctionId")
+                    b.Property<int>("AuctionId")
                         .HasColumnType("int");
 
                     b.Property<float>("BidAmount")
                         .HasColumnType("real");
 
-                    b.Property<DateTime>("BidDate")
+                    b.Property<DateTime?>("BidDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("UserId")
@@ -123,7 +123,9 @@ namespace AuctionService.Migrations
                 {
                     b.HasOne("AuctionService.Models.Auction", "Auction")
                         .WithMany("Bids")
-                        .HasForeignKey("AuctionId");
+                        .HasForeignKey("AuctionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Auction");
                 });

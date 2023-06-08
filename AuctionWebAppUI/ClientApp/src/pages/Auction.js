@@ -21,7 +21,9 @@ const AuctionBidding = () => {
     return (
         <div className="a_bidding">
             <h3>Offers:</h3>
+            
             <h5>Current bid: 54 $</h5>
+            <h5 className="base_price">Base price: 45 $</h5>
 
             <p>Enter bid:</p>
             <input type="number" />
@@ -32,7 +34,10 @@ const AuctionBidding = () => {
             <p className="timeLeft">Time left: 00:00:00</p>
 
             <p className="label_latest_bids">Latest Bids</p>
-            <div id="latest_bids"><span>64$</span><span>64$</span></div>
+            <div id="latest_bids">
+                <span>64$</span>
+                <span>64$</span>
+            </div>
         </div>
     );
 };
