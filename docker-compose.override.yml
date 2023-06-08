@@ -20,3 +20,8 @@ services:
     ports:
       - "80"
 
+  itemservice:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "80"

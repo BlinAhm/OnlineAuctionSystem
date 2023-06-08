@@ -46,7 +46,6 @@ services:
     stdin_open: true
     tty: true
 
-
   auctionservice:
     container_name: auction-service
     image: ${DOCKER_REGISTRY-}auctionservice
@@ -61,3 +60,26 @@ services:
       - mssql-server
     environment:
       - ConnectionStrings__AuctionServiceContextConnection=Data Source=mssql-server;Initial Catalog=auctions;User ID=sa;Password=Password_123;
+
+
+  itemdb:
+     container_name: item-db
+     image: mongo
+     ports: 
+       - 18005:27017
+     networks:
+      - backend
+
+  itemservice:
+     container_name: item-service
+     image: ${DOCKER_REGISTRY-}itemservice
+     build:
+      context: .
+      dockerfile: ItemService/Dockerfile
+     ports:
+      - 18006:80
+     networks:
+      - backend
+     environment:   
+      - DB_HOST=itemdb
+      - DB_NAME=dms_item
