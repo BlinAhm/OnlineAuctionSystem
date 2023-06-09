@@ -7,22 +7,43 @@
 }
 
     .navbar .n_links {
-        margin-right: 20px; 
-        text-decoration: none; 
-        color: #333; 
+        margin-right: 20px;
+        text-decoration: none;
+        color: #333;
         font-size: 18px;
         font-weight: bold;
     }
+
     .navbar .login {
-        border: solid 1px rgb(0, 123, 255);
-        background: rgb(0, 123, 255);
+        border: solid 1px #0751e9;
+        background: #0751e9;
         color: white;
         border-radius: 1px;
         padding: 3px 6px;
         font-weight: normal;
         font-size: 16px;
         margin-inline: 5px;
+        transition: .15s;
     }
+
+        .navbar .login:hover {
+            border: solid 1px #0720e9;
+            background: #061ddb;
+        }
+
+    .navbar .navbar-search .search-submitBtn {
+        padding: 6px 12px;
+        background-color: #0751e9;
+        color: #ffffff;
+        border: none;
+        margin-left: 10px;
+        cursor: pointer;
+        transition: .15s;
+    }
+
+        .navbar .navbar-search .search-submitBtn:hover {
+            background: #061ddb;
+        }
 
 hr {
     max-width: 1310px;

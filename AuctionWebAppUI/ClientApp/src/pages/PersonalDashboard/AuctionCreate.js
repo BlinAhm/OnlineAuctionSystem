@@ -1,16 +1,18 @@
-﻿import './css/AuctionCreate.css';
+﻿import { Link } from 'react-router-dom';
+import '../css/AuctionCreate.css';
 
 const TabLeft = () => {
     return (
-        <div className="ac_left">
+        <div className="at_left">
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
-            <div className="ac_left_tab"><span className="icon"><i className="bi bi-currency-dollar"></i></span>My Auctions</div>
-            <div className="ac_left_tab"><span className="icon"><i className="bi bi-plus-square"></i></span>Create Auction</div>
+            <Link to="/my-bids" className="at_left_tab"><span className="icon"><i className="bi bi-tag-fill"></i></span>My Bids</Link>
+            <Link to="/my-auctions" className="at_left_tab"><span className="icon"><i className="bi bi-currency-dollar"></i></span>My Auctions</Link>
+            <Link to="/create-auction" className="at_left_tab"><span className="icon"><i className="bi bi-plus-square"></i></span>Create Auction</Link>
         </div>
     );
 };
 
-const TabRight1 = () => {
+const TabRight = () => {
     return (
         <div className="ac_right">
             <div>
@@ -40,19 +42,11 @@ const TabRight1 = () => {
     );
 };
 
-const TabRight2 = () => {
-    return (
-        <div className="ac_right">
-            Test2
-        </div>
-    );
-};
-
 const AuctionCreate = () => {
     return (
         <div className="ac_container">
             <TabLeft />
-            <TabRight1 />
+            <TabRight />
         </div>
     );
 };

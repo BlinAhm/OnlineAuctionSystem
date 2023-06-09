@@ -12,7 +12,7 @@ const Navbar = () => {
                     </Link>
                     <div className="navbar-search" style={{ marginLeft: "20px" }}>
                         <input type="text" placeholder="Search" style={{ padding: "6px", border: "1px solid #ccc" }} />
-                        <button type="submit" style={{ padding: "6px 12px", backgroundColor: "#007bff", color: "#fff", border: "none", marginLeft: "10px", cursor: "pointer" }}>Search</button>
+                        <button type="submit" className="search-submitBtn">Search</button>
                     </div>
                     <div className="navbar-currency" style={{ marginLeft: "20px", display: "flex", alignItems: "center" }}>
                         <span style={{ fontSize: "14px", fontWeight: "bold", marginRight: "5px" }}>Currency:</span>
