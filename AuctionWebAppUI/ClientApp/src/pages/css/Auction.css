@@ -51,17 +51,19 @@
         border: solid #098fd8 1px;
         border-radius: 3px;
         padding: 2px 8px;
-        background: linear-gradient(to right, #0799e9, #14a4f3, #19acfc);
+        background: linear-gradient(to right, #0751e9, #1a60ee, #266af5);
         margin-right: 3%;
+        color: white;
     }
 
 .a_bidding {
     width: 30%;
-    background: linear-gradient(to right, #0799e9, #14a4f3, #19acfc);
+    background: linear-gradient(to right, #0751e9, #1a60ee, #266af5);
     padding-inline: 2.5%;
     padding-top: 2%;
     padding-bottom: 4%;
     box-shadow: gray 0px 2px 10px;
+    color: white;
 }
 
     .a_bidding input {
@@ -84,6 +86,12 @@
         font-weight: bold;
         margin-bottom: 10px;
         margin-left: 0;
+    }
+    .a_bidding .base_price {
+        text-align: left;
+        font-size: 16px;
+        font-weight: 400;
+        margin-bottom: 8%;
     }
 
     .a_bidding p {
@@ -122,4 +130,5 @@
         .a_bidding #latest_bids span {
             border-top: solid #b9d9ea 2px;
             border-radius: 3px;
+            color: black;
         }

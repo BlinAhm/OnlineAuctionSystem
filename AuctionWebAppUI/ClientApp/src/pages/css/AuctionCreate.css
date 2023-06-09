@@ -1,0 +1,109 @@
+﻿.ac_container {
+    display: flex;
+    background: linear-gradient(to right, #d3d3d3, white) padding-box, linear-gradient(to right, #0751e9, #1a60ee, #266af5) border-box;
+    border-radius: 30px;
+    border: 5px solid transparent;
+    box-shadow: gray 0px 5px 10px;
+    margin-block: 5%;
+}
+
+    .ac_container .at_left {
+        width: 20%;
+        background: linear-gradient(to right, #0751e9, #1a60ee, #266af5);
+        border-radius: 20px 22px 22px 20px;
+        padding-inline: 1rem;
+        padding-block: 5%;
+        text-align: left;
+        color: white;
+        font-size: 18px;
+        font-weight: 600;
+        letter-spacing: 1px;
+        display: flex;
+        flex-direction: column;
+        justify-items: start;
+    }
+
+
+        .ac_container .at_left .at_left_tab {
+            margin-block: 10px;
+            margin-inline: 10%;
+            cursor: pointer;
+            position: relative;
+            color: white;
+            text-decoration: none;
+        }
+
+            .ac_container .at_left .at_left_tab::before {
+                content: '';
+                position: absolute;
+                width: 100%;
+                height: 2px;
+                border-radius: 2px;
+                background-color: #ffffff;
+                bottom: 0;
+                left: 0;
+                transform-origin: right;
+                transform: scaleX(0);
+                transition: transform .3s ease-in-out;
+            }
+
+            .ac_container .at_left .at_left_tab:hover::before {
+                transform-origin: left;
+                transform: scaleX(1);
+            }
+
+        .ac_container .at_left .icon {
+            margin-right: 8%;
+            font-size: 22px;
+        }
+
+    .ac_container .ac_right {
+        width: 80%;
+        height: 600px;
+        background: transparent;
+        border-radius: 30px;
+        padding: 5%;
+        padding-left: 10%;
+        display: flex;
+        justify-content: space-between;
+        flex-basis: auto;
+    }
+
+        .ac_container .ac_right div {
+            margin-right: 15%;
+            text-align: center;
+        }
+
+        .ac_container .ac_right p {
+            margin-bottom: 0px;
+            padding-left: 10px;
+            font-size: 18px;
+            text-align: left;
+        }
+
+        .ac_container .ac_right .ac_inputs {
+            width: 300px;
+            height: 40px;
+            margin-bottom: 30px;
+        }
+        .ac_container .ac_right .ac_inputs_textarea {
+            width: 300px;
+            height: 150px;
+            margin-bottom: 30px;
+            resize: none;
+        }
+        .ac_container .ac_right .ac_submitBtn {
+            width: 240px;
+            height: 40px;
+            background: #0751e9;
+            border-radius: 6px;
+            border: solid 2px #1d57ce;
+            color: white;
+            font-size: 18px;
+            transition: 0.2s;
+        }
+            .ac_container .ac_right .ac_submitBtn:hover {
+                background: #0720e9;
+                border-color: #0b1da9;
+            }
+

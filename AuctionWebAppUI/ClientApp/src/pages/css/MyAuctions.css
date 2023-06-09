@@ -1,0 +1,11 @@
+﻿.ac_container .my_auction_right {
+    display: flex;
+    flex-direction: column;
+    padding: 5%;
+    width: 80%;
+}
+
+    .ac_container .my_auction_right .auction_card {
+        display: flex;
+        justify-content: space-around;
+    }

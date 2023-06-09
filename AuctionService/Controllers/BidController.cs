@@ -69,6 +69,24 @@ namespace AuctionService.Controllers
                     }
                 }).Where(x => x.Id == id).First();
         }
+        // Get latest Bids
+        [HttpGet]
+        [Route("{id}/latest")]
+        public ActionResult<List<Bid>> GetLatestBids(int id)
+        {
+            var auction = _context.Auctions.Include("Bids").Where(x=>x.Id == id).First();
+            if (auction == null) { return StatusCode(StatusCodes.Status404NotFound, new Response { Status = "Error", Message = "Auction not found." }); }
+
+            return auction.Bids.OrderByDescending(x => x.Id).Take(3).Select(
+                b => new Bid
+                {
+                    Id = b.Id,
+                    UserId = b.UserId,
+                    BidAmount = b.BidAmount,
+                    BidDate = b.BidDate,
+                    Auction = null
+                }).ToList();
+        }
 
         // Add Bid
         [HttpPost]

@@ -14,6 +14,7 @@ namespace AuctionService.Services
 
         public async Task<bool> AddAuction(Auction auctionModel)
         {
+            auctionModel.StartTime = DateTime.Parse(DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss"));
             await _context.Auctions.AddAsync(auctionModel);
             await _context.SaveChangesAsync();
 
