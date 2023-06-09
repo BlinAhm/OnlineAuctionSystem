@@ -12,11 +12,13 @@
     position: sticky;
     width: 750px;
     height: 810px;
-    background: rgb(206,235,251);
+    background: linear-gradient(to right, #d3d3d3, white) padding-box, linear-gradient(to right, #0751e9, #1a60ee, #266af5) border-box;
+    border-radius: 30px;
+    border: 2px solid transparent;
+    box-shadow: gray 0px 5px 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    border-radius: 10px;
     justify-content: space-around;
 }
 
@@ -44,7 +46,7 @@
 .SignupForm .signupSubmit {
     color: #121111;
     font-size: 18px;
-    font-weight: 4s00;
+    font-weight: 400;
     text-align: center;
     height: 44px;
     width: 400px;
@@ -119,6 +121,9 @@
     font-weight: 400;
     margin-bottom: -10px;
 }
+    .SignupForm h1:hover {
+        text-decoration: underline 3px #0996e4;
+    }
 
 .SignupForm h5 {
     color: #121111;
@@ -127,3 +132,6 @@
     font-weight: 400;
     letter-spacing: 1.2px;
 }
+    .SignupForm h5:hover {
+        text-decoration: underline 3px #0996e4;
+    }
