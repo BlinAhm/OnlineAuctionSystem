@@ -63,14 +63,21 @@
         background: transparent;
         border-radius: 30px;
         padding: 5%;
-        padding-left: 10%;
+        padding-left: 15%;
         display: flex;
         justify-content: space-between;
         flex-basis: auto;
     }
-
-        .ac_container .ac_right div {
-            margin-right: 15%;
+    .ac_container .ac_right_container .tab_header {
+        text-align: left;
+        padding-top: 3%;
+        padding-left: 8%;
+        font-size: 24px;
+        font-weight: bold;
+        text-decoration: underline 3px black;
+    }
+        .ac_container .ac_right>div {
+            margin-right: 18%;
             text-align: center;
         }
 

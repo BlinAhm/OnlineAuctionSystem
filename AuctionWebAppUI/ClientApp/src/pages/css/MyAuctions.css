@@ -1,11 +1,56 @@
 ﻿.ac_container .my_auction_right {
     display: flex;
     flex-direction: column;
-    padding: 5%;
+    justify-content: start;
+    text-align: center;
+    padding: 2%;
     width: 80%;
 }
 
-    .ac_container .my_auction_right .auction_card {
-        display: flex;
-        justify-content: space-around;
+    .ac_container .my_auction_right .tab_header {
+        text-align: left;
+        margin-bottom: 5%;
+        padding-left: 5%;
+        font-size: 24px;
+        font-weight: bold;
+        text-decoration: underline 3px black;
+    }
+
+    .ac_container .my_auction_right thead tr {
+        border-bottom: solid #0751e9 3px;
+    }
+
+    .ac_container .my_auction_right tr {
+        border-bottom: solid #266af5 2px;
+        font-size: 16px;
+    }
+
+    .ac_container .my_auction_right .td_title {
+        width: 13%;
+    }
+
+    .ac_container .my_auction_right .td_name {
+        width: 13%;
+    }
+
+    .ac_container .my_auction_right .td_description {
+        width: 30%;
+    }
+
+    .ac_container .my_auction_right .td_dates {
+        width: 17%;
+    }
+
+    .ac_container .my_auction_right .td_current_bid {
+        width: 14%;
+    }
+
+    .ac_container .my_auction_right .td_edit, .ac_container .my_auction_right .td_delete {
+        width: 3%;
+    }
+
+    .ac_container .my_auction_right i {
+        font-size: 18px;
+        font-weight: bold;
+        cursor: pointer;
     }

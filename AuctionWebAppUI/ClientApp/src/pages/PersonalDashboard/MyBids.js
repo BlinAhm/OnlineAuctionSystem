@@ -1,5 +1,6 @@
 ﻿import { Link } from 'react-router-dom';
 import '../css/AuctionCreate.css';
+import '../css/MyBids.css';
 
 const TabLeft = () => {
     return (
@@ -14,7 +15,54 @@ const TabLeft = () => {
 
 const TabRight = () => {
     return (
-        <div>
+        <div className="my_bids_right">
+            <div className="tab_header">My Bids</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th className="td_title">Title</th>
+                        <th className="td_name">Name</th>
+                        <th className="td_date">Date:</th>
+                        <th className="td_amount">Bid amount:</th>
+                        <th className="td_edit"></th>
+                        <th className="td_delete"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Test</td>
+                        <td>Item</td>
+                        <td>2023-02-02 12:00:00</td>
+                        <td>1000</td>
+                        <td><i className="bi bi-pencil"></i></td>
+                        <td><i className="bi bi-trash"></i></td>
+                    </tr>
+                    <tr>
+                        <td>Test</td>
+                        <td>Item</td>
+                        <td>2023-02-02 12:00:00</td>
+                        <td>1000</td>
+                        <td><i className="bi bi-pencil"></i></td>
+                        <td><i className="bi bi-trash"></i></td>
+                    </tr>
+                    <tr>
+                        <td>Test</td>
+                        <td>Item</td>
+                        <td>2023-02-02 12:00:00</td>
+                        <td>1000</td>
+                        <td><i className="bi bi-pencil"></i></td>
+                        <td><i className="bi bi-trash"></i></td>
+                    </tr>
+                    <tr>
+                        <td>Test</td>
+                        <td>Item</td>
+                        <td>2023-02-02 12:00:00</td>
+                        <td>1000</td>
+                        <td><i className="bi bi-pencil"></i></td>
+                        <td><i className="bi bi-trash"></i></td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     );
 };
