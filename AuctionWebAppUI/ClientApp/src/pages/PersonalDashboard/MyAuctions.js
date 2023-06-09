@@ -16,15 +16,76 @@ const TabLeft = () => {
 const TabRight = () => {
     return (
         <div className="my_auction_right">
-            <div className="auction_card">
-                <span>Title</span>
-                <span>Description</span>
-                <div>
-                    <span>Start time</span>
-                    <span>End time</span>
-                </div>
-                <span>Current bid</span>
-            </div>
+            <div className="tab_header">My Auctions</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th className="td_title">Title</th>
+                        <th className="td_name">Name</th>
+                        <th className="td_description">Description</th>
+                        <th className="td_dates">Start date:<br />End date:</th>
+                        <th className="td_current_bid">Current bid:</th>
+                        <th className="td_edit"></th>
+                        <th className="td_delete"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Test</td>
+                        <td>Item</td>
+                        <td style={{ textAlign: "justify", fontSize:"15px" }}>Test item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item description</td>
+                        <td>2023-02-02 12:00:00<br />2023-02-02 12:00:00</td>
+                        <td>1000</td>
+                        <td><i className="bi bi-pencil"></i></td>
+                        <td><i className="bi bi-trash"></i></td>
+                    </tr>
+                    <tr>
+                        <td>Test</td>
+                        <td>Item</td>
+                        <td style={{ textAlign: "justify", fontSize: "15px" }}>Test item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item description</td>
+                        <td>2023-02-02 12:00:00<br />2023-02-02 12:00:00</td>
+                        <td>1000</td>
+                        <td><i className="bi bi-pencil"></i></td>
+                        <td><i className="bi bi-trash"></i></td>
+                    </tr>
+                    <tr>
+                        <td>Test</td>
+                        <td>Item</td>
+                        <td style={{ textAlign: "justify", fontSize: "15px" }}>Test item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item description</td>
+                        <td>2023-02-02 12:00:00<br />2023-02-02 12:00:00</td>
+                        <td>1000</td>
+                        <td><i className="bi bi-pencil"></i></td>
+                        <td><i className="bi bi-trash"></i></td>
+                    </tr>
+                    <tr>
+                        <td>Test</td>
+                        <td>Item</td>
+                        <td style={{ textAlign: "justify", fontSize: "15px" }}>Test item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item description</td>
+                        <td>2023-02-02 12:00:00<br />2023-02-02 12:00:00</td>
+                        <td>1000</td>
+                        <td><i className="bi bi-pencil"></i></td>
+                        <td><i className="bi bi-trash"></i></td>
+                    </tr>
+                    <tr>
+                        <td>Test</td>
+                        <td>Item</td>
+                        <td style={{ textAlign: "justify", fontSize: "15px" }}>Test item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item description</td>
+                        <td>2023-02-02 12:00:00<br />2023-02-02 12:00:00</td>
+                        <td>1000</td>
+                        <td><i className="bi bi-pencil"></i></td>
+                        <td><i className="bi bi-trash"></i></td>
+                    </tr>
+                    <tr>
+                        <td>Test</td>
+                        <td>Item</td>
+                        <td style={{ textAlign: "justify", fontSize: "15px" }}>Test item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item description</td>
+                        <td>2023-02-02 12:00:00<br />2023-02-02 12:00:00</td>
+                        <td>1000</td>
+                        <td><i className="bi bi-pencil"></i></td>
+                        <td><i className="bi bi-trash"></i></td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     );
 };
