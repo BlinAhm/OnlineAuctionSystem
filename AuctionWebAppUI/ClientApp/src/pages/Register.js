@@ -5,7 +5,7 @@ const SignUpTitle = () => {
     return (
         <div>
             <h1>Sign up</h1>
-            <h5>Sign up and bid now!</h5>
+            <h5>Sign up and browse the latest auctions!</h5>
         </div>
     );
 }
