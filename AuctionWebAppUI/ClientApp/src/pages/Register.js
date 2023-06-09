@@ -5,7 +5,7 @@ const SignUpTitle = () => {
     return (
         <div>
             <h1>Sign up</h1>
-            <h5>Sign up now and order your tickets now!</h5>
+            <h5>Sign up and bid an item!</h5>
         </div>
     );
 }
