@@ -12,7 +12,7 @@
     position: sticky;
     width: 750px;
     height: 810px;
-    background: linear-gradient(to right, #d3d3d3, white) padding-box, linear-gradient(to right, #aaaaaa, #bbbbbb, #cccccc) border-box;
+    background: linear-gradient(to right, #d3d3d3, #eeeeee) padding-box, linear-gradient(to right, #aaaaaa, #bbbbbb, #cccccc) border-box;
     border-radius: 30px;
     border: 2px solid transparent;
     box-shadow: gray 2px 5px 10px;

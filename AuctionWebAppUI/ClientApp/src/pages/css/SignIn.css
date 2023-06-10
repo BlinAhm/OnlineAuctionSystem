@@ -12,7 +12,7 @@
     position: sticky;
     width: 660px;
     height: 600px;
-    background: linear-gradient(to right, #d3d3d3, white) padding-box, linear-gradient(to right, #aaaaaa, #bbbbbb, #cccccc) border-box;
+    background: linear-gradient(to right, #d3d3d3, #eeeeee) padding-box, linear-gradient(to right, #aaaaaa, #bbbbbb, #cccccc) border-box;
     display: flex;
     flex-direction: column;
     align-items: center;
