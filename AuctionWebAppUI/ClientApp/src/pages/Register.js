@@ -5,7 +5,7 @@ const SignUpTitle = () => {
     return (
         <div>
             <h1>Sign up</h1>
-            <h5>Sign up and bid for an item!</h5>
+            <h5>Register now and start bidding!</h5>
         </div>
     );
 }
@@ -42,7 +42,7 @@ const SignUpForm = () => {
 
                     <button name="btnSubmit" className="signupSubmit">Sign up</button>
 
-                    <Link to="/log-in" className="sign-in__already">Already have an account? Sign in!</Link>
+                    <Link to="/sign-in" className="sign-in__already">Already have an account? Sign in!</Link>
                 </div>
             </div>
         </form>
