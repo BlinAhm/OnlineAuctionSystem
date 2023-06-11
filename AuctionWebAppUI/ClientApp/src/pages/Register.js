@@ -1,4 +1,5 @@
-﻿import { Link } from 'react-router-dom';
+﻿import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import './css/Register.css';
 
 const SignUpTitle = () => {
@@ -13,13 +14,11 @@ const SignUpInputs = () => {
     return (
         <div className="input-div2">
             <input name="name" id="sName" className="texts" type="text" placeholder="Name" />
-            <label id="labelName"></label>
-            <input name="lastName" id="sLName" className="texts" type="text" placeholder="Last name" />
-            <label id="labelLName"></label>
+            <input name="surname" id="sSurname" className="texts" type="text" placeholder="Surname" />
+            <input name="username" id="sUsername" className="texts" type="text" placeholder="Username" />
             <input name="email" id="sEmail" className="texts" type="email" placeholder="E-mail" />
-            <label id="labelEmail"></label>
+            <input name="phoneNumber" id="sPhoneNumber" className="texts" type="text" placeholder="Phone number" />
             <input name="password" id="sPassword" className="texts" type="password" placeholder="Password" />
-            <label id="labelPassword"></label>
             <input name="cpass" id="sCPassword" className="texts" type="password" placeholder="Confirm password" />
             <label id="labelCPassword"></label>
         </div>
@@ -40,7 +39,7 @@ const SignUpForm = () => {
                         </span></p>
                     </div>
 
-                    <button name="btnSubmit" className="signupSubmit">Sign up</button>
+                    <button id="btnSignin" name="btnSubmit" className="signupSubmit">Sign up</button>
 
                     <Link to="/sign-in" className="sign-in__already">Already have an account? Sign in!</Link>
                 </div>
@@ -49,11 +48,31 @@ const SignUpForm = () => {
     );
 }
 const Register = () => {
+
+    useEffect(() => {
+        document.getElementById("btnSignin").addEventListener("click", (e) => {
+            e.preventDefault();
+            register();
+                
+        });
+    });
+
     return (
         <>
-            <SignUpForm/>
+            <SignUpForm />
         </>
     );
 };
 
 export default Register;
+
+async function register() {
+    var data = new FormData(document.getElementById("form"));
+    await fetch("http://localhost:8020/api/Authenticate/register", {
+        method: "POST",
+        body: data
+    }).then(function (response) {
+        if (response.ok)
+            document.location.href = "http://localhost:3000/home";
+    });
+}

@@ -22,6 +22,15 @@ builder.Services.AddIdentity<User, IdentityRole>()
 
 builder.Services.AddScoped<IAuthenticateService,AuthenticateService>();
 
+// CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("default", policy =>
+    {
+        policy.WithOrigins("http://localhost:3000", "http://localhost:8020").AllowAnyMethod().AllowAnyHeader();
+    });
+});
+
 // Add Authentication
 
 builder.Services.AddAuthentication(options =>
@@ -52,6 +61,7 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddControllers();
 
 var app = builder.Build();
+app.UseCors("default");
 app.UseAuthentication();;
 
 // Configure the HTTP request pipeline.
