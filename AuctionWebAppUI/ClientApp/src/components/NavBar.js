@@ -12,7 +12,8 @@ const NavBarLinks = () => {
                     <Link to="/home" className="n_links">Home</Link>
                     <Link to="/browse" className="n_links">Browse</Link>
                     <Link to="/my-bids" className="n_links">My Dashboard</Link>
-                    <div className="login">Welcome: {user}</div>
+                    <div className="n_user">Welcome: {user}</div>
+                    <Link to="/log-out" className="logout">Log out</Link>
                 </div>
             );
         }
@@ -35,7 +36,7 @@ const Navbar = () => {
             <nav className="navbar" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                 <div className="navbar-left" style={{ display: "flex", alignItems: "center" }}>
                     <Link to="/" className="navbar-logo" style={{ fontSize: "24px", fontWeight: "bold", color: "#333" }}>
-                        eBids
+                        eBid
                     </Link>
                     <div className="navbar-search" style={{ marginLeft: "20px" }}>
                         <input type="text" placeholder="Search" style={{ padding: "6px", border: "1px solid #ccc" }} />
