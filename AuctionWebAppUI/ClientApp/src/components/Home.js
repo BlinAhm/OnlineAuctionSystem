@@ -179,13 +179,14 @@ const Categories = () => {
         <div className="categories">
             <h2>Categories</h2>
             <div className="categories-container">
-                {categories.slice(0, 3).map((category) => (
-                    <div
-                        key={category.id}
-                        className="category"
-                        onMouseEnter={() => handleCategoryClick(category.id)}
-                        onMouseLeave={handleCategoryMouseLeave}
-                    >
+                <div className="categories-row">
+                    {categories.slice(0, 2).map((category) => (
+                        <div
+                            key={category.id}
+                            className="category"
+                            onMouseEnter={() => handleCategoryClick(category.id)}
+                            onMouseLeave={handleCategoryMouseLeave}
+                        >
                         <div className="category-image">
                             <img src={category.image} alt={category.title} />
                         </div>
@@ -196,13 +197,14 @@ const Categories = () => {
                     </div>
                 ))}
             </div>
-            <div className="categories-container">
-                {categories.slice(3, 5).map((category) => (
-                    <div
-                        key={category.id}
-                        className="category"
-                        onMouseEnter={() => handleCategoryClick(category.id)}
-                        onMouseLeave={handleCategoryMouseLeave}
+                <div className="categories-row">
+                    {categories.slice(2, 5).map((category) => (
+                        <div
+                            key={category.id}
+                            className="category"
+                            onMouseEnter={() => handleCategoryClick(category.id)}
+                            onMouseLeave={handleCategoryMouseLeave}
+                         onMouseLeave={handleCategoryMouseLeave}
                     >
                         <div className="category-image">
                             <img src={category.image} alt={category.title} />
