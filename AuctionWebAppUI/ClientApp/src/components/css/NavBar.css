@@ -13,36 +13,41 @@
         font-size: 18px;
         font-weight: bold;
     }
-
-    .navbar .login {
-        border: solid 1px #0751e9;
-        background: #0751e9;
-        color: white;
-        border-radius: 1px;
-        padding: 3px 6px;
-        font-weight: normal;
-        font-size: 16px;
-        margin-inline: 5px;
-        transition: .15s;
-    }
-
-        .navbar .login:hover {
-            border: solid 1px #0720e9;
-            background: #061ddb;
+        .navbar .n_links:hover{
+            text-decoration:underline;
+            transition:.15s ease-in;
         }
+        .navbar .login {
+            background: #0751e9;
+            color: white;
+            border-radius: 3px;
+            padding: 3px 6px;
+            font-weight: normal;
+            font-size: 16px;
+            margin-inline: 5px;
+            transition: .15s;
+        }
+
+            .navbar .login:hover {
+                background-color: #059ef3;
+                transition: .15s ease-in;
+                text-decoration:none;
+            }
 
     .navbar .navbar-search .search-submitBtn {
         padding: 6px 12px;
         background-color: #0751e9;
         color: #ffffff;
         border: none;
+        border-radius:3px;
         margin-left: 10px;
         cursor: pointer;
         transition: .15s;
     }
 
         .navbar .navbar-search .search-submitBtn:hover {
-            background: #061ddb;
+            background-color: #059ef3;
+            font-weight: bold;
         }
 
 hr {
