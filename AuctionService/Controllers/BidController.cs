@@ -35,6 +35,8 @@ namespace AuctionService.Controllers
                     UserId = b.UserId,
                     BidAmount = b.BidAmount,
                     BidDate = b.BidDate,
+                    IsWithdrawn = b.IsWithdrawn,
+                    WithdrawDate = b.WithdrawDate,
                     Auction = b.Auction
                 }).ToList();
         }
@@ -57,6 +59,8 @@ namespace AuctionService.Controllers
                     UserId = b.UserId,
                     BidAmount = b.BidAmount,
                     BidDate = b.BidDate,
+                    IsWithdrawn = b.IsWithdrawn,
+                    WithdrawDate = b.WithdrawDate,
                     Auction = new Auction
                     {
                         Id = b.Auction.Id,
@@ -84,6 +88,8 @@ namespace AuctionService.Controllers
                     UserId = b.UserId,
                     BidAmount = b.BidAmount,
                     BidDate = b.BidDate,
+                    IsWithdrawn = b.IsWithdrawn,
+                    WithdrawDate = b.WithdrawDate,
                     Auction = null
                 }).ToList();
         }
@@ -120,6 +126,17 @@ namespace AuctionService.Controllers
             if (await _bidService.DeleteBid(id))
                 return Ok(new Response { Status = "Success", Message = "Bid deleted successfully!" });
             return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Failed to delete bid!" });
+        }
+
+        [HttpPut]
+        [Route("{id}/withdraw")]
+        public async Task<IActionResult> WithdrawBid(int id)
+        {
+            if (await _bidService.WithdrawBid(id))
+            {
+                return Ok(new Response { Status = "Success", Message = "Bid withdrawn." });
+            }
+            return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Failed to withdraw bid!" });
         }
     }
 }
