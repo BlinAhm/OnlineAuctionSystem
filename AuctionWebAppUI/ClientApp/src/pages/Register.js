@@ -48,12 +48,15 @@ const SignUpForm = () => {
     );
 }
 const Register = () => {
+    if (localStorage.getItem("user") !== null) {
+        document.location.href = "http://localhost:3000/home";
+    }
 
     useEffect(() => {
         document.getElementById("btnSignin").addEventListener("click", (e) => {
             e.preventDefault();
             register();
-                
+
         });
     });
 

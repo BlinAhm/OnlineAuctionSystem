@@ -6,6 +6,7 @@ import AuctionCreate from "./pages/PersonalDashboard/AuctionCreate";
 import MyAuctions from "./pages/PersonalDashboard/MyAuctions";
 import MyBids from "./pages/PersonalDashboard/MyBids";
 import Logout from "./pages/Logout";
+import Admin from "./pages/Admin/Admin";
 
 
 const AppRoutes = [
@@ -40,6 +41,10 @@ const AppRoutes = [
     {
         path: '/my-bids',
         element: <MyBids />
+    },
+    {
+        path: '/admin',
+        element: <Admin />
     },
     {
         path: '/log-out',

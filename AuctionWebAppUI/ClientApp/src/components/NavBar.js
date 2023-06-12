@@ -4,7 +4,20 @@ import './css/NavBar.css';
 
 const NavBarLinks = () => {
     if (localStorage.getItem("user") !== null) {
-        if (localStorage.getItem("roles").split(",")[0] === "User") {
+        if (localStorage.getItem("roles").split(",").includes("Admin")) {
+            var user = localStorage.getItem("user").split(",")[0];
+
+            return (
+                <div className="navbar-right" style={{ display: "flex", alignItems: "center" }}>
+                    <Link to="/home" className="n_links">Home</Link>
+                    <Link to="/browse" className="n_links">Browse</Link>
+                    <Link to="/my-bids" className="n_links">My Dashboard</Link>
+                    <Link to="/admin" className="n_links">Admin</Link>
+                    <div className="n_user">Welcome: {user}</div>
+                    <Link to="/log-out" className="logout">Log out</Link>
+                </div>
+            );
+        } else if (localStorage.getItem("roles").split(",").includes("User")) {
             var user = localStorage.getItem("user").split(",")[0];
 
             return (
