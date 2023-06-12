@@ -7,5 +7,6 @@ namespace AuctionService.Services
         public Task<bool> AddBid(BidViewModel bidModel);
         public Task<bool> UpdateBid(Bid updateModel);
         public Task<bool> DeleteBid(int id);
+        public Task<bool> WithdrawBid(int id);
     }
 }
