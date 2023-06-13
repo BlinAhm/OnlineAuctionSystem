@@ -115,6 +115,7 @@
                 justify-content: center;
                 padding: 6px 0;
                 cursor: pointer;
+                font-size: 18px;
             }
                 .ac_container .my_bids_withdraw_form .withdraw_content div div:hover {
                     border-color: #0751e9;
@@ -122,23 +123,3 @@
                 }
 /**/
 
-.ac_container .my_bids_edit_form .edit_content i {
-    font-size: 24px;
-    font-weight: bold;
-    cursor: pointer;
-    width: max-content;
-    margin-left: auto;
-}
-
-.ac_container .my_bids_edit_form .edit_content .edit_inputs {
-    display: flex;
-    flex-direction: column;
-}
-
-    .ac_container .my_bids_edit_form .edit_content .edit_inputs input {
-        width: 300px;
-        height: 40px;
-        margin: 10px auto;
-        border: solid 2px #bbbbbb;
-        border-radius: 4px;
-    }

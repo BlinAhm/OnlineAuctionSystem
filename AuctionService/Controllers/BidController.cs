@@ -41,6 +41,24 @@ namespace AuctionService.Controllers
                 }).ToList();
         }
 
+        // Get Bid by user id
+        [HttpGet]
+        [Route("user/{userId}")]
+        public ActionResult<IEnumerable<Bid>> GetBidsByUser(string userId)
+        {
+            return _context.Bids.Select(
+                b => new Bid
+                {
+                    Id = b.Id,
+                    UserId = b.UserId,
+                    BidAmount = b.BidAmount,
+                    BidDate = b.BidDate,
+                    IsWithdrawn = b.IsWithdrawn,
+                    WithdrawDate = b.WithdrawDate,
+                    Auction = b.Auction
+                }).Where(x=>x.UserId == userId).ToList();
+        }
+
         // Get Bid by id
         [HttpGet]
         [Route("{id}")]

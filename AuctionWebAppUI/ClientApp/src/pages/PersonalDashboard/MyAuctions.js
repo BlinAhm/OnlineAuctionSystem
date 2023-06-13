@@ -33,59 +33,82 @@ const TabRight = () => {
                     <tr>
                         <td>Test</td>
                         <td>Item</td>
-                        <td style={{ textAlign: "justify", fontSize:"15px" }}>Test item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item description</td>
-                        <td>2023-02-02 12:00:00<br />2023-02-02 12:00:00</td>
-                        <td>1000</td>
-                        <td><i className="bi bi-pencil"></i></td>
-                        <td><i className="bi bi-trash"></i></td>
-                    </tr>
-                    <tr>
-                        <td>Test</td>
-                        <td>Item</td>
                         <td style={{ textAlign: "justify", fontSize: "15px" }}>Test item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item description</td>
                         <td>2023-02-02 12:00:00<br />2023-02-02 12:00:00</td>
                         <td>1000</td>
-                        <td><i className="bi bi-pencil"></i></td>
-                        <td><i className="bi bi-trash"></i></td>
-                    </tr>
-                    <tr>
-                        <td>Test</td>
-                        <td>Item</td>
-                        <td style={{ textAlign: "justify", fontSize: "15px" }}>Test item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item description</td>
-                        <td>2023-02-02 12:00:00<br />2023-02-02 12:00:00</td>
-                        <td>1000</td>
-                        <td><i className="bi bi-pencil"></i></td>
-                        <td><i className="bi bi-trash"></i></td>
-                    </tr>
-                    <tr>
-                        <td>Test</td>
-                        <td>Item</td>
-                        <td style={{ textAlign: "justify", fontSize: "15px" }}>Test item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item description</td>
-                        <td>2023-02-02 12:00:00<br />2023-02-02 12:00:00</td>
-                        <td>1000</td>
-                        <td><i className="bi bi-pencil"></i></td>
-                        <td><i className="bi bi-trash"></i></td>
-                    </tr>
-                    <tr>
-                        <td>Test</td>
-                        <td>Item</td>
-                        <td style={{ textAlign: "justify", fontSize: "15px" }}>Test item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item description</td>
-                        <td>2023-02-02 12:00:00<br />2023-02-02 12:00:00</td>
-                        <td>1000</td>
-                        <td><i className="bi bi-pencil"></i></td>
-                        <td><i className="bi bi-trash"></i></td>
-                    </tr>
-                    <tr>
-                        <td>Test</td>
-                        <td>Item</td>
-                        <td style={{ textAlign: "justify", fontSize: "15px" }}>Test item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item description</td>
-                        <td>2023-02-02 12:00:00<br />2023-02-02 12:00:00</td>
-                        <td>1000</td>
-                        <td><i className="bi bi-pencil"></i></td>
-                        <td><i className="bi bi-trash"></i></td>
+                        <td><i onClick={() => {
+                            document.getElementsByClassName("my_auctions_edit_form")[0].style.display = "block";
+                        }} className="bi bi-pencil"></i></td>
+                        <td><i onClick={() => {
+                            document.getElementsByClassName("my_auctions_delete_form")[0].style.display = "block"; 
+                        }} className="bi bi-trash"></i></td>
                     </tr>
                 </tbody>
             </table>
+        </div>
+    );
+};
+
+const EditForm = () => {
+    return (
+        <div style={{ display: "none" }} className="my_auctions_edit_form">
+            <div className="edit_content">
+
+                <i onClick={() => {
+                    document.getElementsByClassName("my_auctions_edit_form")[0].style.display = "none"; 
+                }} className="bi bi-x"></i>
+
+                <p className="edit_title">Edit auction:</p>
+
+                <div className="edit_inputs">
+                    <div className="inputs_left">
+                        <p>Title</p>
+                        <input type="text" />
+                        <p>Description</p>
+                        <textarea></textarea>
+                        <p>Name</p>
+                        <input type="text" />
+                        <p>Condition</p>
+                        <input type="text" />
+                    </div>
+
+                    <div className="inputs_right">
+                        <p>Category</p>
+                        <select>
+                            <option>Test1</option>
+                            <option>Test2</option>
+                        </select>
+
+                        <input type="submit" className="edit_submitBtn" value="Save" />
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    );
+};
+
+const DeleteForm = () => {
+    return (
+        <div style={{ display: "none" }} className="my_auctions_delete_form">
+            <div className="delete_content">
+
+                <p>Are you sure you want to delete this auction:</p>
+                <p id="bid_title" style={{ fontWeight: "bold", marginTop: "10px" }}>Title</p>
+
+                <div>
+                    <div onClick={
+                        () => {
+                            document.getElementsByClassName("my_auctions_delete_form")[0].style.display = "none";
+                        }
+                    }>No</div>
+                    <div onClick={
+                        () => {
+                            
+                        }
+                    }>Yes</div>
+                </div>
+            </div>
         </div>
     );
 };
@@ -95,8 +118,21 @@ const MyAuctions = () => {
         <div className="ac_container">
             <TabLeft />
             <TabRight />
+            <EditForm />
+            <DeleteForm />
         </div>
     );
 };
 
 export default MyAuctions;
+
+window.onclick = function (event) {
+    var modalEdit = document.getElementsByClassName("my_auctions_edit_form")[0];
+    var modalDelete = document.getElementsByClassName("my_auctions_delete_form")[0];
+    if (event.target === modalEdit) {
+        modalEdit.style.display = "none";
+    }
+    if (event.target === modalDelete) {
+        modalDelete.style.display = "none";
+    }
+} 

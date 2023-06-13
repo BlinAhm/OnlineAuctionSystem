@@ -29,6 +29,14 @@ namespace AuctionService.Controllers
             return _context.Auctions.Include("Bids").ToList();
         }
 
+        // Get auctions by userId
+        [HttpGet]
+        [Route("user/{userId}")]
+        public ActionResult<IEnumerable<Auction>> GetAuctionsByUser(string userId)
+        {
+            return _context.Auctions.Where(x=>x.UserId == userId).ToList();
+        }
+
         // Get auction by Id
         [HttpGet]
         [Route("{id}")]

@@ -1,4 +1,5 @@
-﻿import { Link } from 'react-router-dom';
+﻿import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import '../css/AuctionCreate.css';
 import '../css/MyBids.css';
 
@@ -13,7 +14,31 @@ const TabLeft = () => {
     );
 };
 
+var withdrawId;
+
 const TabRight = () => {
+    const [bids, setBids] = useState([]);
+
+    useEffect(() => {
+        getBids();
+    }, []);
+
+    async function getBids() {
+        await fetch("http://localhost:8040/api/Bid/user/"+localStorage.getItem("userId"), {
+            method: "GET",
+        }).then(function (response) {
+            return response.json();
+        }).then(function (data) {
+            setBids(data);
+        });
+    }
+
+    function withdrawBid(title, bidId) {
+        withdrawId = bidId;
+        document.getElementById("bid_title").innerHTML = title;
+        document.getElementsByClassName("my_bids_withdraw_form")[0].style.display = "block";
+    }
+
     return (
         <div className="my_bids_right">
             <div className="tab_header">My Bids</div>
@@ -27,21 +52,19 @@ const TabRight = () => {
                         <th className="td_withdraw"></th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>Test</td>
+                <tbody>{bids?.map((key) => (
+                    <tr key={key.id}>
+                        <td>{key.auction.title}</td>
                         <td>Item</td>
-                        <td>2023-02-02 12:00:00</td>
-                        <td>1000</td>
-                        <td><div className="withdraw_bid" onClick={
-                            () => {
-                                document.getElementsByClassName("my_bids_withdraw_form")[0].style.display = "block";
-                            }
-                        }>Withdraw bid</div></td>
+                        <td>{key.bidDate.split("T")[0] + " " + key.bidDate.split("T")[1]}</td>
+                        <td>{key.bidAmount}</td>
+
+                        <td>{key.isWithdrawn ? "Withdrawn" : <div className="withdraw_bid" onClick={() => { withdrawBid(key.auction.title, key.id) }}>Withdraw bid</div>}</td>
                     </tr>
+                )) ?? ""}
                 </tbody>
             </table>
-        </div>
+        </div >
     );
 };
 
@@ -50,32 +73,33 @@ const WithdrawForm = () => {
         <div style={{ display: "none" }} className="my_bids_withdraw_form">
             <div className="withdraw_content">
                 <p>Are you sure you want to withdraw your bid on:</p>
-                <p style={{ fontWeight: "bold", marginTop: "10px" }}>Title</p>
+                <p id="bid_title" style={{ fontWeight: "bold", marginTop: "10px" }}>Title</p>
                 <div>
                     <div onClick={
                         () => {
                             document.getElementsByClassName("my_bids_withdraw_form")[0].style.display = "none";
                         }
                     }>No</div>
-                    <div>Yes</div>
+                    <div onClick={
+                        () => {
+                            withdrawConfirm();
+                        }
+                    }>Yes</div>
                 </div>
             </div>
         </div>
     );
 };
 
-const EditForm = () => {
-    return (
-        <div className="my_bids_edit_form">
-            <div className="edit_content">
-                <i className="bi bi-x"></i>
-                <div className="edit_inputs">
-                    <input type="number" />
-                </div>
-            </div>
-        </div>
-    );
-};
+async function withdrawConfirm() {
+    await fetch("http://localhost:8040/api/Bid/" + withdrawId + "/withdraw", {
+        method: "PUT",
+    }).then(function (response) {
+        return response.json();
+    }).then(function () {
+        window.location.href = "http://localhost:3000/my-bids";
+    });
+}
 
 const MyBids = () => {
     return (

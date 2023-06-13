@@ -10,6 +10,15 @@ var connectionString = builder.Configuration.GetConnectionString("AuctionService
 builder.Services.AddDbContext<AuctionDbContext>(options =>
     options.UseSqlServer(connectionString));
 
+// CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("default", policy =>
+    {
+        policy.WithOrigins("http://localhost:3000", "http://localhost:8040").AllowAnyMethod().AllowAnyHeader();
+    });
+});
+
 builder.Services.AddControllers();
 builder.Services.AddScoped<IAuctionService, AuctionService.Services.AuctionService>();
 builder.Services.AddScoped<IBidService, AuctionService.Services.BidService>();
@@ -24,7 +33,7 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 
 app.UseAuthorization();
-
+app.UseCors("default");
 app.MapControllers();
 
 app.Run();
