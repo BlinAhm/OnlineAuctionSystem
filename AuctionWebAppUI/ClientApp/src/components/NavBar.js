@@ -46,7 +46,7 @@ const NavBarLinks = () => {
 const Navbar = () => {
     return (
         <>
-            <nav className="navbar" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", maxWidth: "2320px" }}>
+            <nav className="navbar" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", maxWidth: "1320px" }}>
                 <div className="navbar-left" style={{ display: "flex", alignItems: "center" }}>
                     <Link to="/" className="navbar-logo" style={{ fontSize: "24px", fontWeight: "bold", color: "#333" }}>
                         eBid

@@ -56,7 +56,7 @@ namespace AuctionService.Controllers
                     IsWithdrawn = b.IsWithdrawn,
                     WithdrawDate = b.WithdrawDate,
                     Auction = b.Auction
-                }).Where(x=>x.UserId == userId).ToList();
+                }).Where(x => x.UserId == userId).ToList();
         }
 
         // Get Bid by id
@@ -84,7 +84,6 @@ namespace AuctionService.Controllers
                         Id = b.Auction.Id,
                         Title = b.Auction.Title,
                         ItemId = b.Auction.ItemId,
-                        Description = b.Auction.Description,
                         StartTime = b.Auction.StartTime,
                         EndTime = b.Auction.EndTime,
                         CurrentBid = b.Auction.CurrentBid
@@ -96,7 +95,7 @@ namespace AuctionService.Controllers
         [Route("{id}/latest")]
         public ActionResult<List<Bid>> GetLatestBids(int id)
         {
-            var auction = _context.Auctions.Include("Bids").Where(x=>x.Id == id).First();
+            var auction = _context.Auctions.Include("Bids").Where(x => x.Id == id).First();
             if (auction == null) { return StatusCode(StatusCodes.Status404NotFound, new Response { Status = "Error", Message = "Auction not found." }); }
 
             return auction.Bids.OrderByDescending(x => x.Id).Take(3).Select(
@@ -118,6 +117,10 @@ namespace AuctionService.Controllers
         {
             if (bidModel == null)
                 return StatusCode(StatusCodes.Status400BadRequest, new Response { Status = "Error", Message = "Bid model invalid." });
+
+            var auction = _context.Auctions.Where(x => x.Id == bidModel.AuctionId).First();
+            if (auction.UserId == bidModel.UserId)
+                return StatusCode(StatusCodes.Status400BadRequest, new Response { Status = "Error", Message = "You can not bid on your own auction." });
 
             if (await _bidService.AddBid(bidModel))
                 return Ok(new Response { Status = "Success", Message = "Bid added successfully." });

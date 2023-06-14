@@ -36,9 +36,9 @@ namespace ItemService.Controllers
         }
 
         [HttpGet("category/{categoryId}")]
-        public async Task<ActionResult<IEnumerable<Item>>> GetItemsByCategory(string categoryId)
+        public async Task<ActionResult<IEnumerable<Item>>> GetItemsByCategory(string categoryName)
         {
-            var filterDefinition = Builders<Item>.Filter.Eq(x => x.CategoryId, categoryId);
+            var filterDefinition = Builders<Item>.Filter.Eq(x => x.CategoryName, categoryName);
             return await _itemCollection.Find(filterDefinition).ToListAsync();
         }
 

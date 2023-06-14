@@ -29,7 +29,6 @@ namespace AuctionService.Services
                 return false;
 
             auction.Title = updateModel.Title;
-            auction.Description = updateModel.Description;
             auction.ItemId = updateModel.ItemId;
             auction.CurrentBid = updateModel.CurrentBid;
             auction.StartTime = updateModel.StartTime;

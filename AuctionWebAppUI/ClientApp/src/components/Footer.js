@@ -3,7 +3,7 @@
 const Footer = () => {
     return (
         <footer className="footer" style={{
-            marginInline: "auto", paddingTop: "3%", maxWidth: "2320px", paddingInline: "1%", border: "solid #0751e9 3px" }}>
+            marginInline: "auto", paddingTop: "3%", maxWidth: "2320px", paddingInline: "1%" }}>
             <div className="container">
                 <div className="row">
                     <div className="col-md-5">
