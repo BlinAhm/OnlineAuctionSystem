@@ -1,4 +1,5 @@
-﻿import { Link } from 'react-router-dom';
+﻿import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import './css/SignIn.css';
 
 const LoginTitle = () => {
@@ -13,9 +14,9 @@ const LoginTitle = () => {
 const LoginInputs = () => {
     return (
         <div className="input-div">
-            <input name="Email" id="SIemail" className="texts" type="email" placeholder="E-mail" />
+            <input name="email" id="SIemail" className="texts" type="email" placeholder="E-mail" />
             <label id="labelSIEmail"></label>
-            <input name="Password" id="SIpassword" className="texts" type="password" placeholder="Password" />
+            <input name="password" id="SIpassword" className="texts" type="password" placeholder="Password" />
             <label id="labelSIPassword"></label>
 
             <div className="remember-me">
@@ -25,7 +26,7 @@ const LoginInputs = () => {
                 <button disabled id="link-btn2">Forgot your password?</button>
             </div>
 
-            <button className="loginSubmit">Sign in</button>
+            <button id="btnSignin" className="loginSubmit">Sign in</button>
         </div>
     );
 };
@@ -47,6 +48,18 @@ const LoginForm = () => {
 };
 
 const SignIn = () => {
+    if (localStorage.getItem("user") !== null) {
+        document.location.href = "http://localhost:3000/home";
+    }
+
+    useEffect(() => {
+        document.getElementById("btnSignin").addEventListener("click", (e) => {
+            e.preventDefault();
+            signin();
+
+        });
+    });
+
     return (
         <>
             <LoginForm />
@@ -55,3 +68,23 @@ const SignIn = () => {
 };
 
 export default SignIn;
+
+async function signin() {
+    var data = new FormData(document.getElementById("formSignIn"));
+    await fetch("http://localhost:8020/api/Authenticate/login", {
+        method: "POST",
+        body: data
+    }).then(function (response) {
+        if (response.ok) {
+            return response.json();
+        }
+        else
+            console.log("error");
+    }).then(json => {
+        localStorage.setItem('roles', json.roles);
+        localStorage.setItem('userId', json.userId);
+        localStorage.setItem('user', json.user);
+        localStorage.setItem('token', json.token);
+        document.location.href = "http://localhost:3000/home";
+    });
+}

@@ -1,44 +1,44 @@
 ﻿/*Login Form*/
 .LoginForm .sign-in-container {
     width: 100%;
-    height: 850px;
+    height: 800px;
     opacity: 0.99;
-    background: linear-gradient(to right, #e2e9f6, #dce5f5, #c4d2e9, #c4d2e9, #dce5f5, #e2e9f6);
     display: flex;
     justify-content: center;
     align-items: center;
 }
-
 .LoginForm .sign-in {
     padding-top: 2%;
     position: sticky;
     width: 660px;
     height: 600px;
-    background: #2A2D34;
+    background: linear-gradient(to right, #d3d3d3, #eeeeee) padding-box, linear-gradient(to right, #aaaaaa, #bbbbbb, #cccccc) border-box;
     display: flex;
     flex-direction: column;
     align-items: center;
-    border-radius: 10px;
+    border-radius: 30px;
+    border: 2px solid transparent;
+    box-shadow: gray 2px 5px 10px;
 }
-
-.LoginForm a {
-    color: #058ED9;
-    font-size: 18px;
-    font-weight: 400;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin-top: -10px;
-    padding: 0;
-}
+        .LoginForm a {
+            color: #121111;
+            font-size: 18px;
+            font-weight: 400;
+            font-family: Bahnschrift, Tahoma, Geneva, Verdana, sans-serif;
+            margin-top: -10px;
+            padding: 0;
+            text-decoration: none;
+        }
 
     .LoginForm a:hover {
         color: #0978b4;
     }
 
 .LoginForm label {
-    color: #058ED9;
+    color: #121111;
     margin: -25px;
     font-size: 14px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: Bahnschrift, Tahoma, Geneva, Verdana, sans-serif;
     width: 360px;
     text-align: left;
     margin-top: -40px;
@@ -50,37 +50,41 @@
 }
 
 .LoginForm h1 {
-    color: white;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #121111;
+    font-family: Bahnschrift, Tahoma, Geneva, Verdana, sans-serif;
     font-size: 76px;
     font-weight: 400;
     padding-bottom: 15px;
     margin-bottom: -10px;
 }
-
-.LoginForm h5 {
-    color: white;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    .LoginForm h1:hover {
+        text-decoration: underline 3px #0996e4;
+    }
+    .LoginForm h5 {
+    color: #121111;
+    font-family: Bahnschrift, Tahoma, Geneva, Verdana, sans-serif;
     font-size: 20px;
     font-weight: 400;
     letter-spacing: 1.2px;
 }
-
-/* Login Inputs*/
-.LoginForm .input-div {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
-    min-height: 300px;
-    margin-block: 4%;
-}
+        .LoginForm h5:hover {
+            text-decoration: underline 3px #0996e4;
+        }
+    /* Login Inputs*/
+    .LoginForm .input-div {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+        min-height: 300px;
+        margin-block: 4%;
+    }
 
 .LoginForm #link-btn2 {
     color: #058ED9;
     font-size: 18px;
     font-weight: 400;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: Bahnschrift, Tahoma, Geneva, Verdana, sans-serif;
     text-decoration: none;
     margin-top: 10px;
     border: none;
@@ -98,16 +102,17 @@
     width: 360px;
     border: solid whitesmoke 1px;
     background: whitesmoke;
+    border: solid #d3d3d3 2px;
     border-radius: 10px;
     color: black;
     font-size: 16px;
-    font-weight: 400;
+    font-weight: 500;
 }
 
     .LoginForm .texts::placeholder {
         color: black;
         font-size: 16px;
-        font-weight: 400;
+        font-weight: 500;
     }
 
 .LoginForm .remember-me {
@@ -132,38 +137,39 @@
 }
 
 .LoginForm .sign-in p {
-    color: whitesmoke;
+    color: black;
     font-size: 18px;
     font-weight: 200;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: Bahnschrift, Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .LoginForm .loginSubmit {
-    color: whitesmoke;
+    color: #121111;
     font-size: 18px;
-    font-weight: 200;
+    font-weight: 400;
     text-align: center;
     height: 44px;
     width: 400px;
     border: solid transparent 1px;
-    background: #0996e4;
+    background: #1a60ee;
     border-radius: 10px;
     margin-top: -30px;
     box-shadow: 2px 2px 10px black;
     cursor: pointer;
+    color: white;
 }
 
     .LoginForm .loginSubmit:hover {
-        background-color: #1a89c6;
-        transition: 0.07s;
-        font-weight: 400;
+        background-color: #059ef3;
+        transition: 0.15s;
+        font-weight: 500;
     }
 
 .LoginForm label {
     color: crimson;
     margin: -25px;
     font-size: 14px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: Bahnschrift, Tahoma, Geneva, Verdana, sans-serif;
     width: 360px;
     text-align: left;
 }

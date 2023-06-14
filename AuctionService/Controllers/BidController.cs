@@ -35,8 +35,28 @@ namespace AuctionService.Controllers
                     UserId = b.UserId,
                     BidAmount = b.BidAmount,
                     BidDate = b.BidDate,
+                    IsWithdrawn = b.IsWithdrawn,
+                    WithdrawDate = b.WithdrawDate,
                     Auction = b.Auction
                 }).ToList();
+        }
+
+        // Get Bid by user id
+        [HttpGet]
+        [Route("user/{userId}")]
+        public ActionResult<IEnumerable<Bid>> GetBidsByUser(string userId)
+        {
+            return _context.Bids.Select(
+                b => new Bid
+                {
+                    Id = b.Id,
+                    UserId = b.UserId,
+                    BidAmount = b.BidAmount,
+                    BidDate = b.BidDate,
+                    IsWithdrawn = b.IsWithdrawn,
+                    WithdrawDate = b.WithdrawDate,
+                    Auction = b.Auction
+                }).Where(x=>x.UserId == userId).ToList();
         }
 
         // Get Bid by id
@@ -57,6 +77,8 @@ namespace AuctionService.Controllers
                     UserId = b.UserId,
                     BidAmount = b.BidAmount,
                     BidDate = b.BidDate,
+                    IsWithdrawn = b.IsWithdrawn,
+                    WithdrawDate = b.WithdrawDate,
                     Auction = new Auction
                     {
                         Id = b.Auction.Id,
@@ -68,6 +90,26 @@ namespace AuctionService.Controllers
                         CurrentBid = b.Auction.CurrentBid
                     }
                 }).Where(x => x.Id == id).First();
+        }
+        // Get latest Bids
+        [HttpGet]
+        [Route("{id}/latest")]
+        public ActionResult<List<Bid>> GetLatestBids(int id)
+        {
+            var auction = _context.Auctions.Include("Bids").Where(x=>x.Id == id).First();
+            if (auction == null) { return StatusCode(StatusCodes.Status404NotFound, new Response { Status = "Error", Message = "Auction not found." }); }
+
+            return auction.Bids.OrderByDescending(x => x.Id).Take(3).Select(
+                b => new Bid
+                {
+                    Id = b.Id,
+                    UserId = b.UserId,
+                    BidAmount = b.BidAmount,
+                    BidDate = b.BidDate,
+                    IsWithdrawn = b.IsWithdrawn,
+                    WithdrawDate = b.WithdrawDate,
+                    Auction = null
+                }).ToList();
         }
 
         // Add Bid
@@ -102,6 +144,17 @@ namespace AuctionService.Controllers
             if (await _bidService.DeleteBid(id))
                 return Ok(new Response { Status = "Success", Message = "Bid deleted successfully!" });
             return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Failed to delete bid!" });
+        }
+
+        [HttpPut]
+        [Route("{id}/withdraw")]
+        public async Task<IActionResult> WithdrawBid(int id)
+        {
+            if (await _bidService.WithdrawBid(id))
+            {
+                return Ok(new Response { Status = "Success", Message = "Bid withdrawn." });
+            }
+            return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Failed to withdraw bid!" });
         }
     }
 }
