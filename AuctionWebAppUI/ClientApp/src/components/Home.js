@@ -1,44 +1,18 @@
-/*import React, { Component } from 'react';
-
-export class Home extends Component {
-  static displayName = Home.name;
-
-  render() {
-    return (
-      <div>
-        <h1>Hello, world!</h1>
-        <p>Welcome to your new single-page application, built with:</p>
-        <ul>
-          <li><a href='https://get.asp.net/'>ASP.NET Core</a> and <a href='https://msdn.microsoft.com/en-us/library/67ef8sbd.aspx'>C#</a> for cross-platform server-side code</li>
-          <li><a href='https://facebook.github.io/react/'>React</a> for client-side code</li>
-          <li><a href='http://getbootstrap.com/'>Bootstrap</a> for layout and styling</li>
-        </ul>
-        <p>To help you get started, we have also set up:</p>
-        <ul>
-          <li><strong>Client-side navigation</strong>. For example, click <em>Counter</em> then <em>Back</em> to return here.</li>
-          <li><strong>Development server integration</strong>. In development mode, the development server from <code>create-react-app</code> runs in the background automatically, so your client-side resources are dynamically built on demand and the page refreshes when you modify any file.</li>
-          <li><strong>Efficient production builds</strong>. In production mode, development-time features are disabled, and your <code>dotnet publish</code> configuration produces minified, efficiently bundled JavaScript files.</li>
-        </ul>
-        <p>The <code>ClientApp</code> subdirectory is a standard React application based on the <code>create-react-app</code> template. If you open a command prompt in that directory, you can run <code>npm</code> commands such as <code>npm test</code> or <code>npm install</code>.</p>
-      </div>
-    );
-  }
-}*/
 import React, { useState, useEffect } from 'react';
-import Navbar from './NavBar';
-import Footer from './Footer';
+/*import Navbar from '../components/NavBar';
+import Footer from '../components/Footer';*/
 
-import './Home.css';
+import './css/Home.css';
 
 
 const Slider = () => {
     const [currentSlide, setCurrentSlide] = useState(0);
 
     const slides = [{ imageUrl: " https://images.pexels.com/photos/3720778/pexels-photo-3720778.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", title: "An empire of collections", subtitle: "The force is strong with these unique items.", },
-        { imageUrl: "https://s1.eestatic.com/2019/05/16/cultura/jeff_koons-arte-escultura_398971078_122970134_1706x960.jpg", title: "An empire of collections", subtitle: "The force is strong with these unique items.", },
-        { imageUrl: "https://images.pexels.com/photos/5442454/pexels-photo-5442454.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", title: "An empire of collections", subtitle: "The force is strong with these unique items.", },];
-   
-    const [intervalId, setIntervalId] = useState(null); // add this
+    { imageUrl: "https://s1.eestatic.com/2019/05/16/cultura/jeff_koons-arte-escultura_398971078_122970134_1706x960.jpg", title: "An empire of collections", subtitle: "The force is strong with these unique items.", },
+    { imageUrl: "https://images.pexels.com/photos/5442454/pexels-photo-5442454.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", title: "An empire of collections", subtitle: "The force is strong with these unique items.", },];
+
+    const [intervalId, setIntervalId] = useState(null);
 
     useEffect(() => {
         const id = setInterval(() => {
@@ -46,7 +20,7 @@ const Slider = () => {
                 currentSlide === slides.length - 1 ? 0 : currentSlide + 1
             );
         }, 4000);
-        setIntervalId(id); // add this
+        setIntervalId(id);
         return () => clearInterval(id);
     }, [slides.length]);
 
@@ -120,117 +94,97 @@ const Slider = () => {
                 </div>
             </div>
             <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac quam
-                quis libero hendrerit varius quis non urna. In vestibulum elit et elit
-                auctor, eget congue sapien lobortis. Donec eget massa est. Nam non
-                risus et ante placerat euismod vel vel nisi. Donec consectetur ac nunc
-                quis faucibus. Suspendisse potenti. Etiam dapibus ex sed enim laoreet,
-                ac luctus nibh dapibus. Donec vitae risus sed libero posuere
-                ullamcorper. Fusce pellentesque nulla eget massa facilisis, ac dapibus
-                arcu suscipit. Morbi quis velit vitae metus aliquam egestas sed vel
-                velit. In hac habitasse platea dictumst. Fusce venenatis velit eu
-                neque tincidunt facilisis. Aliquam venenatis, sapien a semper viverra,
-                est orci ornare ipsum, sit amet tincidunt justo eros at lorem.
+                At eBid, we are passionate about bringing the excitement and convenience of auctions to the digital realm. Our platform serves as a global marketplace, connecting buyers and sellers from all corners
+                of the world. With a commitment to trust, transparency, and an exceptional user experience, we have established ourselves as a reliable and user-friendly destination for online auctions.
+                We have designed our platform with user-friendliness in mind. From the moment you visit our website or mobile app, you'll find an intuitive interface that allows for seamless navigation and easy bidding. We believe that participating in auctions should be an enjoyable experience, and we strive to make it accessible to everyone, regardless of their technical expertise.
+                Our online auction system offers an extensive range of auctions, catering to diverse interests and passions. Whether you are a collector of fine art, a lover of antiques, or an automotive enthusiast, you'll find auctions that align with your interests. Our platform brings together auction houses, sellers, and buyers, creating a dynamic marketplace that constantly offers new and exciting opportunities.<br></br>
+                Ready to explore the world of online auctions? Join us today and experience the thrill of bidding, the joy of winning, and the endless possibilities that await you at eBid.
             </p>
         </div>
     );
 };
 
-const Categories = () => {
-    const [selectedCategory, setSelectedCategory] = useState(null);
 
-    const categories = [
-        {
-            id: 1,
-            title: "Autographed Items",
-            image: "https://images.squarespace-cdn.com/content/v1/5361973ee4b0482b3e2dd960/1600357918740-G0DTVRA0YK0MOUE7IDDZ/IMG_8432b.jpg?format=1000w/300x200",
-        },
-        {
-            id: 2,
-            title: "Beauty/Jewelry",
-            image: "https://images.pexels.com/photos/1616096/pexels-photo-1616096.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1/300x200",
-        },
-        {
-            id: 3,
-            title: "Fine Art",
-            image: "https://images.pexels.com/photos/989917/pexels-photo-989917.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1/300x200",
-        },
-        {
-            id: 4,
-            title: "Antique Timepieces",
-            image: "https://images.pexels.com/photos/179911/pexels-photo-179911.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1/600x500",
-        },
-        {
-            id: 5,
-            title: "Rare Coins",
-            image: "https://images.pexels.com/photos/325154/pexels-photo-325154.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1/600x500",
-        },
-    ];
 
-    const handleCategoryClick = (categoryId) => {
-        setSelectedCategory(categoryId);
-    };
 
-    const handleCategoryMouseLeave = () => {
-        setSelectedCategory(null);
-    };
-
+const FeaturedAuctioneers = () => {
     return (
-        <div className="categories">
-            <h2>Categories</h2>
-            <div className="categories-container">
-                {categories.slice(0, 3).map((category) => (
-                    <div
-                        key={category.id}
-                        className="category"
-                        onMouseEnter={() => handleCategoryClick(category.id)}
-                        onMouseLeave={handleCategoryMouseLeave}
-                    >
-                        <div className="category-image">
-                            <img src={category.image} alt={category.title} />
+        <div className="featured-auctioneers-container">
+            <div className="featured-auctioneers-wrapper">
+                <div className="featured-auctioneers-header">
+                    <h2 className="featured-auctioneers-title">Our collaborators</h2>
+                </div>
+                <section className="auctioneers-carousel" data-testid="carousel">
+                    <div className="carousel-container">
+                        <div className="carousel-card" style={{ marginRight: '15px', width: 'fit-content' }}>
+                            <a className="auctioneer-card" href="/auctioneer/4098/everard-auctions-and-appraisals/?utm_source=LiveAuctioneers&utm_medium=banner&utm_campaign=FA_4098_20230610">
+                                <img alt="Everard Auctions & Appraisals" height="104" loading="lazy" src="https://images.liveauctioneers.com/static/mail/images/auctioneers/featured_auctioneers_everard_368x208.jpg?quality=100&width=184" width="184" className="auctioneer-card-image" />
+                                <div className="visibility-element"></div>
+                            </a>
                         </div>
-                        <div className={`category-overlay ${selectedCategory === category.id ? 'active' : ''}`}>
-                            <h3>{category.title}</h3>
-                            <button>View More</button>
+                        <div className="carousel-card" style={{ marginRight: '15px', width: 'fit-content' }}>
+                            <a className="auctioneer-card" href="/auctioneer/4740/mecum-auctions/?utm_source=LiveAuctioneers&utm_medium=banner&utm_campaign=FA_4740_20230610">
+                                <img alt="" height="104" loading="lazy" src="https://images.liveauctioneers.com/static/mail/images/auctioneers/featured_auctioneers_mecum_368x208.jpg?quality=100&width=184" width="184" className="auctioneer-card-image" />
+                                <div className="visibility-element"></div>
+                            </a>
                         </div>
-                    </div>
-                ))}
-            </div>
-            <div className="categories-container">
-                {categories.slice(3, 5).map((category) => (
-                    <div
-                        key={category.id}
-                        className="category"
-                        onMouseEnter={() => handleCategoryClick(category.id)}
-                        onMouseLeave={handleCategoryMouseLeave}
-                    >
-                        <div className="category-image">
-                            <img src={category.image} alt={category.title} />
+                        <div className="carousel-card" style={{ marginRight: '15px', width: 'fit-content' }}>
+                            <a className="auctioneer-card" href="/auctioneer/4740/mecum-auctions/?utm_source=LiveAuctioneers&utm_medium=banner&utm_campaign=FA_4740_20230610">
+                                <img alt="" height="104" loading="lazy" src="https://images.liveauctioneers.com/static/mail/images/auctioneers/featured_auctioneers_piasa1_368x208.jpg?quality=100&amp" width="184" className="auctioneer-card-image" />
+                                <div className="visibility-element"></div>
+                            </a>
                         </div>
-                        <div className={`category-overlay ${selectedCategory === category.id ? 'active' : ''}`}>
-                            <h3>{category.title}</h3>
-                            <button>View More</button>
+                        <div className="carousel-card" style={{ marginRight: '15px', width: 'fit-content' }}>
+                            <a className="auctioneer-card" href="/auctioneer/4740/mecum-auctions/?utm_source=LiveAuctioneers&utm_medium=banner&utm_campaign=FA_4740_20230610">
+                                <img alt="" height="104" loading="lazy" src="https://images.liveauctioneers.com/static/mail/images/auctioneers/featured_auctioneers_holabird_368x208.jpg?quality=100&amp;width=184" width="184" className="auctioneer-card-image" />
+                                <div className="visibility-element"></div>
+                            </a>
                         </div>
                     </div>
-                ))}
+                </section>
             </div>
         </div>
     );
 };
 
 
+
+
+
+
+
+
+
+const QualitySection = () => {
+    return (
+        <div className="quality-section">
+            <h2>Quality Approved</h2>
+            <div className="quality-image">
+                <img src="https://images.pexels.com/photos/8553864/pexels-photo-8553864.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Quality Approved" />
+                <p>Thank you for trusting us</p>
+            </div>
+            <p>
+                Our collection encapsulates the essence of timeless elegance, seamlessly blending classic aesthetics with contemporary design. Each piece possesses an enduring allure that transcends passing trends,
+                ensuring that they will remain cherished heirlooms for generations to come.
+                With meticulous attention to detail and a commitment to preserving the integrity of traditional craftsmanship, we have created a collection that stands as a testament to the enduring beauty of human creativity.
+            </p>
+        </div>
+    );
+};
+
+
+
 const Home = () => {
     return (
         <>
-            <Navbar />
             <Slider />
             <AboutUs />
-            <Categories />
-            <Footer/>
+            < FeaturedAuctioneers />
+            < QualitySection />
+
+            {/* <Categories/> */}
         </>
     );
 };
 
 export default Home;
-
-
