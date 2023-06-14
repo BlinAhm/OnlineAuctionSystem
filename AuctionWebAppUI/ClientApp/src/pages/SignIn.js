@@ -79,9 +79,8 @@ async function signin() {
             return response.json();
         }
         else
-            console.log("no");
+            console.log("error");
     }).then(json => {
-        console.log(JSON.stringify(json));
         localStorage.setItem('roles', json.roles);
         localStorage.setItem('userId', json.userId);
         localStorage.setItem('user', json.user);

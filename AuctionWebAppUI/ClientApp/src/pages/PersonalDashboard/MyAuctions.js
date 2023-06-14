@@ -1,4 +1,5 @@
-﻿import { Link } from 'react-router-dom';
+﻿import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import '../css/AuctionCreate.css';
 import '../css/MyAuctions.css';
 
@@ -13,7 +14,25 @@ const TabLeft = () => {
     );
 };
 
+var deleteId;
+
 const TabRight = () => {
+    const [auctions, setAuctions] = useState([]);
+
+    useEffect(() => {
+        getAuctions();
+    }, []);
+
+    async function getAuctions() {
+        await fetch("http://localhost:8040/api/Auction/user/" + localStorage.getItem("userId"), {
+            method: "GET",
+        }).then(function (response) {
+            return response.json();
+        }).then(function (data) {
+            setAuctions(data);
+        });
+    }
+
     return (
         <div className="my_auction_right">
             <div className="tab_header">My Auctions</div>
@@ -30,62 +49,100 @@ const TabRight = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Test</td>
-                        <td>Item</td>
-                        <td style={{ textAlign: "justify", fontSize:"15px" }}>Test item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item description</td>
-                        <td>2023-02-02 12:00:00<br />2023-02-02 12:00:00</td>
-                        <td>1000</td>
-                        <td><i className="bi bi-pencil"></i></td>
-                        <td><i className="bi bi-trash"></i></td>
-                    </tr>
-                    <tr>
-                        <td>Test</td>
-                        <td>Item</td>
-                        <td style={{ textAlign: "justify", fontSize: "15px" }}>Test item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item description</td>
-                        <td>2023-02-02 12:00:00<br />2023-02-02 12:00:00</td>
-                        <td>1000</td>
-                        <td><i className="bi bi-pencil"></i></td>
-                        <td><i className="bi bi-trash"></i></td>
-                    </tr>
-                    <tr>
-                        <td>Test</td>
-                        <td>Item</td>
-                        <td style={{ textAlign: "justify", fontSize: "15px" }}>Test item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item description</td>
-                        <td>2023-02-02 12:00:00<br />2023-02-02 12:00:00</td>
-                        <td>1000</td>
-                        <td><i className="bi bi-pencil"></i></td>
-                        <td><i className="bi bi-trash"></i></td>
-                    </tr>
-                    <tr>
-                        <td>Test</td>
-                        <td>Item</td>
-                        <td style={{ textAlign: "justify", fontSize: "15px" }}>Test item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item description</td>
-                        <td>2023-02-02 12:00:00<br />2023-02-02 12:00:00</td>
-                        <td>1000</td>
-                        <td><i className="bi bi-pencil"></i></td>
-                        <td><i className="bi bi-trash"></i></td>
-                    </tr>
-                    <tr>
-                        <td>Test</td>
-                        <td>Item</td>
-                        <td style={{ textAlign: "justify", fontSize: "15px" }}>Test item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item description</td>
-                        <td>2023-02-02 12:00:00<br />2023-02-02 12:00:00</td>
-                        <td>1000</td>
-                        <td><i className="bi bi-pencil"></i></td>
-                        <td><i className="bi bi-trash"></i></td>
-                    </tr>
-                    <tr>
-                        <td>Test</td>
-                        <td>Item</td>
-                        <td style={{ textAlign: "justify", fontSize: "15px" }}>Test item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item description</td>
-                        <td>2023-02-02 12:00:00<br />2023-02-02 12:00:00</td>
-                        <td>1000</td>
-                        <td><i className="bi bi-pencil"></i></td>
-                        <td><i className="bi bi-trash"></i></td>
-                    </tr>
+                    {auctions?.map((key) => (
+                        <tr key={key.id}>
+                            <td>{key.title}</td>
+                            <td>Item</td>
+                            <td style={{ textAlign: "justify", fontSize: "15px" }}>{key.description}</td>
+                            <td>{key.startTime.split('T')[0] + " " + key.startTime.split('T')[1]}<br />{key.endTime.split('T')[0] + " " + key.endTime.split('T')[1]}</td>
+                            <td>{key.currentBid?.bidAmount == null ? "No bids" : key.currentBid?.bidAmount}</td>
+                            <td><i onClick={() => {
+                                fillEdit(key.title, key.description, "name", "condition");
+                            }} className="bi bi-pencil"></i></td>
+                            <td><i onClick={() => {
+                                document.getElementsByClassName("my_auctions_delete_form")[0].style.display = "block";
+                                document.getElementById("auction_title").innerHTML = key.title;
+                                deleteId = key.id;
+                            }} className="bi bi-trash"></i></td>
+                        </tr>
+                    )) ?? ""}
                 </tbody>
             </table>
+        </div>
+    );
+};
+
+const EditForm = () => {
+    return (
+        <div style={{ display: "none" }} className="my_auctions_edit_form">
+            <div className="edit_content">
+
+                <i onClick={() => {
+                    document.getElementsByClassName("my_auctions_edit_form")[0].style.display = "none";
+                }} className="bi bi-x"></i>
+
+                <p className="edit_title">Edit auction:</p>
+
+                <div className="edit_inputs">
+                    <div className="inputs_left">
+                        <p>Title</p>
+                        <input id="title_edit" type="text" />
+                        <p>Description</p>
+                        <textarea id="description_edit"></textarea>
+                        <p>Name</p>
+                        <input id="name_edit" type="text" />
+                        <p>Condition</p>
+                        <input id="condition_edit" type="text" />
+                    </div>
+
+                    <div className="inputs_right">
+                        <p>Category</p>
+                        <select>
+                            <option>Test1</option>
+                            <option>Test2</option>
+                        </select>
+
+                        <input type="submit" className="edit_submitBtn" value="Save" />
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    );
+};
+
+const DeleteForm = () => {
+
+    async function deleteAuction() {
+        await fetch("http://localhost:8040/api/Auction/" + deleteId, {
+            method: "DELETE",
+        }).then(function (response) {
+            return response.json();
+        }).then(function () {
+            document.location.href = "http://localhost:3000/my-auctions";
+        });
+    }
+
+    return (
+        <div style={{ display: "none" }} className="my_auctions_delete_form">
+            <div className="delete_content">
+
+                <p>Are you sure you want to delete this auction:</p>
+                <p id="auction_title" style={{ fontWeight: "bold", marginTop: "10px" }}>Title</p>
+
+                <div>
+                    <div onClick={
+                        () => {
+                            document.getElementsByClassName("my_auctions_delete_form")[0].style.display = "none";
+                        }
+                    }>No</div>
+                    <div onClick={
+                        () => {
+                            deleteAuction();
+                        }
+                    }>Yes</div>
+                </div>
+            </div>
         </div>
     );
 };
@@ -95,8 +152,28 @@ const MyAuctions = () => {
         <div className="ac_container">
             <TabLeft />
             <TabRight />
+            <EditForm />
+            <DeleteForm />
         </div>
     );
 };
 
 export default MyAuctions;
+
+function fillEdit(title, description, name, condition) {
+    document.getElementById("title_edit").value = title;
+    document.getElementById("description_edit").value = description;
+    document.getElementById("name_edit").value = name;
+    document.getElementById("condition_edit").value = condition;
+
+    document.getElementsByClassName("my_auctions_edit_form")[0].style.display = "block";
+}
+
+window.onclick = function (event) {
+    if (event.target === document.getElementsByClassName("my_auctions_edit_form")[0]) {
+        document.getElementsByClassName("my_auctions_edit_form")[0].style.display = "none";
+    }
+    if (event.target === document.getElementsByClassName("my_auctions_delete_form")[0]) {
+        document.getElementsByClassName("my_auctions_delete_form")[0].style.display = "none";
+    }
+} 
