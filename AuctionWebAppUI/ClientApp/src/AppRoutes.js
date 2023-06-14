@@ -2,6 +2,8 @@ import Home from "./pages/Home";
 import Auction from "./pages/Auction";
 import SignIn from "./pages/SignIn";
 import Register from "./pages/Register";
+import AuctionList from "./pages/AuctionList";
+
 
 
 const AppRoutes = [
@@ -24,6 +26,10 @@ const AppRoutes = [
     {
         path: '/auction',
         element: <Auction />
+    },
+    {
+        path: '/category/:categoryId',
+        element: <AuctionList />
     }
 ];
 
