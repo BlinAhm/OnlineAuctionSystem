@@ -15,12 +15,15 @@ const TabLeft = () => {
 };
 
 var deleteId;
+var deleteIdItem;
 
 const TabRight = () => {
     const [auctions, setAuctions] = useState([]);
+    const [items, setItems] = useState([]);
 
     useEffect(() => {
         getAuctions();
+        getItems();
     }, []);
 
     async function getAuctions() {
@@ -31,6 +34,37 @@ const TabRight = () => {
         }).then(function (data) {
             setAuctions(data);
         });
+    }
+
+    async function getItems() {
+        await fetch("http://localhost:18006/api/Item/", {
+            method: "GET",
+        }).then(function (response) {
+            return response.json();
+        }).then(function (data) {
+            setItems(data);
+        });
+    }
+
+    function getItemName(id) {
+        var name;
+
+        items?.forEach((key) => {
+            if (key.itemId === id) {
+                name = key.name;
+            }
+        });
+        return name;
+    }
+    function getItemDescription(id) {
+        var description;
+
+        items?.forEach((key) => {
+            if (key.itemId === id) {
+                description = key.description;
+            }
+        });
+        return description;
     }
 
     return (
@@ -52,8 +86,8 @@ const TabRight = () => {
                     {auctions?.map((key) => (
                         <tr key={key.id}>
                             <td>{key.title}</td>
-                            <td>Item</td>
-                            <td style={{ textAlign: "justify", fontSize: "15px" }}>{key.description}</td>
+                            <td>{getItemName(key.itemId)}</td>
+                            <td style={{ textAlign: "justify", fontSize: "15px" }}>{getItemDescription(key.itemId)}</td>
                             <td>{key.startTime.split('T')[0] + " " + key.startTime.split('T')[1]}<br />{key.endTime.split('T')[0] + " " + key.endTime.split('T')[1]}</td>
                             <td>{key.currentBid?.bidAmount == null ? "No bids" : key.currentBid?.bidAmount}</td>
                             <td><i onClick={() => {
@@ -63,6 +97,7 @@ const TabRight = () => {
                                 document.getElementsByClassName("my_auctions_delete_form")[0].style.display = "block";
                                 document.getElementById("auction_title").innerHTML = key.title;
                                 deleteId = key.id;
+                                deleteIdItem = key.itemId;
                             }} className="bi bi-trash"></i></td>
                         </tr>
                     )) ?? ""}
@@ -118,7 +153,11 @@ const DeleteForm = () => {
             method: "DELETE",
         }).then(function (response) {
             return response.json();
-        }).then(function () {
+        }).then();
+
+        await fetch("http://localhost:18006/api/Item/" + deleteIdItem, {
+            method: "DELETE",
+        }).then().then(function () {
             document.location.href = "http://localhost:3000/my-auctions";
         });
     }

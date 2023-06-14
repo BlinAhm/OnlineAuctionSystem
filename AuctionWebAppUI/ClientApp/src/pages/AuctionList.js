@@ -17,7 +17,7 @@ const AuctionList = () => {
         };
 
         fetchItems();
-    }, [categoryId]);
+    }, [categoryName]);
 
     return (
         <div>

@@ -18,9 +18,11 @@ var withdrawId;
 
 const TabRight = () => {
     const [bids, setBids] = useState([]);
+    const [items, setItems] = useState([]);
 
     useEffect(() => {
         getBids();
+        getItems();
     }, []);
 
     async function getBids() {
@@ -31,6 +33,26 @@ const TabRight = () => {
         }).then(function (data) {
             setBids(data);
         });
+    }
+    async function getItems() {
+        await fetch("http://localhost:18006/api/Item/", {
+            method: "GET",
+        }).then(function (response) {
+            return response.json();
+        }).then(function (data) {
+            setItems(data);
+        });
+    }
+
+    function getItemName(id) {
+        var name;
+
+        items?.forEach((key) => {
+            if (key.itemId === id) {
+                name = key.name;
+            }
+        });
+        return name;
     }
 
     function withdrawBid(title, bidId) {
@@ -55,7 +77,7 @@ const TabRight = () => {
                 <tbody>{bids?.map((key) => (
                     <tr key={key.id}>
                         <td>{key.auction.title}</td>
-                        <td>Item</td>
+                        <td>{getItemName(key.auction.itemId)}</td>
                         <td>{key.bidDate.split("T")[0] + " " + key.bidDate.split("T")[1]}</td>
                         <td>{key.bidAmount}</td>
 
