@@ -2,6 +2,7 @@
 using AuctionService.Models;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace AuctionService.Services
 {
@@ -30,7 +31,9 @@ namespace AuctionService.Services
                 UserId = bidModel.UserId,
                 BidAmount = bidModel.BidAmount,
                 BidDate = DateTime.Parse(DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss")),
-                Auction = auction
+                Auction = auction,
+                IsWithdrawn = false,
+                WithdrawDate = null
             };
             await _context.Bids.AddAsync(bid);
             //Update current bid for auction
@@ -50,6 +53,8 @@ namespace AuctionService.Services
             bid.UserId = updateModel.UserId;
             bid.BidAmount = updateModel.BidAmount;
             bid.BidDate = updateModel.BidDate;
+            bid.IsWithdrawn = updateModel.IsWithdrawn;
+            bid.WithdrawDate = updateModel.WithdrawDate;
             bid.Auction = updateModel.Auction;
 
             await _context.SaveChangesAsync();
@@ -69,6 +74,34 @@ namespace AuctionService.Services
             await _context.SaveChangesAsync();
 
             if (await _context.Bids.FindAsync(id) == null)
+                return true;
+            return false;
+        }
+
+        public async Task<bool> WithdrawBid(int id)
+        {
+            var bid = _context.Bids.Include(x => x.Auction).Where(x => x.Id == id).First();
+            if (bid == null)
+                return false;
+
+            bid.IsWithdrawn = true;
+            bid.WithdrawDate = DateTime.Now;
+            await _context.SaveChangesAsync();
+
+            Auction? auction = _context.Auctions.Include(x => x.CurrentBid).Include(x => x.Bids).Where(x => x.Id == bid.Auction.Id).First();
+            if (auction == null) { return false; }
+
+            if (auction.CurrentBid == bid)
+            {
+                var cb = auction.Bids.OrderByDescending(x => x.Id).Take(10).Where(x => x.IsWithdrawn == false).FirstOrDefault();
+                auction.CurrentBid = cb;
+            }
+
+            await _context.SaveChangesAsync();
+            if (auction.CurrentBid == null)
+                return true;
+
+            if (auction.CurrentBid != bid && bid.IsWithdrawn == true && auction.CurrentBid.IsWithdrawn == false)
                 return true;
             return false;
         }

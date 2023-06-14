@@ -2,6 +2,47 @@
 import { Link } from 'react-router-dom';
 import './css/NavBar.css';
 
+const NavBarLinks = () => {
+    if (localStorage.getItem("user") !== null) {
+        if (localStorage.getItem("roles").split(",").includes("Admin")) {
+            var user = localStorage.getItem("user").split(",")[0];
+
+            return (
+                <div className="navbar-right" style={{ display: "flex", alignItems: "center" }}>
+                    <Link to="/home" className="n_links">Home</Link>
+                    <Link to="/category" className="n_links">Browse</Link>
+                    <Link to="/my-bids" className="n_links">My Dashboard</Link>
+                    <Link to="/admin" className="n_links">Admin</Link>
+                    <div className="n_user">Welcome: {user}</div>
+                    <Link to="/log-out" className="logout">Log out</Link>
+                </div>
+            );
+        } else if (localStorage.getItem("roles").split(",").includes("User")) {
+            var user = localStorage.getItem("user").split(",")[0];
+
+            return (
+                <div className="navbar-right" style={{ display: "flex", alignItems: "center" }}>
+                    <Link to="/home" className="n_links">Home</Link>
+                    <Link to="/category" className="n_links">Browse</Link>
+                    <Link to="/my-bids" className="n_links">My Dashboard</Link>
+                    <div className="n_user">Welcome: {user}</div>
+                    <Link to="/log-out" className="logout">Log out</Link>
+                </div>
+            );
+        }
+    }
+    return (
+        <div className="navbar-right" style={{ display: "flex", alignItems: "center" }}>
+            <Link to="/home" className="n_links">Home</Link>
+            <Link to="/category" className="n_links">Browse</Link>
+            <Link to="/sign-in" className="n_links">Sell</Link>
+            <Link to="/sign-in" className="n_links login">Sign In</Link>
+            <Link to="/register" className="n_links login">Register</Link>
+        </div>
+    );
+
+};
+
 const Navbar = () => {
     return (
         <>
@@ -23,13 +64,8 @@ const Navbar = () => {
                         </select>
                     </div>
                 </div>
-                <div className="navbar-right" style={{ display: "flex", alignItems: "center" }}>
-                    <Link to="/home" className="n_links">Home</Link>
-                    <Link to="/category" className="n_links">Browse</Link>
-                    <Link to="/sell" className="n_links">Sell</Link>
-                    <Link to="/sign-in" className="n_links login">Sign In</Link>
-                    <Link to="/register" className="n_links login">Register</Link>
-                </div>
+
+                <NavBarLinks />
             </nav>
             <hr></hr>
         </>
