@@ -22,8 +22,8 @@ namespace ItemService.Models
         public int Price { get; set; }
 
         [BsonElement("_category")]
-        [BsonRepresentation(BsonType.ObjectId)]
-        public string CategoryId { get; set; } // Foreign key referencing Category
+        [BsonRepresentation(BsonType.String)]
+        public string CategoryName { get; set; } // Foreign key referencing Category
 
 
     }

@@ -2,13 +2,13 @@
 import { useParams } from 'react-router-dom';
 
 const AuctionList = () => {
-    const { categoryId } = useParams();
+    const { categoryName } = useParams();
     const [items, setItems] = useState([]);
 
     useEffect(() => {
         const fetchItems = async () => {
             try {
-                const response = await fetch(`/api/item/category/${categoryId}`);
+                const response = await fetch(`/api/item/category/${categoryName}`);
                 const data = await response.json();
                 setItems(data);
             } catch (error) {
@@ -21,7 +21,7 @@ const AuctionList = () => {
 
     return (
         <div>
-            <h2>Items for Category {categoryId}</h2>
+            <h2>Items for Category {categoryName}</h2>
             {items.map((item) => (
                 <div key={item.ItemId}>
                     <h3>{item.Name}</h3>

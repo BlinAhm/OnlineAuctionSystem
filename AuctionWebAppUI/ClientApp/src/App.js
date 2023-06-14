@@ -19,7 +19,7 @@ export default class App extends Component {
                     return <Route key={index} {...rest} element={element} />;
                 })}
                 {/* Add the route for the AuctionListPage */}
-                <Route path="/category/:categoryId" element={<AuctionList />} />
+                <Route path="/category/:categoryName" element={<AuctionList />} />
             </Routes>
       </Layout>
     );

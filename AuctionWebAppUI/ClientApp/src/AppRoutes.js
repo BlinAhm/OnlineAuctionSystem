@@ -28,7 +28,7 @@ const AppRoutes = [
         element: <Auction />
     },
     {
-        path: '/category/:categoryId',
+        path: '/category/:categoryName',
         element: <AuctionList />
     }
 ];

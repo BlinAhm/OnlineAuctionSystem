@@ -10,7 +10,7 @@ namespace ItemService.Models
         public int CategoryId { get; set; }
 
         [BsonElement("category_name"), BsonRepresentation(BsonType.String)]
-        public string Name { get; set; }
+        public string CategoryName { get; set; }
 
     }
 }
