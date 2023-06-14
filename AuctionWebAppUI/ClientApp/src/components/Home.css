@@ -114,7 +114,7 @@
         .home-nav-buttons a:hover {
             background-color: #666;
         }
-..about-us {
+.about-us {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -167,11 +167,17 @@
 
 .category {
     position: relative;
-    width: 300px;
+    width: 200px;
     height: 200px;
     margin: 10px;
     overflow: hidden;
 }
+
+.categories-row {
+    display: flex;
+    justify-content: space-between;
+}
+
 
 .category-image img {
     width: 100%;

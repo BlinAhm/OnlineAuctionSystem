@@ -1,0 +1,44 @@
+version: '3.4'
+
+networks:
+  backend:
+  frontend:
+
+services:
+  userdb:
+    container_name: user-db
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=Password_123
+    networks:
+      - backend
+    ports:
+      - 8010:1433
+  userservice:
+    container_name: user-service
+    image: ${DOCKER_REGISTRY-}userservice
+    build:
+      context: .
+      dockerfile: UserService/Dockerfile
+    networks:
+      - backend
+    ports:
+      - 8020:80
+    depends_on:
+      - userdb
+    environment:
+      - ConnectionStrings__UserServiceContextConnection=Data Source=userdb;Initial Catalog=users;User ID=sa;Password=Password_123;
+  auctionwebappui:
+    container_name: auction-ui
+    image: ${DOCKER_REGISTRY-}auctionwebappui
+    build:
+      context: AuctionWebAppUI/ClientApp
+      dockerfile: Dockerfile
+    networks:
+      - frontend
+    ports:
+      - 3000:3000
+    stdin_open: true
+    tty: true
+

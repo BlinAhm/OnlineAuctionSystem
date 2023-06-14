@@ -1,0 +1,15 @@
+version: '3.4'
+
+services:
+  userservice:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "80"
+
+  auctionwebappui:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "3000"
+
