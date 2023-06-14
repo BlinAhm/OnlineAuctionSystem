@@ -14,6 +14,8 @@ const TabLeft = () => {
     );
 };
 
+var deleteId;
+
 const TabRight = () => {
     const [auctions, setAuctions] = useState([]);
 
@@ -52,13 +54,15 @@ const TabRight = () => {
                             <td>{key.title}</td>
                             <td>Item</td>
                             <td style={{ textAlign: "justify", fontSize: "15px" }}>{key.description}</td>
-                            <td>{key.startTime}<br />{key.endTime}</td>
-                            <td>{key.currentBid?.bidAmount}</td>
+                            <td>{key.startTime.split('T')[0] + " " + key.startTime.split('T')[1]}<br />{key.endTime.split('T')[0] + " " + key.endTime.split('T')[1]}</td>
+                            <td>{key.currentBid?.bidAmount == null ? "No bids" : key.currentBid?.bidAmount}</td>
                             <td><i onClick={() => {
-                                document.getElementsByClassName("my_auctions_edit_form")[0].style.display = "block";
+                                fillEdit(key.title, key.description, "name", "condition");
                             }} className="bi bi-pencil"></i></td>
                             <td><i onClick={() => {
                                 document.getElementsByClassName("my_auctions_delete_form")[0].style.display = "block";
+                                document.getElementById("auction_title").innerHTML = key.title;
+                                deleteId = key.id;
                             }} className="bi bi-trash"></i></td>
                         </tr>
                     )) ?? ""}
@@ -82,13 +86,13 @@ const EditForm = () => {
                 <div className="edit_inputs">
                     <div className="inputs_left">
                         <p>Title</p>
-                        <input type="text" />
+                        <input id="title_edit" type="text" />
                         <p>Description</p>
-                        <textarea></textarea>
+                        <textarea id="description_edit"></textarea>
                         <p>Name</p>
-                        <input type="text" />
+                        <input id="name_edit" type="text" />
                         <p>Condition</p>
-                        <input type="text" />
+                        <input id="condition_edit" type="text" />
                     </div>
 
                     <div className="inputs_right">
@@ -108,12 +112,23 @@ const EditForm = () => {
 };
 
 const DeleteForm = () => {
+
+    async function deleteAuction() {
+        await fetch("http://localhost:8040/api/Auction/" + deleteId, {
+            method: "DELETE",
+        }).then(function (response) {
+            return response.json();
+        }).then(function () {
+            document.location.href = "http://localhost:3000/my-auctions";
+        });
+    }
+
     return (
         <div style={{ display: "none" }} className="my_auctions_delete_form">
             <div className="delete_content">
 
                 <p>Are you sure you want to delete this auction:</p>
-                <p id="bid_title" style={{ fontWeight: "bold", marginTop: "10px" }}>Title</p>
+                <p id="auction_title" style={{ fontWeight: "bold", marginTop: "10px" }}>Title</p>
 
                 <div>
                     <div onClick={
@@ -123,7 +138,7 @@ const DeleteForm = () => {
                     }>No</div>
                     <div onClick={
                         () => {
-
+                            deleteAuction();
                         }
                     }>Yes</div>
                 </div>
@@ -144,6 +159,15 @@ const MyAuctions = () => {
 };
 
 export default MyAuctions;
+
+function fillEdit(title, description, name, condition) {
+    document.getElementById("title_edit").value = title;
+    document.getElementById("description_edit").value = description;
+    document.getElementById("name_edit").value = name;
+    document.getElementById("condition_edit").value = condition;
+
+    document.getElementsByClassName("my_auctions_edit_form")[0].style.display = "block";
+}
 
 window.onclick = function (event) {
     if (event.target === document.getElementsByClassName("my_auctions_edit_form")[0]) {
