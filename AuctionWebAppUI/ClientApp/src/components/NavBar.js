@@ -10,7 +10,7 @@ const NavBarLinks = () => {
             return (
                 <div className="navbar-right" style={{ display: "flex", alignItems: "center" }}>
                     <Link to="/home" className="n_links">Home</Link>
-                    <Link to="/browse" className="n_links">Browse</Link>
+                    <Link to="/category" className="n_links">Browse</Link>
                     <Link to="/my-bids" className="n_links">My Dashboard</Link>
                     <Link to="/admin" className="n_links">Admin</Link>
                     <div className="n_user">Welcome: {user}</div>
@@ -23,7 +23,7 @@ const NavBarLinks = () => {
             return (
                 <div className="navbar-right" style={{ display: "flex", alignItems: "center" }}>
                     <Link to="/home" className="n_links">Home</Link>
-                    <Link to="/browse" className="n_links">Browse</Link>
+                    <Link to="/category" className="n_links">Browse</Link>
                     <Link to="/my-bids" className="n_links">My Dashboard</Link>
                     <div className="n_user">Welcome: {user}</div>
                     <Link to="/log-out" className="logout">Log out</Link>
@@ -34,7 +34,7 @@ const NavBarLinks = () => {
     return (
         <div className="navbar-right" style={{ display: "flex", alignItems: "center" }}>
             <Link to="/home" className="n_links">Home</Link>
-            <Link to="/browse" className="n_links">Browse</Link>
+            <Link to="/category" className="n_links">Browse</Link>
             <Link to="/sign-in" className="n_links">Sell</Link>
             <Link to="/sign-in" className="n_links login">Sign In</Link>
             <Link to="/register" className="n_links login">Register</Link>
@@ -46,7 +46,7 @@ const NavBarLinks = () => {
 const Navbar = () => {
     return (
         <>
-            <nav className="navbar" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <nav className="navbar" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", maxWidth: "2320px" }}>
                 <div className="navbar-left" style={{ display: "flex", alignItems: "center" }}>
                     <Link to="/" className="navbar-logo" style={{ fontSize: "24px", fontWeight: "bold", color: "#333" }}>
                         eBid
@@ -64,6 +64,7 @@ const Navbar = () => {
                         </select>
                     </div>
                 </div>
+
                 <NavBarLinks />
             </nav>
             <hr></hr>

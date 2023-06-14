@@ -10,4 +10,8 @@
     <Folder Include="Controllers\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Stripe.net" Version="41.20.0" />
+  </ItemGroup>
+
 </Project>
