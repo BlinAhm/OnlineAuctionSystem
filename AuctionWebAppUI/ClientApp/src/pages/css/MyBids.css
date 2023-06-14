@@ -1,7 +1,7 @@
 ﻿.ac_container .my_bids_right {
     display: flex;
     flex-direction: column;
-    justify-content: start;
+    justify-content: flex-start;
     text-align: center;
     padding: 2%;
     width: 80%;

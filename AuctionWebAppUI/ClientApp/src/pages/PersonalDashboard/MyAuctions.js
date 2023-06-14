@@ -1,4 +1,5 @@
-﻿import { Link } from 'react-router-dom';
+﻿import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import '../css/AuctionCreate.css';
 import '../css/MyAuctions.css';
 
@@ -14,6 +15,22 @@ const TabLeft = () => {
 };
 
 const TabRight = () => {
+    const [auctions, setAuctions] = useState([]);
+
+    useEffect(() => {
+        getAuctions();
+    }, []);
+
+    async function getAuctions() {
+        await fetch("http://localhost:8040/api/Auction/user/" + localStorage.getItem("userId"), {
+            method: "GET",
+        }).then(function (response) {
+            return response.json();
+        }).then(function (data) {
+            setAuctions(data);
+        });
+    }
+
     return (
         <div className="my_auction_right">
             <div className="tab_header">My Auctions</div>
@@ -30,19 +47,21 @@ const TabRight = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Test</td>
-                        <td>Item</td>
-                        <td style={{ textAlign: "justify", fontSize: "15px" }}>Test item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item descriptionTest item description</td>
-                        <td>2023-02-02 12:00:00<br />2023-02-02 12:00:00</td>
-                        <td>1000</td>
-                        <td><i onClick={() => {
-                            document.getElementsByClassName("my_auctions_edit_form")[0].style.display = "block";
-                        }} className="bi bi-pencil"></i></td>
-                        <td><i onClick={() => {
-                            document.getElementsByClassName("my_auctions_delete_form")[0].style.display = "block"; 
-                        }} className="bi bi-trash"></i></td>
-                    </tr>
+                    {auctions?.map((key) => (
+                        <tr key={key.id}>
+                            <td>{key.title}</td>
+                            <td>Item</td>
+                            <td style={{ textAlign: "justify", fontSize: "15px" }}>{key.description}</td>
+                            <td>{key.startTime}<br />{key.endTime}</td>
+                            <td>{key.currentBid?.bidAmount}</td>
+                            <td><i onClick={() => {
+                                document.getElementsByClassName("my_auctions_edit_form")[0].style.display = "block";
+                            }} className="bi bi-pencil"></i></td>
+                            <td><i onClick={() => {
+                                document.getElementsByClassName("my_auctions_delete_form")[0].style.display = "block";
+                            }} className="bi bi-trash"></i></td>
+                        </tr>
+                    )) ?? ""}
                 </tbody>
             </table>
         </div>
@@ -55,7 +74,7 @@ const EditForm = () => {
             <div className="edit_content">
 
                 <i onClick={() => {
-                    document.getElementsByClassName("my_auctions_edit_form")[0].style.display = "none"; 
+                    document.getElementsByClassName("my_auctions_edit_form")[0].style.display = "none";
                 }} className="bi bi-x"></i>
 
                 <p className="edit_title">Edit auction:</p>
@@ -104,7 +123,7 @@ const DeleteForm = () => {
                     }>No</div>
                     <div onClick={
                         () => {
-                            
+
                         }
                     }>Yes</div>
                 </div>
@@ -127,12 +146,10 @@ const MyAuctions = () => {
 export default MyAuctions;
 
 window.onclick = function (event) {
-    var modalEdit = document.getElementsByClassName("my_auctions_edit_form")[0];
-    var modalDelete = document.getElementsByClassName("my_auctions_delete_form")[0];
-    if (event.target === modalEdit) {
-        modalEdit.style.display = "none";
+    if (event.target === document.getElementsByClassName("my_auctions_edit_form")[0]) {
+        document.getElementsByClassName("my_auctions_edit_form")[0].style.display = "none";
     }
-    if (event.target === modalDelete) {
-        modalDelete.style.display = "none";
+    if (event.target === document.getElementsByClassName("my_auctions_delete_form")[0]) {
+        document.getElementsByClassName("my_auctions_delete_form")[0].style.display = "none";
     }
 } 

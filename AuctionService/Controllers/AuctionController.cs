@@ -34,7 +34,7 @@ namespace AuctionService.Controllers
         [Route("user/{userId}")]
         public ActionResult<IEnumerable<Auction>> GetAuctionsByUser(string userId)
         {
-            return _context.Auctions.Where(x=>x.UserId == userId).ToList();
+            return _context.Auctions.Include(x => x.CurrentBid).Where(x => x.UserId == userId).ToList();
         }
 
         // Get auction by Id
@@ -71,7 +71,7 @@ namespace AuctionService.Controllers
             if (updateModel == null)
                 return StatusCode(StatusCodes.Status400BadRequest, new Response { Status = "Error", Message = "Update model invalid." });
 
-            if(await _auctionService.UpdateAuction(updateModel))
+            if (await _auctionService.UpdateAuction(updateModel))
                 return Ok(new Response { Status = "Success", Message = "Auction updated successfully!" });
             return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Failed to update auction!" });
         }
@@ -81,7 +81,7 @@ namespace AuctionService.Controllers
         [Route("{id}")]
         public async Task<IActionResult> DeleteAuction(int id)
         {
-            if(await _auctionService.DeleteAuction(id))
+            if (await _auctionService.DeleteAuction(id))
                 return Ok(new Response { Status = "Success", Message = "Auction deleted successfully!" });
             return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Failed to delete auction!" });
         }
