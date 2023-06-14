@@ -35,6 +35,13 @@ namespace ItemService.Controllers
             return await _itemCollection.Find(filterDefinition).SingleOrDefaultAsync();
         }
 
+        [HttpGet("category/{categoryId}")]
+        public async Task<ActionResult<IEnumerable<Item>>> GetItemsByCategory(string categoryId)
+        {
+            var filterDefinition = Builders<Item>.Filter.Eq(x => x.CategoryId, categoryId);
+            return await _itemCollection.Find(filterDefinition).ToListAsync();
+        }
+
         [HttpPost]
         public async Task<ActionResult> Create(Item item)
         {
