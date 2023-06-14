@@ -5,6 +5,10 @@ import Register from "./pages/Register";
 import AuctionCreate from "./pages/PersonalDashboard/AuctionCreate";
 import MyAuctions from "./pages/PersonalDashboard/MyAuctions";
 import MyBids from "./pages/PersonalDashboard/MyBids";
+import Category from "./pages/Category";
+
+
+
 
 
 const AppRoutes = [
@@ -39,6 +43,10 @@ const AppRoutes = [
     {
         path: '/my-bids',
         element: <MyBids />
+    },
+    {
+        path: '/category',
+        element: <Category/>
     }
 ];
 
