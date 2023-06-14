@@ -53,7 +53,7 @@ namespace AuctionService.Controllers
 
         // Add Auction
         [HttpPost]
-        public async Task<IActionResult> AddAuction(Auction auctionModel)
+        public async Task<IActionResult> AddAuction(AuctionViewModel auctionModel)
         {
             if (auctionModel == null)
                 return StatusCode(StatusCodes.Status400BadRequest, new Response { Status = "Error", Message = "Auction model invalid." });
