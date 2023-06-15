@@ -68,6 +68,7 @@
         justify-content: space-between;
         flex-basis: auto;
     }
+
     .ac_container .ac_right_container .tab_header {
         text-align: left;
         padding-top: 3%;
@@ -76,41 +77,51 @@
         font-weight: bold;
         text-decoration: underline 3px black;
     }
-        .ac_container .ac_right>div {
-            margin-right: 18%;
-            text-align: center;
-        }
 
-        .ac_container .ac_right p {
-            margin-bottom: 0px;
-            padding-left: 10px;
-            font-size: 18px;
-            text-align: left;
-        }
+    .ac_container .ac_right > div {
+        margin-right: 18%;
+        text-align: center;
+    }
 
-        .ac_container .ac_right .ac_inputs {
-            width: 300px;
-            height: 40px;
-            margin-bottom: 30px;
-        }
-        .ac_container .ac_right .ac_inputs_textarea {
-            width: 300px;
-            height: 150px;
-            margin-bottom: 30px;
-            resize: none;
-        }
-        .ac_container .ac_right .ac_submitBtn {
-            width: 240px;
-            height: 40px;
-            background: #0751e9;
-            border-radius: 6px;
-            border: solid 2px #1d57ce;
-            color: white;
-            font-size: 18px;
-            transition: 0.2s;
-        }
-            .ac_container .ac_right .ac_submitBtn:hover {
-                background: #0720e9;
-                border-color: #0b1da9;
-            }
+    .ac_container .ac_right p {
+        margin-bottom: 0px;
+        padding-left: 10px;
+        font-size: 18px;
+        text-align: left;
+    }
 
+    .ac_container .ac_right .ac_inputs {
+        width: 300px;
+        height: 40px;
+    }
+
+    .ac_container .ac_right label {
+        color: red;
+        float: left;
+        position: fixed;
+    }
+    .ac_container .ac_right .input_holder{
+        margin-bottom: 30px;
+    }
+
+    .ac_container .ac_right .ac_inputs_textarea {
+        width: 300px;
+        height: 150px;
+        resize: none;
+    }
+
+    .ac_container .ac_right .ac_submitBtn {
+        width: 240px;
+        height: 40px;
+        background: #0751e9;
+        border-radius: 6px;
+        border: solid 2px #1d57ce;
+        color: white;
+        font-size: 18px;
+        transition: 0.2s;
+    }
+
+        .ac_container .ac_right .ac_submitBtn:hover {
+            background: #0720e9;
+            border-color: #0b1da9;
+        }

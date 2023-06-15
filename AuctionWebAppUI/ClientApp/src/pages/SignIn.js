@@ -15,9 +15,8 @@ const LoginInputs = () => {
     return (
         <div className="input-div">
             <input name="email" id="SIemail" className="texts" type="email" placeholder="E-mail" />
-            <label id="labelSIEmail"></label>
             <input name="password" id="SIpassword" className="texts" type="password" placeholder="Password" />
-            <label id="labelSIPassword"></label>
+            <label id="label_login"></label>
 
             <div className="remember-me">
                 <div className="check">
@@ -79,7 +78,7 @@ async function signin() {
             return response.json();
         }
         else
-            console.log("error");
+            document.getElementById("label_login").innerHTML = "Email and/or Password incorrect. Please try again."
     }).then(json => {
         localStorage.setItem('roles', json.roles);
         localStorage.setItem('userId', json.userId);
