@@ -9,7 +9,7 @@ const AuctionList = () => {
     useEffect(() => {
         const fetchItems = async () => {
             try {
-                const response = await fetch(`/api/item/category/${categoryName}`);
+                const response = await fetch(`http://localhost:3000/category/${categoryName}`);
                 console.log(categoryName);
                 const data = await response.json();
                 setItems(data);
