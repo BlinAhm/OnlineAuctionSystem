@@ -12,5 +12,7 @@ namespace UserService.Services
         public Task<bool> RegisterAdmin(RegisterModel registerModel);
         public Task<bool> Update(UpdateModel updateModel);
         public Task<bool> Delete(string email);
+
+        Task<User> GetUserAsync(string userId);
     }
 }

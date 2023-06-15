@@ -1,4 +1,6 @@
-﻿namespace PaymentService.Services
+﻿using PaymentService.Models;
+
+namespace PaymentService.Services
 {
     public interface IPaymentGateway
     {
