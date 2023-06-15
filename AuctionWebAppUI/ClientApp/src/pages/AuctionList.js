@@ -10,6 +10,7 @@ const AuctionList = () => {
         const fetchItems = async () => {
             try {
                 const response = await fetch(`/api/item/category/${categoryName}`);
+                console.log(categoryName);
                 const data = await response.json();
                 setItems(data);
             } catch (error) {
