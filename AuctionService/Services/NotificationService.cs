@@ -1,5 +1,7 @@
 ﻿using AuctionService.Data;
 using AuctionService.Models;
+using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore;
 
 namespace AuctionService.Services
 {
@@ -11,9 +13,18 @@ namespace AuctionService.Services
         {
             _context = context;
         }
-        public Task<bool> AddNotification(Notification notificationmodel)
+       public async Task<bool> AddNotification(Notification notificationModel)
         {
-            throw new NotImplementedException();
+            Notification notification = new Notification()
+            {
+                UserId = notificationModel.UserId,
+                Date = DateTime.Parse(DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss")),
+                Message= notificationModel.Message,
+            };
+            await _context.Notifications.AddAsync(notification);
+
+            await _context.SaveChangesAsync();
+            return _context.Notifications.Where(x => x.Id == notification.Id).Any();
         }
 
         public async Task<bool> RemoveNotification(int id)
@@ -30,20 +41,20 @@ namespace AuctionService.Services
 
         }
 
-        public async Task<bool> UpdateNotification(Notification updatemodel)
+        public async Task<bool> UpdateNotification(Notification updateModel)
         {
-            Notification? notification = await _context.Notifications.FindAsync(updatemodel.Id);
+            Notification? notification = await _context.Notifications.FindAsync(updateModel.Id);
             if (notification == null)
                 return false;
 
-            notification.Id = updatemodel.Id;
-            notification.UserId = updatemodel.UserId;
-            notification.Message = updatemodel.Message;
-            notification.Date = updatemodel.Date;
+            notification.Id = updateModel.Id;
+            notification.UserId = updateModel.UserId;
+            notification.Message = updateModel.Message;
+            notification.Date = updateModel.Date;
 
              await _context.SaveChangesAsync();
 
-            if (notification == await _context.Notifications.FindAsync(updatemodel.Id))
+            if (notification == await _context.Notifications.FindAsync(updateModel.Id))
                 return true;
             return false;
         }
