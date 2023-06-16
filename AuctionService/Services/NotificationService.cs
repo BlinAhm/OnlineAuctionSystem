@@ -13,7 +13,7 @@ namespace AuctionService.Services
         {
             _context = context;
         }
-       public async Task<bool> AddNotification(Notification notificationModel)
+       public async Task<bool> AddNotification(NotificationViewModel notificationModel)
         {
             Notification notification = new Notification()
             {

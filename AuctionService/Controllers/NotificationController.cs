@@ -21,13 +21,13 @@ namespace AuctionService.Controllers
             _context = context;
         }
         [HttpPost]
-        public async Task<IActionResult> AddNotification(Notification notificationModel)
+        public async Task<IActionResult> AddNotification(NotificationViewModel notificationModel)
         {
             if (notificationModel == null)
                 return StatusCode(StatusCodes.Status400BadRequest, new Response { Status = "Error", Message = "Notification model invalid." });
 
             if (await _notificationService.AddNotification(notificationModel))
-                return Ok(new Response { Status = "Success", Message = "Bid added successfully." });
+                return Ok(new Response { Status = "Success", Message = "Notification added successfully." });
             return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Notification creation failed." });
         }
         [HttpPut]
