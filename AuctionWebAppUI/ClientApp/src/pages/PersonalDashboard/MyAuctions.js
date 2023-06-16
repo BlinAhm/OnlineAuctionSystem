@@ -276,6 +276,10 @@ const DeleteForm = () => {
 };
 
 const MyAuctions = () => {
+    if (localStorage.getItem("user") === null) {
+        document.location.href = "http://localhost:3000/home";
+    }
+
     return (
         <div className="ac_container">
             <TabLeft />
