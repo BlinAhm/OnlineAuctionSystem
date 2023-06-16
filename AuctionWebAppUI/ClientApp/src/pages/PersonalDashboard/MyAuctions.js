@@ -18,6 +18,7 @@ var deleteId;
 var deleteIdItem;
 var auction;
 var itemPrice;
+var token = localStorage.getItem("token");
 
 const TabRight = () => {
     const [auctions, setAuctions] = useState([]);
@@ -29,8 +30,12 @@ const TabRight = () => {
     }, []);
 
     async function getAuctions() {
+
         await fetch("http://localhost:8040/api/Auction/user/" + localStorage.getItem("userId"), {
             method: "GET",
+            headers: {
+                'Authorization': 'Bearer '+ token
+                }
         }).then(function (response) {
             return response.json();
         }).then(function (data) {
@@ -40,7 +45,7 @@ const TabRight = () => {
 
     async function getItems() {
         await fetch("http://localhost:18006/api/Item/", {
-            method: "GET",
+            method: "GET"
         }).then(function (response) {
             return response.json();
         }).then(function (data) {
@@ -134,9 +139,11 @@ const TabRight = () => {
 const EditForm = () => {
     async function updateAuction() {
         var titlenew = document.getElementById("title_edit").value;
+
         await fetch("http://localhost:8040/api/Auction", {
             method: "PUT",
             headers: {
+                'Authorization': 'Bearer '+ token,
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
@@ -163,6 +170,7 @@ const EditForm = () => {
         await fetch("http://localhost:18006/api/Item", {
             method: "PUT",
             headers: {
+                'Authorization': 'Bearer ' + token,
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
@@ -226,12 +234,18 @@ const DeleteForm = () => {
     async function deleteAuction() {
         await fetch("http://localhost:8040/api/Auction/" + deleteId, {
             method: "DELETE",
+            headers: {
+                'Authorization': 'Bearer '+ token
+                }
         }).then(function (response) {
             return response.json();
         }).then();
 
         await fetch("http://localhost:18006/api/Item/" + deleteIdItem, {
             method: "DELETE",
+            headers: {
+                'Authorization': 'Bearer ' + token
+                }
         }).then().then(function () {
             document.location.href = "http://localhost:3000/my-auctions";
         });
