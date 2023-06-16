@@ -5,30 +5,35 @@
     .categories h2 {
         font-size: 46px;
         margin-bottom: 20px;
-        text-align:center;
+        text-align: center;
+        font-family: Bahnschrift, Tahoma, Geneva, Verdana, sans-serif;
     }
 
     .categories p {
         font-size: 26px;
-        color:#0751e9;
-        margin-bottom: 20px;
+        color: #0751e9;
+        font-family: Bahnschrift, Tahoma, Geneva, Verdana, sans-serif;
+        margin-bottom: 50px;
         text-align: center;
     }
+        .categories p:hover{
+            font-size: 28px;
+            text-decoration:underline;
+            transition: .15s ease-in;
+        }
 
 
-.categories-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin-top: 50px;
-}
-
+        .categories-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 50px;
+        }
 .category {
     position: relative;
-    width: 45%; /* Adjust the width to control the size of each category */
-    height: 550px;
-    margin: 10px;
+    width: 30%; /* Adjust the width to control the size of each category */
     overflow: hidden;
+    border-radius: 5px;
 }
 
 .category-image img {
@@ -62,32 +67,34 @@
     font-size: 24px;
     font-weight: bold;
     margin-bottom: 20px;
+    text-align: center;
 }
 
-.category-overlay-button {
-    background-color: #fff;
-    color: #333;
+button {
+    border: solid transparent 1px;
+    background: #1a60ee;
+    border-radius: 5px;
+    color: #121111;
     font-size: 16px;
-    font-weight: bold;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 20px;
+    text-align: center;
+    font-weight: 400;
+    padding: 7px 14px;
     cursor: pointer;
     transition: background-color 0.3s ease-in-out;
 }
 
-    .category-overlay-button:hover {
-        background-color: #333;
-        color: #fff;
+   button:hover {
+        background-color: #059ef3;
+        transition: 0.15s;
+        font-weight: 500;
     }
 
 .category {
-    width: 45%; /* Adjust the width to control the size of each category */
-    margin-bottom: 20px;
+    width: 30%; /* Adjust the width to control the size of each category */
 }
 
     .category:nth-child(2n+1) {
-        margin-right: 10px; /* Add margin only to odd numbered categories */
+        margin-right: 2px; /* Add margin only to odd numbered categories */
     }
 
 @media screen and (max-width: 768px) {
