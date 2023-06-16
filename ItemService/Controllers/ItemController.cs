@@ -1,7 +1,9 @@
 ﻿using ItemService.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
+using UserService.Auth;
 
 namespace ItemService.Controllers
 {
@@ -43,6 +45,7 @@ namespace ItemService.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = UserRoles.User)]
         public async Task<ActionResult<string>> Create(Item item)
         {
             await _itemCollection.InsertOneAsync(item);
@@ -51,7 +54,7 @@ namespace ItemService.Controllers
         }
 
         [HttpPut]
-
+        [Authorize(Roles = UserRoles.User)]
         public async Task<ActionResult> Update(Item item)
         {
             var filterDefinition = Builders<Item>.Filter.Eq(x => x.ItemId, item.ItemId);
@@ -60,6 +63,7 @@ namespace ItemService.Controllers
         }
 
         [HttpDelete("{itemId}")]
+        [Authorize(Roles = UserRoles.User)]
         public async Task<ActionResult> Delete(string itemId)
         {
             var filter = Builders<Item>.Filter.Eq(x => x.ItemId, itemId);

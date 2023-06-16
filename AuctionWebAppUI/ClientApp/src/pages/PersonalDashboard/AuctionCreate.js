@@ -13,6 +13,10 @@ const TabLeft = () => {
 };
 
 var itemId;
+function getToken() {
+    var token = localStorage.getItem("token");
+    return token;
+}
 
 const TabRight = () => {
     async function addAuction() {
@@ -36,6 +40,7 @@ const TabRight = () => {
         await fetch("http://localhost:18006/api/Item", {
             method: "POST",
             headers: {
+                'Authorization': 'Bearer ' + getToken(),
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
@@ -63,6 +68,7 @@ const TabRight = () => {
         await fetch("http://localhost:8040/api/Auction", {
             method: "POST",
             headers: {
+                'Authorization': 'Bearer ' + getToken(),
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
@@ -133,6 +139,10 @@ const TabRight = () => {
 };
 
 const AuctionCreate = () => {
+    if (localStorage.getItem("user") === null) {
+        document.location.href = "http://localhost:3000/home";
+    }
+
     return (
         <div className="ac_container">
             <TabLeft />

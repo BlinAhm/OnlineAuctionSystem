@@ -1,8 +1,11 @@
 ﻿using AuctionService.Data;
 using AuctionService.Models;
 using AuctionService.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using UserService.Auth;
+using Response = AuctionService.Models.Response;
 
 namespace AuctionService.Controllers
 {
@@ -31,6 +34,7 @@ namespace AuctionService.Controllers
 
         // Get auctions by userId
         [HttpGet]
+        [Authorize(Roles = UserRoles.User)]
         [Route("user/{userId}")]
         public ActionResult<IEnumerable<Auction>> GetAuctionsByUser(string userId)
         {
@@ -53,6 +57,7 @@ namespace AuctionService.Controllers
 
         // Add Auction
         [HttpPost]
+        [Authorize(Roles = UserRoles.User)]
         public async Task<IActionResult> AddAuction(AuctionViewModel auctionModel)
         {
             if (auctionModel == null)
@@ -66,6 +71,7 @@ namespace AuctionService.Controllers
 
         // Update Auction
         [HttpPut]
+        [Authorize(Roles = UserRoles.User)]
         public async Task<IActionResult> UpdateAuction(Auction updateModel)
         {
             if (updateModel == null)
@@ -78,6 +84,7 @@ namespace AuctionService.Controllers
 
         // Delete Auction
         [HttpDelete]
+        [Authorize(Roles = UserRoles.User)]
         [Route("{id}")]
         public async Task<IActionResult> DeleteAuction(int id)
         {

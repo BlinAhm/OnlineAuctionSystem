@@ -15,6 +15,7 @@ const TabLeft = () => {
 };
 
 var withdrawId;
+var token = localStorage.getItem("token");
 
 const TabRight = () => {
     const [bids, setBids] = useState([]);
@@ -26,8 +27,11 @@ const TabRight = () => {
     }, []);
 
     async function getBids() {
-        await fetch("http://localhost:8040/api/Bid/user/"+localStorage.getItem("userId"), {
+        await fetch("http://localhost:8040/api/Bid/user/" + localStorage.getItem("userId"), {
             method: "GET",
+            headers: {
+                'Authorization': 'Bearer ' + token
+            }
         }).then(function (response) {
             return response.json();
         }).then(function (data) {
@@ -36,7 +40,7 @@ const TabRight = () => {
     }
     async function getItems() {
         await fetch("http://localhost:18006/api/Item/", {
-            method: "GET",
+            method: "GET"
         }).then(function (response) {
             return response.json();
         }).then(function (data) {
@@ -116,6 +120,9 @@ const WithdrawForm = () => {
 async function withdrawConfirm() {
     await fetch("http://localhost:8040/api/Bid/" + withdrawId + "/withdraw", {
         method: "PUT",
+        headers: {
+            'Authorization': 'Bearer ' + token
+        }
     }).then(function (response) {
         return response.json();
     }).then(function () {
@@ -124,6 +131,10 @@ async function withdrawConfirm() {
 }
 
 const MyBids = () => {
+    if (localStorage.getItem("user") === null) {
+        document.location.href = "http://localhost:3000/home";
+    }
+
     return (
         <div className="ac_container">
             <TabLeft />
