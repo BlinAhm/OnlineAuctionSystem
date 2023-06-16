@@ -161,7 +161,6 @@ const QualitySection = () => {
             <h2>Quality Approved</h2>
             <div className="quality-image">
                 <img src="https://images.pexels.com/photos/8553864/pexels-photo-8553864.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Quality Approved" />
-                <p>Thank you for trusting us</p>
             </div>
             <p>
                 Our collection encapsulates the essence of timeless elegance, seamlessly blending classic aesthetics with contemporary design. Each piece possesses an enduring allure that transcends passing trends,
