@@ -18,7 +18,7 @@ namespace AuctionService.Services
             Notification notification = new Notification()
             {
                 UserId = notificationModel.UserId,
-                Date = DateTime.Parse(DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss")),
+                Date = DateTime.Parse(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")),
                 Message= notificationModel.Message,
             };
             await _context.Notifications.AddAsync(notification);
