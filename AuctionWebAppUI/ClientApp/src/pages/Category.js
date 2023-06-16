@@ -10,29 +10,19 @@ const Category = () => {
     const categories = [
         {
             id: 1,
-            title: "Autographed Items",
-            image: "https://images.pexels.com/photos/257970/pexels-photo-257970.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+            title: "Clothes, Shoes",
+            image: "https://thumbs.dreamstime.com/b/lululemon-hong-kong-china-january-clothes-display-store-new-town-plaza-shopping-mall-centre-sha-tin-174392453.jpg",
         },
         {
             id: 2,
-            title: "Beauty/Jewelry",
-            image: "https://images.pexels.com/photos/1616096/pexels-photo-1616096.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1/300x200",
+            title: "Movies&DVD",
+            image: "https://media.karousell.com/media/photos/products/2023/4/23/46_dvd_movies_for_sale_as_one__1682217662_aa0f9579_progressive.jpg",
         },
         {
             id: 3,
-            title: "Fine Art",
-            image: "https://images.pexels.com/photos/989917/pexels-photo-989917.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1/300x200",
-        },
-        {
-            id: 4,
-            title: "Antique Timepieces",
-            image: "https://images.pexels.com/photos/179911/pexels-photo-179911.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1/600x500",
-        },
-        {
-            id: 5,
-            title: "Rare Coins",
-            image: "https://images.pexels.com/photos/325154/pexels-photo-325154.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1/600x500",
-        },
+            title: "Toys&Hobbies",
+            image: "https://resalvaged.com/wp-content/uploads/2021/01/hummel-figurines.jpeg",
+        }
     ];
 
     const handleCategoryClick = (categoryId) => {
@@ -46,7 +36,7 @@ const Category = () => {
     return (
         <div className="categories">
             <h2>Categories</h2>
-            <p>Explore our wide range of opportunities and discover exciting possibilities. Whether you're searching for autographed items, beauty and jewelry, fine art, antique timepieces, or rare coins, we have something special for everyone. Browse through our carefully curated categories and indulge in the thrill of finding unique treasures.</p>
+            <p>Choose an item category to bid!</p>
             <div className="categories-container">
                 {categories.slice(0, 3).map((category) => (
                     <div
@@ -64,7 +54,7 @@ const Category = () => {
                         </div>
                     </div>
                 ))}
-            </div>
+                </div>
             <div className="categories-container">
                 {categories.slice(3, 5).map((category) => (
                     <div
@@ -83,7 +73,7 @@ const Category = () => {
                     </div>
                 ))}
             </div>
-        </div>
+            </div>
     );
 };
 
