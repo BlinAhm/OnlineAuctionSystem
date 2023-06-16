@@ -12,14 +12,25 @@ namespace AuctionService.Services
             _context = context;
         }
 
-        public async Task<bool> AddAuction(Auction auctionModel)
+        public async Task<bool> AddAuction(AuctionViewModel auctionModel)
         {
-            auctionModel.StartTime = DateTime.Parse(DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss"));
-            await _context.Auctions.AddAsync(auctionModel);
+            DateTime utcTime = DateTime.UtcNow;
+            var tz = TimeZoneInfo.FindSystemTimeZoneById("Central Europe Standard Time");
+            var time = TimeZoneInfo.ConvertTimeFromUtc(utcTime, tz);
+
+            Auction auction = new Auction()
+            {
+                Title = auctionModel.Title,
+                StartTime = DateTime.Parse(time.ToString("yyyy-MM-dd HH:mm:ss")),
+                EndTime = DateTime.Parse(time.AddHours(auctionModel.Duration).ToString("yyyy-MM-dd HH:mm:ss")),
+                ItemId = auctionModel.ItemId,
+                UserId = auctionModel.UserId
+            };
+
+            await _context.Auctions.AddAsync(auction);
             await _context.SaveChangesAsync();
 
-            return _context.Auctions.Where(x => x.Id == auctionModel.Id).Any();
-
+            return _context.Auctions.Where(x => x.Id == auction.Id).Any();
         }
 
         public async Task<bool> UpdateAuction(Auction updateModel)
@@ -29,7 +40,6 @@ namespace AuctionService.Services
                 return false;
 
             auction.Title = updateModel.Title;
-            auction.Description = updateModel.Description;
             auction.ItemId = updateModel.ItemId;
             auction.CurrentBid = updateModel.CurrentBid;
             auction.StartTime = updateModel.StartTime;
@@ -62,11 +72,6 @@ namespace AuctionService.Services
         }
 
         public Task<bool> EndAuction()
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<bool> UpdateBid()
         {
             throw new NotImplementedException();
         }

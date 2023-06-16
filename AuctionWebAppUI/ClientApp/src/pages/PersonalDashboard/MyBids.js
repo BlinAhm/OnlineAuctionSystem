@@ -15,22 +15,48 @@ const TabLeft = () => {
 };
 
 var withdrawId;
+var token = localStorage.getItem("token");
 
 const TabRight = () => {
     const [bids, setBids] = useState([]);
+    const [items, setItems] = useState([]);
 
     useEffect(() => {
         getBids();
+        getItems();
     }, []);
 
     async function getBids() {
-        await fetch("http://localhost:8040/api/Bid/user/"+localStorage.getItem("userId"), {
+        await fetch("http://localhost:8040/api/Bid/user/" + localStorage.getItem("userId"), {
             method: "GET",
+            headers: {
+                'Authorization': 'Bearer ' + token
+            }
         }).then(function (response) {
             return response.json();
         }).then(function (data) {
             setBids(data);
         });
+    }
+    async function getItems() {
+        await fetch("http://localhost:18006/api/Item/", {
+            method: "GET"
+        }).then(function (response) {
+            return response.json();
+        }).then(function (data) {
+            setItems(data);
+        });
+    }
+
+    function getItemName(id) {
+        var name;
+
+        items?.forEach((key) => {
+            if (key.itemId === id) {
+                name = key.name;
+            }
+        });
+        return name;
     }
 
     function withdrawBid(title, bidId) {
@@ -55,7 +81,7 @@ const TabRight = () => {
                 <tbody>{bids?.map((key) => (
                     <tr key={key.id}>
                         <td>{key.auction.title}</td>
-                        <td>Item</td>
+                        <td>{getItemName(key.auction.itemId)}</td>
                         <td>{key.bidDate.split("T")[0] + " " + key.bidDate.split("T")[1]}</td>
                         <td>{key.bidAmount}</td>
 
@@ -94,6 +120,9 @@ const WithdrawForm = () => {
 async function withdrawConfirm() {
     await fetch("http://localhost:8040/api/Bid/" + withdrawId + "/withdraw", {
         method: "PUT",
+        headers: {
+            'Authorization': 'Bearer ' + token
+        }
     }).then(function (response) {
         return response.json();
     }).then(function () {
@@ -102,6 +131,10 @@ async function withdrawConfirm() {
 }
 
 const MyBids = () => {
+    if (localStorage.getItem("user") === null) {
+        document.location.href = "http://localhost:3000/home";
+    }
+
     return (
         <div className="ac_container">
             <TabLeft />
