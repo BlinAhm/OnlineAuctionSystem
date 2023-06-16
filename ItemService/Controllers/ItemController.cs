@@ -43,16 +43,16 @@ namespace ItemService.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Create(Item item)
+        public async Task<ActionResult<string>> Create(Item item)
         {
             await _itemCollection.InsertOneAsync(item);
-            return Ok();
+            return Ok(item.ItemId);
 
         }
 
         [HttpPut]
 
-        public async Task<ActionResult> Update(string ItemId, Item item)
+        public async Task<ActionResult> Update(Item item)
         {
             var filterDefinition = Builders<Item>.Filter.Eq(x => x.ItemId, item.ItemId);
             await _itemCollection.ReplaceOneAsync(filterDefinition, item);

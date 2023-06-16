@@ -75,10 +75,5 @@ namespace AuctionService.Services
         {
             throw new NotImplementedException();
         }
-
-        public async Task<bool> UpdateBid()
-        {
-            throw new NotImplementedException();
-        }
     }
 }
