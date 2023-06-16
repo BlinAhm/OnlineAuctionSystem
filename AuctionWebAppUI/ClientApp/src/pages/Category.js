@@ -1,6 +1,6 @@
 ﻿
 import React, { useState } from 'react';
-    //import { Link } from 'react-router-dom';
+    import { Link } from 'react-router-dom';
     import './css/CategoryPage.css'; 
 
 
@@ -68,7 +68,9 @@ const Category = () => {
                         </div>
                         <div className={`category-overlay ${selectedCategory === category.id ? 'active' : ''}`}>
                             <h3>{category.title}</h3>
-                            <button>View More</button>
+                            <Link to={`/category/${category.title}`}>
+                                View More
+                            </Link>
                         </div>
                     </div>
                 ))}

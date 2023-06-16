@@ -1,4 +1,4 @@
-﻿using ItemService.Models;
+using ItemService.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -37,7 +37,7 @@ namespace ItemService.Controllers
             return await _itemCollection.Find(filterDefinition).SingleOrDefaultAsync();
         }
 
-        [HttpGet("category/{categoryId}")]
+        [HttpGet("category/{categoryName}")]
         public async Task<ActionResult<IEnumerable<Item>>> GetItemsByCategory(string categoryName)
         {
             var filterDefinition = Builders<Item>.Filter.Eq(x => x.CategoryName, categoryName);
