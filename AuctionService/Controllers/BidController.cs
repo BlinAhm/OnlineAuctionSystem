@@ -103,7 +103,7 @@ namespace AuctionService.Controllers
             var auction = _context.Auctions.Include("Bids").Where(x => x.Id == id).First();
             if (auction == null) { return StatusCode(StatusCodes.Status404NotFound, new Response { Status = "Error", Message = "Auction not found." }); }
 
-            return auction.Bids.OrderByDescending(x => x.Id).Take(3).Select(
+            return auction.Bids.OrderByDescending(x => x.Id).Where(x=>x.IsWithdrawn == false).Take(3).Select(
                 b => new Bid
                 {
                     Id = b.Id,

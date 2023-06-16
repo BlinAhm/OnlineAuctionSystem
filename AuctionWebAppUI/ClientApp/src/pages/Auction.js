@@ -1,7 +1,7 @@
-﻿import React, { useEffect } from 'react';
+﻿import React, { useEffect, useState } from 'react';
 import "./css/Auction.css";
 
-const AuctionDetails = () => {
+const AuctionDetails = (prop) => {
     useEffect(() => {
         slider();
     });
@@ -12,8 +12,6 @@ const AuctionDetails = () => {
 
     const images = [
         "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/640px-Image_created_with_a_mobile_phone.png",
-        "https://www.shutterstock.com/image-photo/mountains-under-mist-morning-amazing-260nw-1725825019.jpg",
-        "https://www.shutterstock.com/image-photo/mountains-under-mist-morning-amazing-260nw-1725825019.jpg",
         "https://www.shutterstock.com/image-photo/mountains-under-mist-morning-amazing-260nw-1725825019.jpg"
     ];
 
@@ -33,7 +31,7 @@ const AuctionDetails = () => {
 
     return (
         <div className="a_details">
-            <p>Published: 2023-02-02</p>
+            <p>Published: {prop.auction?.startTime?.split("T")[0]}</p>
 
             <div className="img_slider">
                 <img id="main_img" src="https://www.shutterstock.com/image-photo/mountains-under-mist-morning-amazing-260nw-1725825019.jpg"></img>
@@ -50,7 +48,7 @@ const AuctionDetails = () => {
                     <img id="firstSlide" onClick={() => { changePicture(images[0]) }} src={images[0]}></img>
 
                     {mapDuplicates()?.map((key) => (
-                        <img onClick={() => { changePicture(key) }} key={key} id="duplicate" src={key} ></img>
+                        <img onClick={() => { changePicture(key) }} id="duplicate" src={key} ></img>
 
                     ))}
                 </div>
@@ -58,46 +56,113 @@ const AuctionDetails = () => {
                 <div className="arrowRight"><i className="bi bi-caret-right-fill"></i></div>
             </div>
 
-            <h5><span className="a_category">Category:</span><span className="a_condition">Condition:</span></h5>
+            <h5><span className="a_category">Category: {prop.item?.categoryName}</span><span className="a_condition">Condition: {prop.item?.condition}</span></h5>
 
-            <h2>Title year condition type km</h2>
-            <p className="description">Title year condition type kmTitle year condition type kmTitle year condition type kmTitle year condition type kmTitle year condition type kmTitle year condition type km</p>
+            <h2>{prop.auction?.title}</h2>
+            <p className="description">{prop.item?.description}</p>
 
         </div>
     );
 };
 
-const AuctionBidding = () => {
+const AuctionBidding = (prop) => {
+
+    async function placeBid(auctionId) {
+        if (validateBid(prop.item?.price, prop.auction?.currentBid?.bidAmount)) {
+            var token = localStorage.getItem("token");
+            var userId = localStorage.getItem("userId");
+            var amount = document.getElementById("bid_number").value;
+
+            await fetch("http://localhost:8040/api/Bid", {
+                method: "POST",
+                headers: {
+                    "Authorization": "Bearer " + token,
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    userId: userId,
+                    bidAmount: amount,
+                    AuctionId: auctionId
+                })
+            }).then(function (response) {
+                if (response.ok)
+                    document.location.href = "http://localhost:3000/auction/" + auctionId;
+            })
+        }
+    }
+
     return (
         <div className="a_bidding">
             <h3>Offers:</h3>
 
-            <h5>Current bid: 54 $</h5>
-            <h5 className="base_price">Base price: 45 $</h5>
+            <h5>Current bid: {prop.auction?.currentBid === null ? "No bids" : prop.auction.currentBid?.bidAmount} $</h5>
+            <h5 className="base_price">Base price: {prop.item?.price} $</h5>
 
             <p>Enter bid:</p>
-            <input type="number" />
-            <input id="submitBtn" value="Place Bid" type="submit" />
+            <input id="bid_number" type="number" />
+            <label id="bid_label"></label>
+            <input onClick={() => { placeBid(prop.auction?.id) }} id="submitBtn" value="Place Bid" type="submit" />
 
-            <p className="time_label">Start Time: <span className="time">2023-02-02 00:00:00</span> </p>
-            <p className="time_label">End Time: <span className="time">2023-02-02 00:00:00</span> </p>
+            <p className="time_label">Start Time: <span className="time">{prop.auction?.startTime?.split("T")[0] + " " + prop.auction?.startTime?.split("T")[1]}</span> </p>
+            <p className="time_label">End Time: <span className="time">{prop.auction?.endTime?.split("T")[0] + " " + prop.auction?.endTime?.split("T")[1]}</span> </p>
             <p className="timeLeft">Time left: 00:00:00</p>
 
             <p className="label_latest_bids">Latest Bids</p>
             <div id="latest_bids">
-                <span>64$</span>
-                <span>64$</span>
+                {prop.latestBids?.map((key) => (
+                    <span>{key.bidAmount} $</span>
+                )) ?? ""}
             </div>
         </div>
     );
 };
 
 const Auction = () => {
+    const [auction, setAuction] = useState([]);
+    const [item, setItem] = useState([]);
+    const [latestBids, setLatestBids] = useState([]);
+
+    useEffect(() => {
+        getAuction();
+        getLatestBids();
+    }, []);
+
+    async function getLatestBids() {
+        await fetch("http://localhost:8040/api/Bid/1/latest", {
+            method: "GET"
+        }).then(function (response) {
+            return response.json();
+        }).then(function (data) {
+            setLatestBids(data);
+        });
+    }
+
+    async function getAuction() {
+        var itemId;
+        await fetch("http://localhost:8040/api/Auction/1", {
+            method: "GET"
+        }).then(function (response) {
+            return response.json();
+        }).then(function (data) {
+            setAuction(data);
+            itemId = data.itemId;
+        });
+
+        await fetch("http://localhost:18006/api/Item/" + itemId, {
+            method: "GET"
+        }).then(function (response) {
+            return response.json();
+        }).then(function (data) {
+            setItem(data);
+        });
+    }
+
     return (
         <div className="a_main">
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
-            <AuctionDetails />
-            <AuctionBidding />
+            <AuctionDetails auction={auction} item={item} />
+            <AuctionBidding auction={auction} item={item} latestBids={latestBids} />
         </div>
     );
 };
@@ -151,3 +216,25 @@ function slider() {
         }
     });
 };
+
+function validateBid(basePrice, currentBid) {
+    const isAlpha = new RegExp(/^[a-zA-Z\s]+$/);
+    var inputBid = document.getElementById("bid_number").value;
+    var label = document.getElementById("bid_label");
+
+    if (isAlpha.test(inputBid) || inputBid < basePrice || inputBid <= currentBid || inputBid.trim() === "") {
+        label.innerHTML = "Bid invalid.";
+        label.style.display = "block";
+    } else if (localStorage.getItem("token") === null) {
+        label.innerHTML = "You need to be logged in to place bids.";
+        label.style.display = "block";
+    } else {
+        label.innerHTML = "";
+        label.style.display = "none";
+    }
+
+    if (label.innerHTML.trim() === "") {
+        return true;
+    }
+    return false;
+}
