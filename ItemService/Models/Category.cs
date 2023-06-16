@@ -12,7 +12,7 @@ namespace ItemService.Models
         [BsonElement("category_name"), BsonRepresentation(BsonType.String)]
         public string CategoryName { get; set; }
 
-        [BsonElement("image_link"), BsonRepresentation(BsonType.String)]
-        public string ImageLink { get; set; }
+        [BsonElement("image_links"), BsonRepresentation(BsonType.Array)]
+        public string[] ImageLinks { get; set; }
     }
 }
