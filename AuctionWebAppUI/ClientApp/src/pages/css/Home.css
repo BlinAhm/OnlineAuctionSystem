@@ -119,20 +119,24 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 100px;
+    margin-top: 70px;
 }
 
     .about-us h2 {
         font-size: 36px;
         font-weight: bold;
-        margin-bottom: 20px;
+        margin-bottom: 10px;
+    }
+    .about-us p{
+        padding-left: 10px;
+        padding-right: 10px;
     }
 
     .about-us .photos-container {
         display: flex;
         justify-content: center;
         align-items: center;
-        margin-top: 40px;
+        margin-top: 20px;
     }
 
         .about-us .photos-container .photo {
@@ -161,7 +165,7 @@
 }
 
 .featured-auctioneers-title {
-    margin-top: 100px;
+    margin-top: 40px;
 }
 
 .carousel-container {
@@ -170,7 +174,7 @@
 
 .carousel-card {
     transition: transform 0.3s;
-    margin-top: 80px;
+    margin-top: 60px;
 }
 
     .carousel-card:hover {
@@ -180,14 +184,14 @@
 /* Add additional CSS styles as needed */
 
 .quality-section {
-    margin-top: 100px;
+    margin-top: 85px;
     text-align: center;
 }
 
     .quality-section h2 {
         font-size: 36px;
         font-weight: bold;
-        margin-bottom: 40px;
+        margin-bottom: 20px;
     }
 
 .quality-image {
