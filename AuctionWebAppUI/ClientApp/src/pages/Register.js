@@ -79,7 +79,7 @@ export default Register;
 
 async function register() {
     var data = new FormData(document.getElementById("form"));
-    await fetch("http://localhost:8020/api/Authenticate/register", {
+    await fetch("http://localhost:8001/api/Authenticate/register", {
         method: "POST",
         body: data
     }).then(function (response) {
