@@ -79,3 +79,20 @@ hr {
     max-width: 1310px;
     margin-inline: auto;
 }
+.icon {
+    cursor: pointer;
+    margin-right: 10px;
+    margin-left: 10px;
+    line-height: 10px;
+}
+
+
+    .icon img {
+        display: inline-block;
+        width: 25px;
+        margin-top: 3px;
+    }
+
+    .icon:hover {
+        opacity: .7;
+    }
