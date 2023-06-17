@@ -1,7 +1,6 @@
 ﻿import React from 'react';
 import { Link } from 'react-router-dom';
 import './css/NavBar.css';
-
 const NavBarLinks = () => {
     if (localStorage.getItem("user") !== null) {
         if (localStorage.getItem("roles").split(",").includes("Admin")) {
@@ -15,6 +14,10 @@ const NavBarLinks = () => {
                     <Link to="/admin" className="n_links">Admin</Link>
                     <div className="n_user">Welcome: {user}</div>
                     <Link to="/log-out" className="logout">Log out</Link>
+                    <Link to="" className="icon">
+                        <img src="https://cdn.onlinewebfonts.com/svg/img_60925.png" alt=""></img></Link>
+                    <Link to="" className="icon">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZZRR6HDWQarJDG-LLeOLWtaaJZi49lVwAnPAGvCYiYLBSXyaSg6Lr6qraSm3eXXgmrMQ&usqp=CAU" alt=""></img></Link>
                 </div>
             );
         } else if (localStorage.getItem("roles").split(",").includes("User")) {
@@ -27,6 +30,10 @@ const NavBarLinks = () => {
                     <Link to="/my-bids" className="n_links">My Dashboard</Link>
                     <div className="n_user">Welcome: {user}</div>
                     <Link to="/log-out" className="logout">Log out</Link>
+                    <Link to="" className="icon">
+                        <img src="https://cdn.onlinewebfonts.com/svg/img_60925.png" alt=""></img></Link>
+                    <Link to="" className="icon">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZZRR6HDWQarJDG-LLeOLWtaaJZi49lVwAnPAGvCYiYLBSXyaSg6Lr6qraSm3eXXgmrMQ&usqp=CAU" alt=""></img></Link>
                 </div>
             );
         }
@@ -39,8 +46,8 @@ const NavBarLinks = () => {
             <Link to="/sign-in" className="n_links login">Sign In</Link>
             <Link to="/register" className="n_links login">Register</Link>
         </div>
-    );
 
+    );
 };
 
 const Navbar = () => {
