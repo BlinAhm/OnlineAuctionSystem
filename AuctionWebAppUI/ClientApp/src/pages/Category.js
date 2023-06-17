@@ -1,4 +1,3 @@
-﻿
 import { Link } from 'react-router-dom';
 import "./css/CategoryPage.css";
 const CategoryCard = (props) => {
@@ -11,7 +10,6 @@ const CategoryCard = (props) => {
                 <h2>Clothes, Shoes</h2>
             </div>
         </Link>
-
     );
 
 }

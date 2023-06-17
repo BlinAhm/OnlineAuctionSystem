@@ -2,6 +2,7 @@ import Home from "./pages/Home";
 import Auction from "./pages/Auction";
 import SignIn from "./pages/SignIn";
 import Register from "./pages/Register";
+import AuctionList from "./pages/AuctionList";
 import AuctionCreate from "./pages/PersonalDashboard/AuctionCreate";
 import MyAuctions from "./pages/PersonalDashboard/MyAuctions";
 import MyBids from "./pages/PersonalDashboard/MyBids";
@@ -29,6 +30,10 @@ const AppRoutes = [
     {
         path: '/auction',
         element: <Auction />
+    },
+    {
+        path: '/category/:categoryName',
+        element: <AuctionList />
     },
     {
         path: '/create-auction',

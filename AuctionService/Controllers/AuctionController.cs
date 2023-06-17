@@ -1,8 +1,11 @@
 ﻿using AuctionService.Data;
 using AuctionService.Models;
 using AuctionService.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using UserService.Auth;
+using Response = AuctionService.Models.Response;
 
 namespace AuctionService.Controllers
 {
@@ -29,6 +32,15 @@ namespace AuctionService.Controllers
             return _context.Auctions.Include("Bids").ToList();
         }
 
+        // Get auctions by userId
+        [HttpGet]
+        [Authorize(Roles = UserRoles.User)]
+        [Route("user/{userId}")]
+        public ActionResult<IEnumerable<Auction>> GetAuctionsByUser(string userId)
+        {
+            return _context.Auctions.Include(x => x.CurrentBid).Where(x => x.UserId == userId).ToList();
+        }
+
         // Get auction by Id
         [HttpGet]
         [Route("{id}")]
@@ -45,7 +57,8 @@ namespace AuctionService.Controllers
 
         // Add Auction
         [HttpPost]
-        public async Task<IActionResult> AddAuction(Auction auctionModel)
+        [Authorize(Roles = UserRoles.User)]
+        public async Task<IActionResult> AddAuction(AuctionViewModel auctionModel)
         {
             if (auctionModel == null)
                 return StatusCode(StatusCodes.Status400BadRequest, new Response { Status = "Error", Message = "Auction model invalid." });
@@ -58,22 +71,24 @@ namespace AuctionService.Controllers
 
         // Update Auction
         [HttpPut]
+        [Authorize(Roles = UserRoles.User)]
         public async Task<IActionResult> UpdateAuction(Auction updateModel)
         {
             if (updateModel == null)
                 return StatusCode(StatusCodes.Status400BadRequest, new Response { Status = "Error", Message = "Update model invalid." });
 
-            if(await _auctionService.UpdateAuction(updateModel))
+            if (await _auctionService.UpdateAuction(updateModel))
                 return Ok(new Response { Status = "Success", Message = "Auction updated successfully!" });
             return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Failed to update auction!" });
         }
 
         // Delete Auction
         [HttpDelete]
+        [Authorize(Roles = UserRoles.User)]
         [Route("{id}")]
         public async Task<IActionResult> DeleteAuction(int id)
         {
-            if(await _auctionService.DeleteAuction(id))
+            if (await _auctionService.DeleteAuction(id))
                 return Ok(new Response { Status = "Success", Message = "Auction deleted successfully!" });
             return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Failed to delete auction!" });
         }

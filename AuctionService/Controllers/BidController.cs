@@ -1,10 +1,14 @@
 ﻿using AuctionService.Data;
 using AuctionService.Models;
 using AuctionService.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
+using System.Data;
+using UserService.Auth;
+using Response = AuctionService.Models.Response;
 
 namespace AuctionService.Controllers
 {
@@ -41,6 +45,25 @@ namespace AuctionService.Controllers
                 }).ToList();
         }
 
+        // Get Bid by user id
+        [HttpGet]
+        [Authorize(Roles = UserRoles.User)]
+        [Route("user/{userId}")]
+        public ActionResult<IEnumerable<Bid>> GetBidsByUser(string userId)
+        {
+            return _context.Bids.Select(
+                b => new Bid
+                {
+                    Id = b.Id,
+                    UserId = b.UserId,
+                    BidAmount = b.BidAmount,
+                    BidDate = b.BidDate,
+                    IsWithdrawn = b.IsWithdrawn,
+                    WithdrawDate = b.WithdrawDate,
+                    Auction = b.Auction
+                }).Where(x => x.UserId == userId).ToList();
+        }
+
         // Get Bid by id
         [HttpGet]
         [Route("{id}")]
@@ -66,7 +89,6 @@ namespace AuctionService.Controllers
                         Id = b.Auction.Id,
                         Title = b.Auction.Title,
                         ItemId = b.Auction.ItemId,
-                        Description = b.Auction.Description,
                         StartTime = b.Auction.StartTime,
                         EndTime = b.Auction.EndTime,
                         CurrentBid = b.Auction.CurrentBid
@@ -78,7 +100,7 @@ namespace AuctionService.Controllers
         [Route("{id}/latest")]
         public ActionResult<List<Bid>> GetLatestBids(int id)
         {
-            var auction = _context.Auctions.Include("Bids").Where(x=>x.Id == id).First();
+            var auction = _context.Auctions.Include("Bids").Where(x => x.Id == id).First();
             if (auction == null) { return StatusCode(StatusCodes.Status404NotFound, new Response { Status = "Error", Message = "Auction not found." }); }
 
             return auction.Bids.OrderByDescending(x => x.Id).Take(3).Select(
@@ -96,10 +118,15 @@ namespace AuctionService.Controllers
 
         // Add Bid
         [HttpPost]
+        [Authorize(Roles = UserRoles.User)]
         public async Task<IActionResult> AddBid(BidViewModel bidModel)
         {
             if (bidModel == null)
                 return StatusCode(StatusCodes.Status400BadRequest, new Response { Status = "Error", Message = "Bid model invalid." });
+
+            var auction = _context.Auctions.Where(x => x.Id == bidModel.AuctionId).First();
+            if (auction.UserId == bidModel.UserId)
+                return StatusCode(StatusCodes.Status400BadRequest, new Response { Status = "Error", Message = "You can not bid on your own auction." });
 
             if (await _bidService.AddBid(bidModel))
                 return Ok(new Response { Status = "Success", Message = "Bid added successfully." });
@@ -108,6 +135,7 @@ namespace AuctionService.Controllers
 
         // Update Bid
         [HttpPut]
+        [Authorize(Roles = UserRoles.User)]
         public async Task<IActionResult> UpdateBid(Bid updateModel)
         {
             if (updateModel == null)
@@ -120,6 +148,7 @@ namespace AuctionService.Controllers
 
         // Delete Bid
         [HttpDelete]
+        [Authorize(Roles = UserRoles.Admin)]
         [Route("{id}")]
         public async Task<IActionResult> DeleteBid(int id)
         {
@@ -129,6 +158,7 @@ namespace AuctionService.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = UserRoles.User)]
         [Route("{id}/withdraw")]
         public async Task<IActionResult> WithdrawBid(int id)
         {

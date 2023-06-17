@@ -1,7 +1,9 @@
-﻿using ItemService.Models;
+using ItemService.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
+using UserService.Auth;
 
 namespace ItemService.Controllers
 {
@@ -35,17 +37,25 @@ namespace ItemService.Controllers
             return await _itemCollection.Find(filterDefinition).SingleOrDefaultAsync();
         }
 
+        [HttpGet("category/{categoryName}")]
+        public async Task<ActionResult<IEnumerable<Item>>> GetItemsByCategory(string categoryName)
+        {
+            var filterDefinition = Builders<Item>.Filter.Eq(x => x.CategoryName, categoryName);
+            return await _itemCollection.Find(filterDefinition).ToListAsync();
+        }
+
         [HttpPost]
-        public async Task<ActionResult> Create(Item item)
+        [Authorize(Roles = UserRoles.User)]
+        public async Task<ActionResult<string>> Create(Item item)
         {
             await _itemCollection.InsertOneAsync(item);
-            return Ok();
+            return Ok(item.ItemId);
 
         }
 
         [HttpPut]
-
-        public async Task<ActionResult> Update(string ItemId, Item item)
+        [Authorize(Roles = UserRoles.User)]
+        public async Task<ActionResult> Update(Item item)
         {
             var filterDefinition = Builders<Item>.Filter.Eq(x => x.ItemId, item.ItemId);
             await _itemCollection.ReplaceOneAsync(filterDefinition, item);
@@ -53,6 +63,7 @@ namespace ItemService.Controllers
         }
 
         [HttpDelete("{itemId}")]
+        [Authorize(Roles = UserRoles.User)]
         public async Task<ActionResult> Delete(string itemId)
         {
             var filter = Builders<Item>.Filter.Eq(x => x.ItemId, itemId);
