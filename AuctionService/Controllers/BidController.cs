@@ -1,10 +1,14 @@
 ﻿using AuctionService.Data;
 using AuctionService.Models;
 using AuctionService.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
+using System.Data;
+using UserService.Auth;
+using Response = AuctionService.Models.Response;
 
 namespace AuctionService.Controllers
 {
@@ -43,6 +47,7 @@ namespace AuctionService.Controllers
 
         // Get Bid by user id
         [HttpGet]
+        [Authorize(Roles = UserRoles.User)]
         [Route("user/{userId}")]
         public ActionResult<IEnumerable<Bid>> GetBidsByUser(string userId)
         {
@@ -98,7 +103,7 @@ namespace AuctionService.Controllers
             var auction = _context.Auctions.Include("Bids").Where(x => x.Id == id).First();
             if (auction == null) { return StatusCode(StatusCodes.Status404NotFound, new Response { Status = "Error", Message = "Auction not found." }); }
 
-            return auction.Bids.OrderByDescending(x => x.Id).Take(3).Select(
+            return auction.Bids.OrderByDescending(x => x.Id).Where(x=>x.IsWithdrawn == false).Take(3).Select(
                 b => new Bid
                 {
                     Id = b.Id,
@@ -113,6 +118,7 @@ namespace AuctionService.Controllers
 
         // Add Bid
         [HttpPost]
+        [Authorize(Roles = UserRoles.User)]
         public async Task<IActionResult> AddBid(BidViewModel bidModel)
         {
             if (bidModel == null)
@@ -129,6 +135,7 @@ namespace AuctionService.Controllers
 
         // Update Bid
         [HttpPut]
+        [Authorize(Roles = UserRoles.User)]
         public async Task<IActionResult> UpdateBid(Bid updateModel)
         {
             if (updateModel == null)
@@ -141,6 +148,7 @@ namespace AuctionService.Controllers
 
         // Delete Bid
         [HttpDelete]
+        [Authorize(Roles = UserRoles.Admin)]
         [Route("{id}")]
         public async Task<IActionResult> DeleteBid(int id)
         {
@@ -150,6 +158,7 @@ namespace AuctionService.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = UserRoles.User)]
         [Route("{id}/withdraw")]
         public async Task<IActionResult> WithdrawBid(int id)
         {

@@ -11,7 +11,7 @@
 .SignupForm .sign-up {
     position: sticky;
     width: 750px;
-    height: 810px;
+    height: 820px;
     background: linear-gradient(to right, #d3d3d3, #eeeeee) padding-box, linear-gradient(to right, #aaaaaa, #bbbbbb, #cccccc) border-box;
     border-radius: 30px;
     border: 2px solid transparent;
@@ -42,6 +42,11 @@
         font-size: 16px;
         font-weight: 500;
     }
+
+.SignupForm label {
+    color: red;
+    margin-left: 5px;
+}
 
 .SignupForm .signupSubmit {
     color: #121111;
@@ -115,7 +120,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    min-height: 350px;
+    min-height: 450px;
     margin-top: -40px;
 }
 
