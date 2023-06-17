@@ -174,14 +174,23 @@ const QualitySection = () => {
 
 
 const Home = () => {
+    useEffect(() => {
+        addCategories();
+    });
+
+
+    async function addCategories() {
+        await fetch("http://localhost:8001/api/Category/insert-default", {
+            method: "POST",
+        });
+    }
+
     return (
         <>
             <Slider />
             <AboutUs />
-            < FeaturedAuctioneers />
-            < QualitySection />
-
-            {/* <Categories/> */}
+            <FeaturedAuctioneers />
+            <QualitySection />
         </>
     );
 };

@@ -72,7 +72,7 @@ const AuctionBidding = (prop) => {
             var userId = localStorage.getItem("userId");
             var amount = document.getElementById("bid_number").value;
 
-            await fetch("http://localhost:8040/api/Bid", {
+            await fetch("http://localhost:8001/api/Bid", {
                 method: "POST",
                 headers: {
                     "Authorization": "Bearer " + token,
@@ -128,7 +128,7 @@ const Auction = () => {
     }, []);
 
     async function getLatestBids() {
-        await fetch("http://localhost:8040/api/Bid/1/latest", {
+        await fetch("http://localhost:8001/api/Bid/1/latest", {
             method: "GET"
         }).then(function (response) {
             return response.json();
@@ -139,7 +139,7 @@ const Auction = () => {
 
     async function getAuction() {
         var itemId;
-        await fetch("http://localhost:8040/api/Auction/1", {
+        await fetch("http://localhost:8001/api/Auction/1", {
             method: "GET"
         }).then(function (response) {
             return response.json();
@@ -148,7 +148,7 @@ const Auction = () => {
             itemId = data.itemId;
         });
 
-        await fetch("http://localhost:18006/api/Item/" + itemId, {
+        await fetch("http://localhost:8001/api/Item/" + itemId, {
             method: "GET"
         }).then(function (response) {
             return response.json();

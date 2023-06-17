@@ -27,7 +27,7 @@ const TabRight = () => {
     }, []);
 
     async function getBids() {
-        await fetch("http://localhost:8040/api/Bid/user/" + localStorage.getItem("userId"), {
+        await fetch("http://localhost:8001/api/Bid/user/" + localStorage.getItem("userId"), {
             method: "GET",
             headers: {
                 'Authorization': 'Bearer ' + token
@@ -39,7 +39,7 @@ const TabRight = () => {
         });
     }
     async function getItems() {
-        await fetch("http://localhost:18006/api/Item/", {
+        await fetch("http://localhost:8001/api/Item", {
             method: "GET"
         }).then(function (response) {
             return response.json();
@@ -118,7 +118,7 @@ const WithdrawForm = () => {
 };
 
 async function withdrawConfirm() {
-    await fetch("http://localhost:8040/api/Bid/" + withdrawId + "/withdraw", {
+    await fetch("http://localhost:8001/api/Bid/" + withdrawId + "/withdraw", {
         method: "PUT",
         headers: {
             'Authorization': 'Bearer ' + token

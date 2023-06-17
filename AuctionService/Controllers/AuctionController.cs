@@ -32,6 +32,26 @@ namespace AuctionService.Controllers
             return _context.Auctions.Include("Bids").ToList();
         }
 
+        // Get all auctions
+        [HttpGet]
+        [Route("item/{itemIds}")]
+        public ActionResult<IEnumerable<Auction>> GetAuctionsByItemIds(IEnumerable<string> itemIds)
+        {
+            List<Auction> auctions = new List<Auction>();
+            var allAuctions = _context.Auctions.ToList();
+            foreach (string itemId in itemIds)
+            {
+                foreach(var auction in allAuctions)
+                {
+                    if(auction.ItemId == itemId)
+                    {
+                        auctions.Add(auction);
+                    }
+                }
+            }
+            return auctions;
+        }
+
         // Get auctions by userId
         [HttpGet]
         [Authorize(Roles = UserRoles.User)]
