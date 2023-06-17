@@ -92,5 +92,13 @@ namespace AuctionService.Controllers
                 return Ok(new Response { Status = "Success", Message = "Auction deleted successfully!" });
             return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Failed to delete auction!" });
         }
+
+        //Search
+        [HttpGet("search")]
+        public ActionResult<IEnumerable<Auction>> SearchAuctions(string query)
+        {
+            var filteredAuctions = _context.Auctions.Where(a => a.Title.Contains(query)).ToList();
+            return filteredAuctions;
+        }
     }
 }
