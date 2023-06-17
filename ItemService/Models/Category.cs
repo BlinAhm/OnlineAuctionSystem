@@ -6,13 +6,13 @@ namespace ItemService.Models
     [Serializable, BsonIgnoreExtraElements]
     public class Category
     {
-        [BsonId, BsonElement("category_id"), BsonRepresentation(BsonType.ObjectId)]
-        public int CategoryId { get; set; }
+        [BsonId, BsonElement("_id"), BsonRepresentation(BsonType.ObjectId)]
+        public string CategoryId { get; set; }
 
         [BsonElement("category_name"), BsonRepresentation(BsonType.String)]
         public string CategoryName { get; set; }
 
-        [BsonElement("image_links"), BsonRepresentation(BsonType.Array)]
-        public string[] ImageLinks { get; set; }
+        [BsonElement("image_link"), BsonRepresentation(BsonType.String)]
+        public string ImageLink { get; set; }
     }
 }

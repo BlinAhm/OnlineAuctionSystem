@@ -191,6 +191,18 @@
       ],
       "DownstreamPathTemplate": "/api/Category/{categoryId}"
     },
+    {
+      "UpstreamPathTemplate": "/api/Category/insert-default",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "itemservice",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/api/Category/insert-default"
+    },
 
     // User Web API
     // AuthenticateController Methods

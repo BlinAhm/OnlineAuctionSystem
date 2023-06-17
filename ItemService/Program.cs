@@ -40,9 +40,10 @@ builder.Services.AddAuthentication(options =>
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+app.UseCors("default");
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseCors("default");
+
 app.MapControllers();
 
 app.Run();
