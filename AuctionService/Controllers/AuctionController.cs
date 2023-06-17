@@ -52,7 +52,7 @@ namespace AuctionService.Controllers
                 return StatusCode(StatusCodes.Status404NotFound, new Response { Status = "Error", Message = "Auction not found." });
             }
 
-            return _context.Auctions.Include("Bids").Where(x => x.Id == id).First();
+            return _context.Auctions.Include(x => x.Bids).Include(x => x.CurrentBid).Where(x => x.Id == id).First();
         }
 
         // Add Auction
