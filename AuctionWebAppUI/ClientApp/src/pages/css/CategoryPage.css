@@ -17,7 +17,6 @@
 }
 
     .category-container p:hover {
-        font-size: 28px;
         text-decoration: underline;
         transition: .15s ease-in;
     }

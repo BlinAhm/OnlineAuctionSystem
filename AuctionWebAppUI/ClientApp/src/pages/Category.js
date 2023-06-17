@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom';
 import "./css/CategoryPage.css";
 const CategoryCard = (props) => {
+
     return (
-        <Link to="" className="category-card">
+        <Link to="/category/:categoryName" className="category-card">
             <div className="category-image">
                 <img src="https://images.summitmedia-digital.com/esquiremagph/images/2021/03/03/cul-de-sac-the-podium.jpg" alt="img" />
                 </div>
