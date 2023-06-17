@@ -16,6 +16,9 @@ const TabLeft = () => {
 
 var deleteId;
 var deleteIdItem;
+var auction;
+var itemPrice;
+var token = localStorage.getItem("token");
 
 const TabRight = () => {
     const [auctions, setAuctions] = useState([]);
@@ -27,8 +30,12 @@ const TabRight = () => {
     }, []);
 
     async function getAuctions() {
+
         await fetch("http://localhost:8040/api/Auction/user/" + localStorage.getItem("userId"), {
             method: "GET",
+            headers: {
+                'Authorization': 'Bearer '+ token
+                }
         }).then(function (response) {
             return response.json();
         }).then(function (data) {
@@ -38,7 +45,7 @@ const TabRight = () => {
 
     async function getItems() {
         await fetch("http://localhost:18006/api/Item/", {
-            method: "GET",
+            method: "GET"
         }).then(function (response) {
             return response.json();
         }).then(function (data) {
@@ -66,6 +73,26 @@ const TabRight = () => {
         });
         return description;
     }
+    function getItemCondition(id) {
+        var condition;
+
+        items?.forEach((key) => {
+            if (key.itemId === id) {
+                condition = key.condition;
+            }
+        });
+        return condition;
+    }
+    function getItemPrice(id) {
+        var price;
+
+        items?.forEach((key) => {
+            if (key.itemId === id) {
+                price = key.price;
+            }
+        });
+        return price;
+    }
 
     return (
         <div className="my_auction_right">
@@ -91,7 +118,9 @@ const TabRight = () => {
                             <td>{key.startTime.split('T')[0] + " " + key.startTime.split('T')[1]}<br />{key.endTime.split('T')[0] + " " + key.endTime.split('T')[1]}</td>
                             <td>{key.currentBid?.bidAmount == null ? "No bids" : key.currentBid?.bidAmount}</td>
                             <td><i onClick={() => {
-                                fillEdit(key.title, key.description, "name", "condition");
+                                fillEdit(key.title, getItemDescription(key.itemId), getItemName(key.itemId), getItemCondition(key.itemId));
+                                auction = key;
+                                itemPrice = getItemPrice(key.itemId);
                             }} className="bi bi-pencil"></i></td>
                             <td><i onClick={() => {
                                 document.getElementsByClassName("my_auctions_delete_form")[0].style.display = "block";
@@ -108,6 +137,57 @@ const TabRight = () => {
 };
 
 const EditForm = () => {
+    async function updateAuction() {
+        var titlenew = document.getElementById("title_edit").value;
+
+        await fetch("http://localhost:8040/api/Auction", {
+            method: "PUT",
+            headers: {
+                'Authorization': 'Bearer '+ token,
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                id: auction.id,
+                title: titlenew,
+                itemId: auction.itemId,
+                userId: auction.userId,
+                startTime: auction.startTime,
+                endTime: auction.endTime,
+                currentBid: auction.currentBid
+            })
+        }).then(function (response) {
+            return response.json();
+        }).then(function () {
+        });
+
+        var itemId = auction.itemId;
+        var name = document.getElementById("name_edit").value;
+        var description = document.getElementById("description_edit").value;
+        var condition = document.getElementById("condition_edit").value;
+        var category = document.getElementById("category_edit").value;
+
+        await fetch("http://localhost:18006/api/Item", {
+            method: "PUT",
+            headers: {
+                'Authorization': 'Bearer ' + token,
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                itemId: itemId,
+                name: name,
+                description: description,
+                condition: condition,
+                categoryName: category,
+                price: itemPrice
+            })
+        }).then(function () {
+        }).then(function () {
+            document.location.href = "http://localhost:3000/my-auctions";
+        });
+    }
+
     return (
         <div style={{ display: "none" }} className="my_auctions_edit_form">
             <div className="edit_content">
@@ -132,12 +212,15 @@ const EditForm = () => {
 
                     <div className="inputs_right">
                         <p>Category</p>
-                        <select>
+                        <select id="category_edit">
                             <option>Test1</option>
                             <option>Test2</option>
                         </select>
 
-                        <input type="submit" className="edit_submitBtn" value="Save" />
+                        <input onClick={() => {
+                            updateAuction();
+                        }}
+                            type="submit" className="edit_submitBtn" value="Save" />
                     </div>
 
                 </div>
@@ -151,12 +234,18 @@ const DeleteForm = () => {
     async function deleteAuction() {
         await fetch("http://localhost:8040/api/Auction/" + deleteId, {
             method: "DELETE",
+            headers: {
+                'Authorization': 'Bearer '+ token
+                }
         }).then(function (response) {
             return response.json();
         }).then();
 
         await fetch("http://localhost:18006/api/Item/" + deleteIdItem, {
             method: "DELETE",
+            headers: {
+                'Authorization': 'Bearer ' + token
+                }
         }).then().then(function () {
             document.location.href = "http://localhost:3000/my-auctions";
         });
@@ -187,6 +276,10 @@ const DeleteForm = () => {
 };
 
 const MyAuctions = () => {
+    if (localStorage.getItem("user") === null) {
+        document.location.href = "http://localhost:3000/home";
+    }
+
     return (
         <div className="ac_container">
             <TabLeft />
