@@ -41,9 +41,9 @@ namespace AuctionService.Controllers
         }
 
         // Get all auctions by item ids
-        [HttpGet]
-        [Route("item/{itemIds}")]
-        public ActionResult<IEnumerable<Auction>> GetAuctionsByItemIds(IEnumerable<string> itemIds)
+        [HttpPost]
+        [Route("item")]
+        public ActionResult<IEnumerable<Auction>> GetAuctionsByItemIds(string[] itemIds)
         {
             List<Auction> auctions = new List<Auction>();
             var allAuctions = _context.Auctions.ToList();

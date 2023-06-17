@@ -4,58 +4,77 @@ import "./css/AuctionList.css";
 
 const AuctionList = () => {
     const { categoryName } = useParams();
-    const [auctionItems, setAuctionItems] = useState([]);
+    const [auctions, setAuctions] = useState([]);
+    const [items, setItems] = useState([]);
 
     useEffect(() => {
-        fetch(`http://localhost:18006/api/Item/category/${categoryName}`)
-            .then((response) => response.json())
-            .then((data) => {
-                setAuctionItems(data);
+        getItems();
+    }, []);
 
-                // Fetch auctions based on item IDs
-                const itemIds = data.map((item) => item.itemId);
-                fetchAuctionsByItemIds(itemIds);
-            })
-            .catch((error) => console.log(error));
-    }, [categoryName]);
+    async function getItems() {
+        await fetch("http://localhost:8001/api/Item/category/" + categoryName, {
+            method: "GET"
+        }).then(function (response) {
+            return response.json();
+        }).then(function (data) {
+            console.log(data);
+            setItems(data);
 
-    const fetchAuctionsByItemIds = (itemIds) => {
-        fetch(`/api/auctions`)
-            .then((response) => response.json())
-            .then((data) => {
-                // Filter auctions by item ID
-                const filteredAuctions = data.filter((auction) => itemIds.includes(auction.itemId));
-
-                // Update the auction items with the fetched auctions
-                const updatedAuctionItems = auctionItems.map((item) => {
-                    const auction = filteredAuctions.find((auction) => auction.itemId === item.itemId);
-                    return {
-                        ...item,
-                        auctionId: auction ? auction.id : null,
-                    };
+            var itemIds;
+            function getItemIds() {
+                var arr = [];
+                var i = 0;
+                data.forEach((element) => {
+                    arr[i++] = element.itemId;
                 });
-                setAuctionItems(updatedAuctionItems);
+
+                itemIds = arr;
+            };
+            getItemIds();
+            getAuctions(itemIds);
+        });
+    }
+
+    async function getAuctions(arr) {
+
+        await fetch("http://localhost:8001/api/Auction/item", {
+            method: "POST",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                itemIds: arr
             })
-            .catch((error) => console.log(error));
-    };
+        }).then(function (response) {
+            return response.json();
+        }).then(function (data) {
+            console.log(data);
+            setAuctions(data);
+        });
+    }
 
     return (
-        <div className="auction-list-container">
-            <h2>Auctions for {categoryName}</h2>
-            <div className="auction-items-container">
-                {auctionItems.map((item) => (
-                    <Link key={item.itemId} to={`/auction/${item.auctionId}`} className="auction-item-card">
-                        <div className="item-image">
-                            <img src={item.image} alt="Item" />
+        <>
+            <h2 className="auction_list_title">Auctions for {categoryName}</h2>
+            <div className="auction_container">
+                <Link to="#" className="auction_card">
+                    <div className="auction_image">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/640px-Image_created_with_a_mobile_phone.png" alt="Item" />
+                    </div>
+                    <div className="auction_details">
+                        <div className="texts">
+                            <h3>Title</h3>
+                            <p>Description</p>
                         </div>
-                        <div className="item-details">
-                            <h3>{item.title}</h3>
-                            <p>{item.description}</p>
+                        <div className="bid">
+                            <h4>Current bid:</h4>
+                            <p>45 $</p>
                         </div>
-                    </Link>
-                ))}
+                    </div>
+                </Link>
             </div>
-        </div>
+        </>
     );
 };
 

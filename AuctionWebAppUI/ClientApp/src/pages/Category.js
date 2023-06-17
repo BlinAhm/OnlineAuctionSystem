@@ -4,7 +4,7 @@ import "./css/CategoryPage.css";
 const CategoryCard = (props) => {
 
     return (
-        <Link key={props.category?.id} to={":"+props.category?.categoryName} className="category-card">
+        <Link key={props.category?.id} to={props.category?.categoryName} className="category-card">
             <div className="category-image">
                 <img src={props.category?.imageLink} alt="img" />
             </div>

@@ -51,8 +51,8 @@
       "DownstreamPathTemplate": "/api/Auction/{id}/time"
     },
     {
-      "UpstreamPathTemplate": "/api/Auction/item/{itemIds}",
-      "UpstreamHttpMethod": [ "Get" ],
+      "UpstreamPathTemplate": "/api/Auction/item",
+      "UpstreamHttpMethod": [ "Post" ],
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -60,7 +60,7 @@
           "Port": 80
         }
       ],
-      "DownstreamPathTemplate": "/api/Auction/item/{itemIds}"
+      "DownstreamPathTemplate": "/api/Auction/item"
     },
     {
       "UpstreamPathTemplate": "/api/Auction/won/{userId}",
