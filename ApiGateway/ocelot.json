@@ -62,6 +62,18 @@
       ],
       "DownstreamPathTemplate": "/api/Auction/item/{itemIds}"
     },
+    {
+      "UpstreamPathTemplate": "/api/Auction/won/{userId}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "auctionservice",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/api/Auction/won/{userId}"
+    },
 
     // BidController Methods
     {

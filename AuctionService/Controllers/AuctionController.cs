@@ -32,7 +32,15 @@ namespace AuctionService.Controllers
             return _context.Auctions.Include("Bids").ToList();
         }
 
-        // Get all auctions
+        // Get won auctions
+        [HttpGet]
+        [Route("won/{userId}")]
+        public ActionResult<IEnumerable<Auction>> GetWonAuctions(string userId)
+        {
+            return _context.Auctions.Include(x => x.CurrentBid).Where(x => x.HasEnded).Where(x => x.UserId == userId).ToList();
+        }
+
+        // Get all auctions by item ids
         [HttpGet]
         [Route("item/{itemIds}")]
         public ActionResult<IEnumerable<Auction>> GetAuctionsByItemIds(IEnumerable<string> itemIds)
@@ -41,9 +49,9 @@ namespace AuctionService.Controllers
             var allAuctions = _context.Auctions.ToList();
             foreach (string itemId in itemIds)
             {
-                foreach(var auction in allAuctions)
+                foreach (var auction in allAuctions)
                 {
-                    if(auction.ItemId == itemId)
+                    if (auction.ItemId == itemId)
                     {
                         auctions.Add(auction);
                     }
