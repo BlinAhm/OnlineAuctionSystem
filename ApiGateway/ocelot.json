@@ -256,6 +256,6 @@
     }
   ],
   "GlobalConfiguration": {
-    "BaseUrl": "http://localhost:8060"
+    "BaseUrl": "http://localhost:8001"
   }
 }

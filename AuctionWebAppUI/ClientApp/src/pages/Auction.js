@@ -49,7 +49,6 @@ const AuctionDetails = (prop) => {
 
                     {mapDuplicates()?.map((key) => (
                         <img onClick={() => { changePicture(key) }} id="duplicate" src={key} ></img>
-
                     ))}
                 </div>
 
