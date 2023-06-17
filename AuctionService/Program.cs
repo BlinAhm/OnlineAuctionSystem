@@ -19,7 +19,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("default", policy =>
     {
-        policy.WithOrigins("http://localhost:3000", "http://localhost:8040").AllowAnyMethod().AllowAnyHeader();
+        policy.WithOrigins("http://localhost:3000", "http://localhost:8001").AllowAnyMethod().AllowAnyHeader();
     });
 });
 
@@ -54,9 +54,10 @@ builder.Services.AddAuthentication(options =>
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+app.UseCors("default");
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseCors("default");
+
 app.MapControllers();
 
 app.Run();

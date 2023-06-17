@@ -1,4 +1,5 @@
-﻿import { Link } from 'react-router-dom';
+﻿import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import '../css/AuctionCreate.css';
 
 const TabLeft = () => {
@@ -12,20 +13,25 @@ const TabLeft = () => {
     );
 };
 
-var itemId;
 function getToken() {
     var token = localStorage.getItem("token");
     return token;
 }
 
 const TabRight = () => {
+    var itemId;
+
+    useEffect(() => {
+        getCategories();
+    }, []);
+
     async function addAuction() {
         if (validateInputs()) {
             document.getElementById("submit_ac").disabled = true;
             document.getElementById("submit_ac").style.background = "gray";
             document.getElementById("submit_ac").style.borderColor = "lightgray";
 
-            await postItem()
+            await postItem();
             await postAuction();
         }
     }
@@ -37,7 +43,7 @@ const TabRight = () => {
         var basePrice = document.getElementById("item_price").value;
         var categoryName = document.getElementById("item_category").value;
 
-        await fetch("http://localhost:18006/api/Item", {
+        await fetch("http://localhost:8001/api/Item", {
             method: "POST",
             headers: {
                 'Authorization': 'Bearer ' + getToken(),
@@ -56,7 +62,6 @@ const TabRight = () => {
             return response.json();
         }).then(function (data) {
             itemId = data;
-            console.log(data);
         });
     }
 
@@ -65,7 +70,7 @@ const TabRight = () => {
         var userId = localStorage.getItem("userId");
         var duration = document.getElementById("auc_duration").value;
 
-        await fetch("http://localhost:8040/api/Auction", {
+        await fetch("http://localhost:8001/api/Auction", {
             method: "POST",
             headers: {
                 'Authorization': 'Bearer ' + getToken(),
@@ -85,6 +90,16 @@ const TabRight = () => {
         });
     }
 
+    const [categories, setCategories] = useState([]);
+    async function getCategories() {
+        await fetch("http://localhost:8001/api/Category", {
+            method: "GET"
+        }).then(function (response) {
+            return response.json();
+        }).then(function (data) {
+            setCategories(data);
+        })
+    }
 
     return (
         <div className="ac_right_container">
@@ -109,8 +124,9 @@ const TabRight = () => {
                     <div className="input_holder">
                         <p>Category:</p>
                         <select id="item_category" className="ac_inputs">
-                            <option>Test</option>
-                            <option>Test2</option>
+                            {categories?.map((category) => (
+                                <option key={category.categoryId}>{category.categoryName}</option>
+                            )) ?? ""}
                         </select>
                     </div>
                 </div>

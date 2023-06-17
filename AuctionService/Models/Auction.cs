@@ -9,6 +9,16 @@
         public DateTime? StartTime { get; set; }
         public DateTime EndTime { get; set; }
         public Bid? CurrentBid { get; set; }
+        public bool HasEnded
+        {
+            get
+            {
+                DateTime utcTime = DateTime.UtcNow;
+                var tz = TimeZoneInfo.FindSystemTimeZoneById("Central Europe Standard Time");
+                var time = TimeZoneInfo.ConvertTimeFromUtc(utcTime, tz);
+                return time >= EndTime;
+            }
+        }
         public virtual List<Bid> Bids { get; set; }
 
         public Auction()

@@ -18,6 +18,7 @@ var deleteId;
 var deleteIdItem;
 var auction;
 var itemPrice;
+var itemCategory;
 var token = localStorage.getItem("token");
 
 const TabRight = () => {
@@ -31,11 +32,11 @@ const TabRight = () => {
 
     async function getAuctions() {
 
-        await fetch("http://localhost:8040/api/Auction/user/" + localStorage.getItem("userId"), {
+        await fetch("http://localhost:8001/api/Auction/user/" + localStorage.getItem("userId"), {
             method: "GET",
             headers: {
-                'Authorization': 'Bearer '+ token
-                }
+                'Authorization': 'Bearer ' + token
+            }
         }).then(function (response) {
             return response.json();
         }).then(function (data) {
@@ -44,7 +45,7 @@ const TabRight = () => {
     }
 
     async function getItems() {
-        await fetch("http://localhost:18006/api/Item/", {
+        await fetch("http://localhost:8001/api/Item", {
             method: "GET"
         }).then(function (response) {
             return response.json();
@@ -62,6 +63,17 @@ const TabRight = () => {
             }
         });
         return name;
+    }
+    function getItemCategory(id) {
+        var category;
+
+        items?.forEach((key) => {
+            if (key.itemId === id) {
+                category = key.categoryName;
+            }
+        });
+        console.log(category);
+        return category;
     }
     function getItemDescription(id) {
         var description;
@@ -121,6 +133,7 @@ const TabRight = () => {
                                 fillEdit(key.title, getItemDescription(key.itemId), getItemName(key.itemId), getItemCondition(key.itemId));
                                 auction = key;
                                 itemPrice = getItemPrice(key.itemId);
+                                itemCategory = getItemCategory(key.itemId);
                             }} className="bi bi-pencil"></i></td>
                             <td><i onClick={() => {
                                 document.getElementsByClassName("my_auctions_delete_form")[0].style.display = "block";
@@ -137,13 +150,28 @@ const TabRight = () => {
 };
 
 const EditForm = () => {
+    useEffect(() => {
+        getCategories();
+    }, []);
+
+    const [categories, setCategories] = useState([]);
+    async function getCategories() {
+        await fetch("http://localhost:8001/api/Category", {
+            method: "GET"
+        }).then(function (response) {
+            return response.json();
+        }).then(function (data) {
+            setCategories(data);
+        })
+    }
+
     async function updateAuction() {
         var titlenew = document.getElementById("title_edit").value;
 
-        await fetch("http://localhost:8040/api/Auction", {
+        await fetch("http://localhost:8001/api/Auction", {
             method: "PUT",
             headers: {
-                'Authorization': 'Bearer '+ token,
+                'Authorization': 'Bearer ' + token,
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
@@ -167,7 +195,7 @@ const EditForm = () => {
         var condition = document.getElementById("condition_edit").value;
         var category = document.getElementById("category_edit").value;
 
-        await fetch("http://localhost:18006/api/Item", {
+        await fetch("http://localhost:8001/api/Item", {
             method: "PUT",
             headers: {
                 'Authorization': 'Bearer ' + token,
@@ -212,9 +240,10 @@ const EditForm = () => {
 
                     <div className="inputs_right">
                         <p>Category</p>
-                        <select id="category_edit">
-                            <option>Test1</option>
-                            <option>Test2</option>
+                        <select id="category_edit" defaultValue="Test">
+                            {categories?.map((category) => (
+                                <option key={category?.categoryId} value={category?.categoryName}>{category?.categoryName}</option>
+                            )) ?? ""}
                         </select>
 
                         <input onClick={() => {
@@ -232,20 +261,20 @@ const EditForm = () => {
 const DeleteForm = () => {
 
     async function deleteAuction() {
-        await fetch("http://localhost:8040/api/Auction/" + deleteId, {
+        await fetch("http://localhost:8001/api/Auction/" + deleteId, {
             method: "DELETE",
             headers: {
-                'Authorization': 'Bearer '+ token
-                }
+                'Authorization': 'Bearer ' + token
+            }
         }).then(function (response) {
             return response.json();
         }).then();
 
-        await fetch("http://localhost:18006/api/Item/" + deleteIdItem, {
+        await fetch("http://localhost:8001/api/Item/" + deleteIdItem, {
             method: "DELETE",
             headers: {
                 'Authorization': 'Bearer ' + token
-                }
+            }
         }).then().then(function () {
             document.location.href = "http://localhost:3000/my-auctions";
         });

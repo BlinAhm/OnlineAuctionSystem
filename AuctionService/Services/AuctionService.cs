@@ -66,9 +66,20 @@ namespace AuctionService.Services
             return false;
         }
 
-        public async Task<bool> StartAuction()
+        public async Task<TimeSpan> GetRemainingTime(int id)
         {
-            throw new NotImplementedException();
+            DateTime utcTime = DateTime.UtcNow;
+            var tz = TimeZoneInfo.FindSystemTimeZoneById("Central Europe Standard Time");
+            var time = TimeZoneInfo.ConvertTimeFromUtc(utcTime, tz);
+
+            var auction = await _context.Auctions.FindAsync(id);
+            if (auction == null) return TimeSpan.Zero;
+
+            var startTime = auction.StartTime;
+            var endTime = auction.EndTime;
+
+            var remainingTime = endTime.Subtract(time);
+            return remainingTime;
         }
 
         public Task<bool> EndAuction()

@@ -1,22 +1,16 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Ocelot.DependencyInjection;
+using Ocelot.Middleware;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
 
-// Add services to the container.
-
-builder.Services.AddControllers();
-
-// CORS
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("default", policy =>
-    {
-        policy.WithOrigins("http://localhost:3000", "http://localhost:18006").AllowAnyMethod().AllowAnyHeader();
-    });
-});
+builder.Configuration.SetBasePath(builder.Environment.ContentRootPath)
+    .AddJsonFile("ocelot.json", optional: false, reloadOnChange: true)
+    .AddEnvironmentVariables();
+builder.Services.AddOcelot(builder.Configuration);
 
 builder.Services.AddAuthentication(options =>
 {
@@ -37,13 +31,21 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-var app = builder.Build();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("default", policy =>
+    {
+        policy.WithOrigins("http://localhost:3000", "http://localhost:8001").AllowAnyMethod().AllowAnyHeader();
+    });
+});
 
-// Configure the HTTP request pipeline.
+var app = builder.Build();
 app.UseCors("default");
+
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapControllers();
+await app.UseOcelot();
+
 
 app.Run();
