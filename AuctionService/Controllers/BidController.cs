@@ -100,7 +100,7 @@ namespace AuctionService.Controllers
         [Route("{id}/latest")]
         public ActionResult<List<Bid>> GetLatestBids(int id)
         {
-            var auction = _context.Auctions.Include("Bids").Where(x => x.Id == id).First();
+            var auction = _context.Auctions.Include("Bids").Where(x => x.Id == id).FirstOrDefault();
             if (auction == null) { return StatusCode(StatusCodes.Status404NotFound, new Response { Status = "Error", Message = "Auction not found." }); }
 
             return auction.Bids.OrderByDescending(x => x.Id).Where(x=>x.IsWithdrawn == false).Take(3).Select(

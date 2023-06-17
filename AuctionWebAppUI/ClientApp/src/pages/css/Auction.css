@@ -132,7 +132,7 @@
         color: red;
         text-align: left;
         margin: -8px 0px 0px 5px;
-        position: fixed;
+        position: absolute;
         width: 170px;
     }
     .a_bidding input {

@@ -105,7 +105,7 @@ const AuctionBidding = (prop) => {
 
             <p className="time_label">Start Time: <span className="time">{prop.auction?.startTime?.split("T")[0] + " " + prop.auction?.startTime?.split("T")[1]}</span> </p>
             <p className="time_label">End Time: <span className="time">{prop.auction?.endTime?.split("T")[0] + " " + prop.auction?.endTime?.split("T")[1]}</span> </p>
-            <p className="timeLeft">Time left: 00:00:00</p>
+            <p className="timeLeft">Time left: {prop.time}</p>
 
             <p className="label_latest_bids">Latest Bids</p>
             <div id="latest_bids">
@@ -121,10 +121,12 @@ const Auction = () => {
     const [auction, setAuction] = useState([]);
     const [item, setItem] = useState([]);
     const [latestBids, setLatestBids] = useState([]);
+    const [remainingTime, setRemainingTime] = useState([]);
 
     useEffect(() => {
         getAuction();
         getLatestBids();
+        getRemainingTime();
     }, []);
 
     async function getLatestBids() {
@@ -137,6 +139,22 @@ const Auction = () => {
         });
     }
 
+    async function getRemainingTime() {
+        await fetch("http://localhost:8001/api/Auction/1/time", {
+            method: "GET"
+        }).then(function (response) {
+            return response.json();
+        }).then(function (data) {
+            var time = data.split(".");
+            if (data.includes("-"))
+                setRemainingTime("Auction has ended.");
+            else if (time.length > 2)
+                setRemainingTime(time[0] + "d " + time[1]);
+            else
+                setRemainingTime(time[0]);
+        });
+    }
+
     async function getAuction() {
         var itemId;
         await fetch("http://localhost:8001/api/Auction/1", {
@@ -144,6 +162,18 @@ const Auction = () => {
         }).then(function (response) {
             return response.json();
         }).then(function (data) {
+            if (data?.hasEnded === true) {
+                document.getElementById("bid_number").disabled = true;
+                document.getElementById("bid_number").style.background = "white";
+                document.getElementById("bid_number").style.border = "white 2px solid";
+                document.getElementById("bid_number").style.color = "gray";
+
+                document.getElementById("submitBtn").disabled = true;
+                document.getElementById("submitBtn").style.background = "darkgray";
+                document.getElementById("submitBtn").style.border = "gray 2px solid";
+                document.getElementById("submitBtn").style.borderRadius = "4px";
+                document.getElementById("submitBtn").style.color = "gray";
+            }
             setAuction(data);
             itemId = data.itemId;
         });
@@ -161,7 +191,7 @@ const Auction = () => {
         <div className="a_main">
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
             <AuctionDetails auction={auction} item={item} />
-            <AuctionBidding auction={auction} item={item} latestBids={latestBids} />
+            <AuctionBidding time={remainingTime} auction={auction} item={item} latestBids={latestBids} />
         </div>
     );
 };

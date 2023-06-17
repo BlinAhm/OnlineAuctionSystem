@@ -38,6 +38,42 @@
       ],
       "DownstreamPathTemplate": "/api/Auction/user/{userId}"
     },
+    {
+      "UpstreamPathTemplate": "/api/Auction/{id}/time",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "auctionservice",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/api/Auction/{id}/time"
+    },
+    {
+      "UpstreamPathTemplate": "/api/Auction/item/{itemIds}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "auctionservice",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/api/Auction/item/{itemIds}"
+    },
+    {
+      "UpstreamPathTemplate": "/api/Auction/won/{userId}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "auctionservice",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/api/Auction/won/{userId}"
+    },
 
     // BidController Methods
     {
