@@ -9,6 +9,7 @@
         public DateTime? StartTime { get; set; }
         public DateTime EndTime { get; set; }
         public Bid? CurrentBid { get; set; }
+        public bool hasEnded { get; set; } = false;
         public virtual List<Bid> Bids { get; set; }
 
         public Auction()

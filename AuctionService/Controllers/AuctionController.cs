@@ -102,6 +102,19 @@ namespace AuctionService.Controllers
             return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Failed to update auction!" });
         }
 
+        // Get remaining time
+        [HttpGet]
+        [Route("{id}/time")]
+        public async Task<ActionResult<TimeSpan>> GetRemainingTime(int id)
+        {
+            var time = await _auctionService.GetRemainingTime(id);
+
+            if (time == TimeSpan.Zero)
+                return StatusCode(StatusCodes.Status500InternalServerError);
+
+            return Ok(time);
+        }
+
         // Delete Auction
         [HttpDelete]
         [Authorize(Roles = UserRoles.User)]
