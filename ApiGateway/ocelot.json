@@ -1,0 +1,261 @@
+{
+  "Routes": [
+    // Auction Web API
+    // AuctionController Methods
+    {
+      "UpstreamPathTemplate": "/api/Auction",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put" ],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "auctionservice",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/api/Auction"
+    },
+    {
+      "UpstreamPathTemplate": "/api/Auction/{id}",
+      "UpstreamHttpMethod": [ "Get", "Delete" ],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "auctionservice",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/api/Auction/{id}"
+    },
+    {
+      "UpstreamPathTemplate": "/api/Auction/user/{userId}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "auctionservice",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/api/Auction/user/{userId}"
+    },
+
+    // BidController Methods
+    {
+      "UpstreamPathTemplate": "/api/Bid",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put" ],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "auctionservice",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/api/Bid"
+    },
+    {
+      "UpstreamPathTemplate": "/api/Bid/{id}",
+      "UpstreamHttpMethod": [ "Get", "Delete" ],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "auctionservice",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/api/Bid/{id}"
+    },
+    {
+      "UpstreamPathTemplate": "/api/Bid/user/{userId}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "auctionservice",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/api/Bid/user/{userId}"
+    },
+    {
+      "UpstreamPathTemplate": "/api/Bid/{id}/latest",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "auctionservice",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/api/Bid/{id}/latest"
+    },
+    {
+      "UpstreamPathTemplate": "/api/Bid/{id}/withdraw",
+      "UpstreamHttpMethod": [ "Put" ],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "auctionservice",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/api/Bid/{id}/withdraw"
+    },
+
+    // NotificationController Methods
+    {
+      "UpstreamPathTemplate": "/api/Notification",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put" ],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "auctionservice",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/api/Notification"
+    },
+    {
+      "UpstreamPathTemplate": "/api/Notification/{id}",
+      "UpstreamHttpMethod": [ "Delete" ],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "auctionservice",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/api/Notification/{id}"
+    },
+
+    // Item Web API
+    // ItemController Methods
+    {
+      "UpstreamPathTemplate": "/api/Item",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put" ],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "itemservice",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/api/Item"
+    },
+    {
+      "UpstreamPathTemplate": "/api/Item/{itemId}",
+      "UpstreamHttpMethod": [ "Get", "Delete" ],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "itemservice",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/api/Item/{itemId}"
+    },
+    {
+      "UpstreamPathTemplate": "/api/Item/category/{categoryName}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "itemservice",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/api/Item/category/{categoryName}"
+    },
+
+    // CategoryController Methods
+    {
+      "UpstreamPathTemplate": "/api/Category",
+      "UpstreamHttpMethod": [ "Get", "Post" ],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "itemservice",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/api/Category"
+    },
+    {
+      "UpstreamPathTemplate": "/api/Category/{categoryId}",
+      "UpstreamHttpMethod": [ "Delete" ],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "itemservice",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/api/Category/{categoryId}"
+    },
+
+    // User Web API
+    // AuthenticateController Methods
+    {
+      "UpstreamPathTemplate": "/api/Authenticate",
+      "UpstreamHttpMethod": [ "Get", "Put" ],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "userservice",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/api/Authenticate"
+    },
+    {
+      "UpstreamPathTemplate": "/api/Authenticate/{email}",
+      "UpstreamHttpMethod": [ "Get", "Delete" ],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "userservice",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/api/Authenticate/{email}"
+    },
+    {
+      "UpstreamPathTemplate": "/api/Authenticate/register",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "userservice",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/api/Authenticate/register"
+    },
+    {
+      "UpstreamPathTemplate": "/api/Authenticate/register-admin",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "userservice",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/api/Authenticate/register-admin"
+    },
+    {
+      "UpstreamPathTemplate": "/api/Authenticate/login",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "userservice",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/api/Authenticate/login"
+    }
+  ],
+  "GlobalConfiguration": {
+    "BaseUrl": "http://localhost:8060"
+  }
+}

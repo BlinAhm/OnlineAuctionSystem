@@ -20,6 +20,12 @@ namespace AuctionService.Controllers
             _notificationService = notificationService;
             _context = context;
         }
+        [HttpGet]
+        public List<Notification> GetNotifications()
+        {
+            return _context.Notifications.ToList();
+        }
+
         [HttpPost]
         public async Task<IActionResult> AddNotification(NotificationViewModel notificationModel)
         {
