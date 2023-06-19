@@ -1,0 +1,150 @@
+﻿.cart-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    text-align: center;
+    background: linear-gradient(to right, #e2e9f6, #dce5f5, #d6dfef, #dce5f5, #e2e9f6, #e2e9f6);
+    color: white;
+    padding: 20px;
+    width: 80%;
+    border: solid #266af5 6px;
+}
+
+.cart-title {
+    margin-right: 20px;
+    color: black;
+}
+
+.cart-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #ffffff;
+    color: #266af5;
+}
+
+    .cart-table th,
+    .cart-table td {
+        border-bottom: solid #0751e9 3px;
+        font-size: 16px;
+        line-height: 30px;
+        width: 25%;
+    }
+
+    .cart-table th {
+        background-color: #266af5;
+        color: white;
+    }
+
+.cart-total-row {
+    font-weight: bold;
+}
+
+.cart-container::before {
+    content: "";
+    width: 2px;
+    background-color: darkblue;
+    margin-right: 20px;
+}
+
+
+
+
+#paypal-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.paypal-button-container {
+    width: fit-content;
+}
+
+  
+    .paypal-button-container .paypal-button {
+        color: #ffffff;
+        background-color: #0070ba;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+        .paypal-button-container .paypal-button:hover {
+            background-color: #00508c;
+        }
+
+
+.checkout-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+
+.total-price {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.checkout-button {
+    color: #ffffff;
+    background-color: #0070ba;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+    .checkout-button:hover {
+        background-color: #00508c;
+    }
+
+.payment-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+}
+
+.payment-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.payment-modal-title {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.payment-modal-message {
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.payment-modal-close-button {
+    background-color: #e0e0e0;
+    color: #333;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+    .payment-modal-close-button:hover {
+        background-color: #ccc;
+    }

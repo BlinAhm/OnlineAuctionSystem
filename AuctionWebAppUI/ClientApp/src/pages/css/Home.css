@@ -153,7 +153,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    /* Add additional styles as needed */
+   
 }
 
 .featured-auctioneers-wrapper {
@@ -244,6 +244,5 @@
 
     .categories-container {
         flex-direction: column;
-                    
     }
 }

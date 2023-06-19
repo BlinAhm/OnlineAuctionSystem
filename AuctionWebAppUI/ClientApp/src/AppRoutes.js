@@ -8,6 +8,9 @@ import MyBids from "./pages/PersonalDashboard/MyBids";
 import Category from "./pages/Category";
 import Logout from "./pages/Logout";
 import Admin from "./pages/Admin/Admin";
+import Cart from "./pages/Cart"
+
+
 
 const AppRoutes = [
     {
@@ -53,6 +56,10 @@ const AppRoutes = [
     {
         path: '/log-out',
         element: <Logout />
+    },
+    {
+        path: '/cart',
+        element: <Cart />
     }
 ];
 
