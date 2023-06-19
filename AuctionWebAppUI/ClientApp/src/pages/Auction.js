@@ -1,4 +1,5 @@
 ﻿import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import "./css/Auction.css";
 
 const AuctionDetails = (prop) => {
@@ -11,8 +12,9 @@ const AuctionDetails = (prop) => {
     }
 
     const images = [
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/640px-Image_created_with_a_mobile_phone.png",
-        "https://www.shutterstock.com/image-photo/mountains-under-mist-morning-amazing-260nw-1725825019.jpg"
+        "https://c0.wallpaperflare.com/preview/354/969/251/jewelry-flatlay-watch-makeup.jpg",
+        "https://images.unsplash.com/photo-1468495244123-6c6c332eeece?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8ZWxlY3Ryb25pYyUyMGRldmljZXN8ZW58MHx8MHx8fDA%3D&w=1000&q=80",
+        "https://images.summitmedia-digital.com/esquiremagph/images/2021/03/03/cul-de-sac-the-podium.jpg"
     ];
 
     function mapDuplicates() {
@@ -34,7 +36,7 @@ const AuctionDetails = (prop) => {
             <p>Published: {prop.auction?.startTime?.split("T")[0]}</p>
 
             <div className="img_slider">
-                <img id="main_img" src="https://www.shutterstock.com/image-photo/mountains-under-mist-morning-amazing-260nw-1725825019.jpg"></img>
+                <img id="main_img" src="https://c0.wallpaperflare.com/preview/354/969/251/jewelry-flatlay-watch-makeup.jpg"></img>
             </div>
             <div className="img_selection">
                 <div className="arrowLeft"><i className="bi bi-caret-left-fill"></i></div>
@@ -85,8 +87,17 @@ const AuctionBidding = (prop) => {
                     AuctionId: auctionId
                 })
             }).then(function (response) {
-                if (response.ok)
+                if (response.ok) {
+                    document.getElementById("bid_label").innerHTML = "";
+                    document.getElementById("bid_label").style.display = "none";
                     document.location.href = "http://localhost:3000/auction/" + auctionId;
+                }
+                else {
+                    return response.json();
+                }
+            }).then(function (data) {
+                document.getElementById("bid_label").innerHTML = data.message;
+                document.getElementById("bid_label").style.display = "block";
             })
         }
     }
@@ -122,6 +133,7 @@ const Auction = () => {
     const [item, setItem] = useState([]);
     const [latestBids, setLatestBids] = useState([]);
     const [remainingTime, setRemainingTime] = useState([]);
+    const { auctionId } = useParams();
 
     useEffect(() => {
         getAuction();
@@ -130,7 +142,7 @@ const Auction = () => {
     }, []);
 
     async function getLatestBids() {
-        await fetch("http://localhost:8001/api/Bid/1/latest", {
+        await fetch("http://localhost:8001/api/Bid/" + auctionId + "/latest", {
             method: "GET"
         }).then(function (response) {
             return response.json();
@@ -140,7 +152,7 @@ const Auction = () => {
     }
 
     async function getRemainingTime() {
-        await fetch("http://localhost:8001/api/Auction/1/time", {
+        await fetch("http://localhost:8001/api/Auction/" + auctionId + "/time", {
             method: "GET"
         }).then(function (response) {
             return response.json();
@@ -157,7 +169,7 @@ const Auction = () => {
 
     async function getAuction() {
         var itemId;
-        await fetch("http://localhost:8001/api/Auction/1", {
+        await fetch("http://localhost:8001/api/Auction/" + auctionId, {
             method: "GET"
         }).then(function (response) {
             return response.json();

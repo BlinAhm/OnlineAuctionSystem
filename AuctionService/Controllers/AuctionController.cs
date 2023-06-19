@@ -43,10 +43,11 @@ namespace AuctionService.Controllers
         // Get all auctions by item ids
         [HttpPost]
         [Route("item")]
-        public ActionResult<IEnumerable<Auction>> GetAuctionsByItemIds(string[] itemIds)
+        public ActionResult<IEnumerable<Auction>> GetAuctionsByItemIds([FromBody] string items)
         {
+            var itemIds = items.Split(',');
             List<Auction> auctions = new List<Auction>();
-            var allAuctions = _context.Auctions.ToList();
+            var allAuctions = _context.Auctions.Include(x => x.CurrentBid).ToList();
             foreach (string itemId in itemIds)
             {
                 foreach (var auction in allAuctions)

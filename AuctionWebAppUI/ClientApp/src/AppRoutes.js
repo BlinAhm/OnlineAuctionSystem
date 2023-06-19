@@ -29,6 +29,10 @@ const AppRoutes = [
     },
     {
         path: '/auction',
+        element: <Category />
+    },
+    {
+        path: '/auction/:auctionId',
         element: <Auction />
     },
     {
